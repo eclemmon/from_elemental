@@ -1,6 +1,7 @@
 import tkinter as tk
 import image_data_loader
 import timer
+import flashable_label
 from PIL import ImageTk, Image
 
 
@@ -14,8 +15,7 @@ class GUI(tk.Tk):
         self.preroll=preroll
         self.piece_length = minutes * 60 + seconds
 
-        # self.window = tk.Tk()
-        # Put button at bottom
+        # If click, advance to next image
         self.title('Image Viewer App')
         # self.button = tk.Button(master=self, text="Next", command=self.set_new_image)
         # self.button.pack(side="bottom", ipady=10, ipadx=10, pady=10)
@@ -32,6 +32,7 @@ class GUI(tk.Tk):
         self.timer_display = tk.Label(self, text=self.timer.get_formatted_time(), width=200, height=200, font=("Rosewood Std Regular", 100))
         self.timer_display.pack(side="bottom", ipady=10, pady=10)
         self.update_timer()
+
 
     def resize_image(self, image):
         ratio = min(1300/image.width, 680/image.height)
@@ -56,7 +57,8 @@ class GUI(tk.Tk):
 
     def update_timer(self):
         if self.timer.get_time() == self.piece_length:
-            self.timer_display.config(text="The piece concludes")
+            self.timer_display.config(text="THE PIECE IS ENDING")
+            self.after(0, self.end_of_piece_protocol)
         else:
             self.timer_display.config(text=self.timer.get_formatted_time())
             self.timer.increment()
@@ -64,6 +66,10 @@ class GUI(tk.Tk):
 
     def on_click(self, event):
         self.set_new_image()
+
+    def end_of_piece_protocol(self):
+        self.after(10*1000, func=self.destroy)
+
 
 
 
@@ -74,7 +80,8 @@ class GUI(tk.Tk):
 
 
 if __name__ == '__main__':
-    gui = GUI(1, 30)
+    gui = GUI(0, 5)
+    gui.state('zoomed')
     gui.mainloop()
 
 
