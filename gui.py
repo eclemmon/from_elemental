@@ -1,38 +1,44 @@
+#!/usr/local/bin/python3
+
 import tkinter as tk
 import image_data_loader
 import timer
 import flashable_label
+from section_manager import SectionManager
 from PIL import ImageTk, Image
 
 
 
 class GUI(tk.Tk):
     # configure root
-    def __init__(self, minutes=7, seconds=30, preroll=5):
+    def __init__(self, section_manager, preroll=5):
         tk.Tk.__init__(self)
 
         self.timer = timer.Timer()
-        self.preroll=preroll
-        self.piece_length = minutes * 60 + seconds
+        self.preroll = preroll
+        self.piece_length = section_manager.get_total_timing()
+        self.section_manager = section_manager
 
         # If click, advance to next image
         self.title('Image Viewer App')
-        # self.button = tk.Button(master=self, text="Next", command=self.set_new_image)
-        # self.button.pack(side="bottom", ipady=10, ipadx=10, pady=10)
         self.bind("<Button-1>", self.on_click)
 
         # Set an image
         self.image_path = None
         img = self.get_new_image()
         self.label = tk.Label(self, image=img)
-        self.label.pack(expand="yes", side="bottom", pady=20)
+        self.label.grid(row=1, column=0, columnspan=2)
         self.set_new_image()
 
         # Initialize and run timer
-        self.timer_display = tk.Label(self, text=self.timer.get_formatted_time(), width=200, height=200, font=("Rosewood Std Regular", 100))
-        self.timer_display.pack(side="bottom", ipady=10, pady=10)
+        self.timer_display = flashable_label.FlashableLabel(self, text=self.timer.get_formatted_time(), font=("Rosewood Std Regular", 50))
+        self.timer_display.grid(row=0, column=0)
         self.update_timer()
 
+        # Set section text
+        self.section = flashable_label.FlashableLabel(self, text=self.section_manager.get_current_section_name(), font=("Rosewood Std Regular", 50))
+        self.section.grid(row=0, column=1)
+        self.after(self.section_manager.get_current_section_timing()*1000, self.update_section)
 
     def resize_image(self, image):
         ratio = min(1300/image.width, 680/image.height)
@@ -68,19 +74,29 @@ class GUI(tk.Tk):
         self.set_new_image()
 
     def end_of_piece_protocol(self):
-        self.after(10*1000, func=self.destroy)
+        end_seconds = 10
+        self.timer_display.flash(flashes=end_seconds*4)
+        self.after(end_seconds*1000, func=self.destroy)
 
-
-
-
-
-
-
-
+    def update_section(self):
+        self.section_manager.next()
+        duration_of_section = self.section_manager.get_current_section_timing()
+        self.section.config(text=self.section_manager.get_current_section_name())
+        self.section.flash(flashes=10)
+        self.after(duration_of_section*1000, func=self.update_section)
 
 
 if __name__ == '__main__':
-    gui = GUI(0, 5)
+    sections = [("Cosmic", 10),
+                ("Element Introduction", 90),
+                ("Life Forms", 90),
+                ("Emergence of Individuals", 40),
+                ("Emergence of collective", 40),
+                ("Conflict between collective and individual", 50),
+                ("INCISION", 10),
+                ("Trancendence: COSMIC RE-FRAMED", 60)]
+    section_manager = SectionManager(sections)
+    gui = GUI(section_manager)
     gui.state('zoomed')
     gui.mainloop()
 

@@ -8,4 +8,4 @@ class FlashableLabel(tk.Label):
         self.configure(background=fg, foreground=bg)
         count += 1
         if count < flashes:
-            self.after(250, self.flash, count)
+            self.after(250, self.flash, flashes, count)
