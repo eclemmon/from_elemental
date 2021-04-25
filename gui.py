@@ -26,19 +26,28 @@ class GUI(tk.Tk):
         # Set an image
         self.image_path = None
         img = self.get_new_image()
-        self.label = tk.Label(self, image=img)
+        self.label = tk.Label(self, image=img, pady=5)
         self.label.grid(row=1, column=0, columnspan=2)
         self.set_new_image()
 
         # Initialize and run timer
-        self.timer_display = flashable_label.FlashableLabel(self, text=self.timer.get_formatted_time(), font=("Rosewood Std Regular", 50))
+        self.timer_display = flashable_label.FlashableLabel(self, text=self.timer.get_formatted_time(),
+                                                            font=("Rosewood Std Regular", 50))
         self.timer_display.grid(row=0, column=0)
         self.update_timer()
 
         # Set section text
-        self.section = flashable_label.FlashableLabel(self, text=self.section_manager.get_current_section_name(), font=("Rosewood Std Regular", 50))
+        self.section = flashable_label.FlashableLabel(self, text=self.section_manager.get_current_section_name(),
+                                                      font=("Rosewood Std Regular", 50))
         self.section.grid(row=0, column=1)
         self.after(self.section_manager.get_current_section_timing()*1000, self.update_section)
+
+        # Set kill button
+        self.close_program = tk.Button(self, text="QUIT", font=("Rosewood Std Regular", 50),
+                                       command=self.close, border=20, activeforeground="black", padx=7)
+        self.close_program.grid(row=2, columnspan=2)
+        self.padding = tk.Label(self, pady=5).grid(row=3, columnspan=2)
+
 
     def resize_image(self, image):
         ratio = min(1300/image.width, 680/image.height)
@@ -88,6 +97,9 @@ class GUI(tk.Tk):
     def start_from(self, section_value):
         timing = self.section_manager.start_from_section(section_value)
         self.timer.set_time(timing)
+
+    def close(self):
+        self.after(0, func=self.destroy)
 
 
 
