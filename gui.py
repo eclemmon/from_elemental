@@ -85,6 +85,12 @@ class GUI(tk.Tk):
         self.section.flash(flashes=10)
         self.after(duration_of_section*1000, func=self.update_section)
 
+    def start_from(self, section_value):
+        timing = self.section_manager.start_from_section(section_value)
+        self.timer.set_time(timing)
+
+
+
 
 if __name__ == '__main__':
     sections = [("Cosmic", 10),

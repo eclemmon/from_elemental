@@ -26,6 +26,14 @@ class SectionManager:
             total_seconds += val[1]
         return total_seconds
 
+    def start_from_section(self, section_value):
+        timing = 0
+        for i in range(1, section_value):
+
+            timing += self.sections[i][1]
+        self.current_section = section_value
+        return timing
+
 
 
 if __name__ == "__main__":
@@ -46,4 +54,6 @@ if __name__ == "__main__":
     sm.set_current_section(4)
     print(sm.get_current_section_name())
     print(sm.get_current_section_timing())
+    print(sm.start_from_section(5))
+    print(sm.get_current_section_name())
     sm.set_current_section(20)
