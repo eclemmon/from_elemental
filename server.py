@@ -1,17 +1,23 @@
 import socket
-import sys
+import pickle
+import cell_assigner
+import image_data_loader
+
 
 
 class Server:
-    def __init__(self, IP_ADDRESS):
-        self.IP_ADDRESS = IP_ADDRESS
-        self.server_address = (IP_ADDRESS, 10000)
+    def __init__(self, ip_address, cell_assigner):
+        self.cell_assigner = cell_assigner
+        self.IP_ADDRESS = ip_address
+        self.server_address = (ip_address, 10000)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("Starting up on {} port {}".format(*self.server_address))
         self.sock.bind(self.server_address)
 
     def run(self):
-        self.sock.listen(3)
+        self.cell_assigner.select_half_of_cells_randomly()
+        other_cells = cell_assigner.CellAssigner(image_data_loader.get_image_paths()) - self.cell_assigner
+        self.sock.listen()
         print("Waiting for a connection...")
         while True:
             connection, client_address = self.sock.accept()
@@ -21,8 +27,8 @@ class Server:
                 while True:
                     data = connection.recv(4096).decode()
                     if data:
-                        print("received {}".format(data))
-                        connection.sendall(data.encode())
+                        print("server received {}".format(data))
+                        connection.sendall(pickle.dumps(other_cells))
                     else:
                         print("No more data")
                         break
@@ -30,6 +36,12 @@ class Server:
                 connection.close()
                 break
 
+    def get_server_cell_assignments(self):
+        return self.cell_assigner
+
+
 if __name__ == "__main__":
-    server = Server('192.168.178.46')
+    ca = cell_assigner.CellAssigner(image_data_loader.get_image_paths())
+    server = Server('192.168.178.46', ca)
     server.run()
+    print(server.get_server_cell_assignments())
