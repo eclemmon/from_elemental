@@ -21,6 +21,9 @@ class CellAssigner:
     def __str__(self):
         return str(self.cells)
 
+    def get_list_of_cells(self):
+        return str(self.cells.split())
+
 
 if __name__ == "__main__":
     ca = CellAssigner(image_data_loader.get_image_paths())

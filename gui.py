@@ -4,20 +4,23 @@ import tkinter as tk
 import image_data_loader
 import timer
 import flashable_label
+import cell_assigner
 from section_manager import SectionManager
 from PIL import ImageTk, Image
 
 
 
-class GUI(tk.Tk):
+class GUI(tk.Toplevel):
     # configure root
-    def __init__(self, section_manager, preroll=5):
-        tk.Tk.__init__(self)
-
+    def __init__(self, root, section_manager, cell_assigner, preroll=5):
+        tk.Toplevel.__init__(self)
+        self.root = root
+        self.protocol("WM_DELETE_WINDOW", root.destroy)
         self.timer = timer.Timer()
         self.preroll = preroll
         self.piece_length = section_manager.get_total_timing()
         self.section_manager = section_manager
+        self.image_paths = cell_assigner.cells
 
         # If click, advance to next image
         self.title('Image Viewer App')
@@ -54,7 +57,7 @@ class GUI(tk.Tk):
         return image.resize((int(image.width*ratio), int(image.height*ratio)), Image.ANTIALIAS)
 
     def get_new_image(self):
-        image_path = image_data_loader.get_random_image_path()
+        image_path = image_data_loader.select_random_image(self.image_paths)
         print(self.image_path, image_path)
         if image_path == self.image_path:
             print("SAME PATH!")
@@ -99,12 +102,14 @@ class GUI(tk.Tk):
         self.timer.set_time(timing)
 
     def close(self):
-        self.after(0, func=self.destroy)
+        self.after(0, func=root.destroy)
 
 
 
 
 if __name__ == '__main__':
+    root = tk.Tk()
+    root.withdraw()
     sections = [("Cosmic", 10),
                 ("Element Introduction", 90),
                 ("Life Forms", 90),
@@ -114,8 +119,9 @@ if __name__ == '__main__':
                 ("INCISION", 10),
                 ("Trancendence: COSMIC RE-FRAMED", 60)]
     section_manager = SectionManager(sections)
-    gui = GUI(section_manager)
+    cells = cell_assigner.CellAssigner(image_data_loader.get_image_paths())
+    gui = GUI(root, section_manager, cells)
     gui.state('zoomed')
-    gui.mainloop()
+    root.mainloop()
 
 

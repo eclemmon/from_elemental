@@ -1,13 +1,20 @@
 import tkinter as tk
+import server
+import client
+import cell_assigner
+import image_data_loader
 
-class SettingsGUI(tk.Tk):
-    def __init__(self):
-        tk.Tk.__init__(self)
+class SettingsGUI(tk.Toplevel):
+    def __init__(self, root):
+        tk.Toplevel.__init__(self)
+        self.root = root
+        self.protocol("WM_DELETE_WINDOW", root.destroy)
         self.title('Settings')
         # Initialize variables
         self.instrument = tk.IntVar()
         self.server_ip = tk.StringVar()
         self.server = tk.IntVar()
+        self.cell_paths = None
 
         # Initialize header
         self.v_vcl_selector = tk.Label(self, text="Select your instrument", font=("Rosewood Std Regular", 50), pady=10, padx=10)
@@ -29,7 +36,7 @@ class SettingsGUI(tk.Tk):
         self.client_button.grid(row=2, column=1)
 
         # Set up IP Address
-        self.ip_label = tk.Label(self, text="Type in your IP Address here", pady=10)
+        self.ip_label = tk.Label(self, text="Type in the server IP Address here", pady=10)
         self.ip_label.grid(row=4, column=0)
         self.ip_client_entry = tk.Entry(self, textvariable=self.server_ip)
         self.ip_client_entry.grid(row=4, column=1)
@@ -45,11 +52,39 @@ class SettingsGUI(tk.Tk):
         print("instrument: ", self.instrument.get())
         print("Server: ", self.server.get())
         print("IP ADDRESS: ", self.server_ip.get())
+        if self.server.get() == 1:
+            self.cell_paths = self.if_server(self.server_ip.get())
+        if self.server.get() == 2:
+            self.cell_paths = self.if_client(self.server_ip.get())
+        else:
+            print("You must select either server or client as well as cello or violin")
+        self.root.run_main_gui()
+
+    def if_server(self, ip_address):
+        ca = cell_assigner.CellAssigner(image_data_loader.get_image_paths())
+        s = server.Server(ip_address, ca)
+        s.run()
+        print(s.get_server_cell_assignments())
+        return s.get_server_cell_assignments()
+
+    def if_client(self, ip_address):
+        c = client.Client(ip_address)
+        cells = c.run()
+        print(cells)
+        return cells
+
+    def if_cello(self):
+        pass
+
+    def if_violin(self):
+        pass
 
 
 
 
 
 if __name__ == "__main__":
-    settings = SettingsGUI()
-    settings.mainloop()
+    root = tk.Tk()
+    root.withdraw()
+    settings = SettingsGUI(root)
+    root.mainloop()
