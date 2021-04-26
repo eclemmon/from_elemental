@@ -1,5 +1,5 @@
 import tkinter as tk
-from sub_guis import scoregui, server_settings_gui, instrument_and_network_settings_gui
+from sub_guis import scoregui, server_settings_gui, instrument_and_network_settings_gui, manual_settings_gui
 import section_manager
 
 
@@ -10,15 +10,15 @@ class Main(tk.Tk):
         self.withdraw()
         self.instrument = None
         self.settings = None
-        self.main_gui = None
+        self.score_gui = None
         self.instrument_net_settings = instrument_and_network_settings_gui.InstrumentNetworkSettingsGui(self)
 
     def run(self):
         self.mainloop()
 
-    def run_main_gui(self):
+    def run_score_gui(self):
         self.settings.withdraw()
-        self.main_gui = scoregui.ScoreGUI(self, self.sections_manager, self.settings.cell_paths)
+        self.score_gui = scoregui.ScoreGUI(self, self.sections_manager, self.settings.cell_paths)
 
     def get_settings_automatically_via_local_network(self):
         self.instrument_net_settings.withdraw()
@@ -26,6 +26,7 @@ class Main(tk.Tk):
 
     def manually_set_settings(self):
         self.instrument_net_settings.withdraw()
+        self.settings = manual_settings_gui.ManualSettingsGui(self)
 
 
 

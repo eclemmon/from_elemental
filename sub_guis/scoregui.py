@@ -3,9 +3,9 @@
 import tkinter as tk
 import image_data_loader
 import timer
-import flashable_label
 import cell_assigner
 from section_manager import SectionManager
+from sub_guis import flashable_label
 from PIL import ImageTk, Image
 
 
@@ -102,7 +102,7 @@ class ScoreGUI(tk.Toplevel):
         self.timer.set_time(timing)
 
     def close(self):
-        self.after(0, func=root.destroy)
+        self.after(0, func=self.root.destroy)
 
 
 

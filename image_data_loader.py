@@ -14,8 +14,16 @@ def get_random_image_path():
 def get_image_names(dir="./violin_cells"):
     return [img for img in listdir(dir) if img.endswith(".png")]
 
+def get_these_images(dir="./cello_cells", image_list=['cell_ether_ecl.png', 'cell_wind_ecl.png']):
+    result = []
+    for img in image_list:
+        if img in listdir(dir):
+            result.append(path.join(dir, img))
+    return result
+
 if __name__ == "__main__":
     image_paths = get_image_paths()
     print(image_paths)
     # print(select_random_image(image_paths))
     print(get_image_names())
+    print(get_these_images())

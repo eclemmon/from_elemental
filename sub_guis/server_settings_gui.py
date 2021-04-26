@@ -50,7 +50,7 @@ class ServerSettingsGUI(tk.Toplevel):
             self.cell_paths = self.if_client(self.server_ip.get())
         else:
             print("You must select either server or client")
-        self.root.run_main_gui()
+        self.root.run_score_gui()
 
     def if_server(self, ip_address):
         ca = cell_assigner.CellAssigner(image_data_loader.get_image_paths())
