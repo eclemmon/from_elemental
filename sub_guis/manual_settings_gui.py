@@ -1,3 +1,16 @@
+"""
+Manual Setting GUI Module
+"""
+
+__author__ = "Eric Lemmon"
+__copyright__ = "Copyright 2021, Eric Lemmon"
+__credits = ["Eric Lemmon, Anne Sophie Andersen"]
+__version__ = "0.9"
+__maintainer__ = "Eric Lemmon"
+__email__ = "ec.lemmon@gmail.com"
+__status__ = "Testing"
+
+
 import tkinter as tk
 import random
 import image_data_loader
@@ -14,7 +27,6 @@ class ManualSettingsGui(tk.Toplevel):
         self.title('Manually select cells across sections')
         self.grid_no = 2
         self.radio_button_values = {}
-
         self.cell_paths = None
 
         if self.root.instrument == "violin":
@@ -70,7 +82,7 @@ class ManualSettingsGui(tk.Toplevel):
         not_selected = 0
         half = (len(self.file_names) // 2 + 1)
         for val in self.radio_button_values.values():
-            result = random.choice([1,2])
+            result = random.choice([1, 2])
             if selected == half or not_selected == half:
                 if selected == half:
                     val.set(2)
@@ -89,7 +101,6 @@ class ManualSettingsGui(tk.Toplevel):
         for key, val in self.radio_button_values.items():
             if val.get() == 1:
                 result.append(key)
-        print(result)
         self.cell_paths = cell_assigner.CellAssigner(image_data_loader.get_these_images(self.path, result))
         self.root.run_score_gui()
 

@@ -1,3 +1,16 @@
+"""
+Cell Assigner Module
+"""
+
+__author__ = "Eric Lemmon"
+__copyright__ = "Copyright 2021, Eric Lemmon"
+__credits = ["Eric Lemmon, Anne Sophie Andersen"]
+__version__ = "0.9"
+__maintainer__ = "Eric Lemmon"
+__email__ = "ec.lemmon@gmail.com"
+__status__ = "Testing"
+
+
 import random
 import image_data_loader
 

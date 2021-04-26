@@ -1,4 +1,14 @@
+"""
+Section Manager Module
+"""
 
+__author__ = "Eric Lemmon"
+__copyright__ = "Copyright 2021, Eric Lemmon"
+__credits = ["Eric Lemmon, Anne Sophie Andersen"]
+__version__ = "0.9"
+__maintainer__ = "Eric Lemmon"
+__email__ = "ec.lemmon@gmail.com"
+__status__ = "Testing"
 
 class SectionManager:
     def __init__(self, sections):
@@ -33,7 +43,6 @@ class SectionManager:
             timing += self.sections[i][1]
         self.current_section = section_value
         return timing
-
 
 
 if __name__ == "__main__":
