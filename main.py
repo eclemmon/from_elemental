@@ -1,8 +1,7 @@
 import tkinter as tk
-import server_settings_gui
-import scoregui
+from sub_guis import scoregui, server_settings_gui, instrument_and_network_settings_gui
 import section_manager
-import instrument_and_network_settings_gui
+
 
 class Main(tk.Tk):
     def __init__(self, sections_manager):
@@ -27,6 +26,7 @@ class Main(tk.Tk):
 
     def manually_set_settings(self):
         self.instrument_net_settings.withdraw()
+
 
 
 
