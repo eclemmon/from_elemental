@@ -4,29 +4,22 @@ import client
 import cell_assigner
 import image_data_loader
 
-class SettingsGUI(tk.Toplevel):
+class ServerSettingsGUI(tk.Toplevel):
     def __init__(self, root):
         tk.Toplevel.__init__(self)
         self.root = root
         self.protocol("WM_DELETE_WINDOW", root.destroy)
-        self.title('Settings')
+        self.title('Server Settings')
         # Initialize variables
-        self.instrument = tk.IntVar()
+        # self.instrument = tk.IntVar()
         self.server_ip = tk.StringVar()
         self.server = tk.IntVar()
         self.cell_paths = None
 
         # Initialize header
-        self.v_vcl_selector = tk.Label(self, text="Select your instrument", font=("Rosewood Std Regular", 50), pady=10, padx=10)
-        self.v_vcl_selector.grid(row=0, columnspan=2)
-
-        # Set up radio buttons
-        self.cello_button = tk.Radiobutton(self, text="Cello", variable=self.instrument, value=1,
-                                           font=("Rosewood Std Regular", 20), pady=10)
-        self.cello_button.grid(row=1, column=0)
-        self.violin_button = tk.Radiobutton(self, text="Violin", variable=self.instrument, value=2,
-                                            font=("Rosewood Std Regular", 20), pady=10)
-        self.violin_button.grid(row=1, column=1)
+        self.server_label = tk.Label(self, text="Select server or client, wait for server to submit first",
+                                     font=("Rosewood Std Regular", 50), pady=10, padx=10)
+        self.server_label.grid(row=0, columnspan=2)
         self.padding1 = tk.Label(self, pady=5).grid(row=3, columnspan=2)
         self.server_button = tk.Radiobutton(self, text="Server", variable=self.server, value=1,
                                             font=("Rosewood Std Regular", 20), pady=10)
@@ -49,7 +42,6 @@ class SettingsGUI(tk.Toplevel):
         self.padding1 = tk.Label(self, pady=5).grid(row=6, columnspan=2)
 
     def on_submit(self):
-        print("instrument: ", self.instrument.get())
         print("Server: ", self.server.get())
         print("IP ADDRESS: ", self.server_ip.get())
         if self.server.get() == 1:
@@ -57,7 +49,7 @@ class SettingsGUI(tk.Toplevel):
         if self.server.get() == 2:
             self.cell_paths = self.if_client(self.server_ip.get())
         else:
-            print("You must select either server or client as well as cello or violin")
+            print("You must select either server or client")
         self.root.run_main_gui()
 
     def if_server(self, ip_address):
@@ -73,11 +65,7 @@ class SettingsGUI(tk.Toplevel):
         print(cells)
         return cells
 
-    def if_cello(self):
-        pass
 
-    def if_violin(self):
-        pass
 
 
 
@@ -86,5 +74,5 @@ class SettingsGUI(tk.Toplevel):
 if __name__ == "__main__":
     root = tk.Tk()
     root.withdraw()
-    settings = SettingsGUI(root)
+    settings = ServerSettingsGUI(root)
     root.mainloop()

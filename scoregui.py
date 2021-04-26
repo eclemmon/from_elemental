@@ -10,7 +10,7 @@ from PIL import ImageTk, Image
 
 
 
-class GUI(tk.Toplevel):
+class ScoreGUI(tk.Toplevel):
     # configure root
     def __init__(self, root, section_manager, cell_assigner, preroll=5):
         tk.Toplevel.__init__(self)
@@ -88,7 +88,7 @@ class GUI(tk.Toplevel):
     def end_of_piece_protocol(self):
         end_seconds = 10
         self.timer_display.flash(flashes=end_seconds*4)
-        self.after(end_seconds*1000, func=self.destroy)
+        self.after(end_seconds*1000, func=root.destroy)
 
     def update_section(self):
         self.section_manager.next()
@@ -120,7 +120,7 @@ if __name__ == '__main__':
                 ("Trancendence: COSMIC RE-FRAMED", 60)]
     section_manager = SectionManager(sections)
     cells = cell_assigner.CellAssigner(image_data_loader.get_image_paths())
-    gui = GUI(root, section_manager, cells)
+    gui = ScoreGUI(root, section_manager, cells)
     gui.state('zoomed')
     root.mainloop()
 
