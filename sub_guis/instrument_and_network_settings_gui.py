@@ -23,6 +23,7 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         #variable selectors
         self.instrument = tk.IntVar()
         self.local_network_or_not = tk.IntVar()
+        self.preroll = tk.StringVar()
 
         # Initialize header
         self.v_vcl_selector = tk.Label(self, text="Select your instrument",
@@ -50,19 +51,29 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
                                             font=("Rosewood Std Regular", 20), pady=10)
         self.not_local_button.grid(row=3, column=1)
 
-        self.submit = tk.Button(self, text="Submit", command=self.on_submit, font=("Rosewood Std Regular", 50), padx=7)
-        self.submit.grid(row=4, columnspan=2)
+        # Pre-roll option
+        self.preroll_label = tk.Label(self, text="Type in the amount of preroll before start you want here", pady=10)
+        self.preroll_label.grid(row=4, column=0)
+        self.preroll_entry = tk.Entry(self, textvariable=self.preroll)
+        self.preroll_entry.grid(row=4, column=1)
 
-        self.padding1 = tk.Label(self, pady=5).grid(row=5, columnspan=2)
+        self.submit = tk.Button(self, text="Submit", command=self.on_submit, font=("Rosewood Std Regular", 50), padx=7)
+        self.submit.grid(row=5, columnspan=2)
+
+        self.padding1 = tk.Label(self, pady=5).grid(row=6, columnspan=2)
 
     def on_submit(self):
         print("instrument: ", self.instrument.get())
-        if self.instrument.get() == 1:
-            self.if_cello()
-        elif self.instrument.get() == 2:
-            self.if_violin()
-        else:
+        if not (int(self.preroll.get()) > 0):
             tk.Label(self, text="You must select an instrument!").grid(row=6, columnspan=2)
+        else:
+            self.root.preroll = int(self.preroll.get())
+            if self.instrument.get() == 1:
+                self.if_cello()
+            elif self.instrument.get() == 2:
+                self.if_violin()
+            else:
+                tk.Label(self, text="You must select an instrument!").grid(row=6, columnspan=2)
 
     def if_cello(self):
         self.root.instrument = "cello"

@@ -12,7 +12,7 @@ __status__ = "Testing"
 
 
 import tkinter as tk
-from sub_guis import scoregui, server_settings_gui, instrument_and_network_settings_gui, manual_settings_gui
+from sub_guis import score_gui, server_settings_gui, instrument_and_network_settings_gui, manual_settings_gui
 import section_manager
 
 
@@ -28,6 +28,7 @@ class Main(tk.Tk):
         self.instrument = None
         self.settings = None
         self.score_gui = None
+        self.preroll = None
         self.instrument_net_settings = instrument_and_network_settings_gui.InstrumentNetworkSettingsGui(self)
         self.withdraw()
 
@@ -44,7 +45,7 @@ class Main(tk.Tk):
         :return: None
         """
         self.settings.withdraw()
-        self.score_gui = scoregui.ScoreGUI(self, self.sections_manager, self.settings.cell_paths)
+        self.score_gui = score_gui.ScoreGUI(self, self.sections_manager, self.settings.cell_paths, preroll=self.preroll)
 
     def get_settings_automatically_via_local_network(self):
         """
@@ -65,7 +66,7 @@ class Main(tk.Tk):
 
 
 if __name__ == "__main__":
-    sections = [("Cosmic", 60),
+    sections = [("Cosmic", 10),
                 ("Element Introduction", 90),
                 ("Life Forms", 90),
                 ("Emergence of Individuals", 40),

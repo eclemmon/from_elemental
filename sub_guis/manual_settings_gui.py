@@ -10,7 +10,6 @@ __maintainer__ = "Eric Lemmon"
 __email__ = "ec.lemmon@gmail.com"
 __status__ = "Testing"
 
-
 import tkinter as tk
 import random
 import image_data_loader
@@ -58,7 +57,7 @@ class ManualSettingsGui(tk.Toplevel):
         for counter, value in enumerate(self.file_names):
             button_val = tk.IntVar()
             label = tk.Label(self, text=value, font=("Rosewood Std Regular", 15), pady=5, padx=5)
-            label.grid(row=counter+2, column=0, sticky=tk.E)
+            label.grid(row=counter + 2, column=0, sticky=tk.E)
             radio_button1 = tk.Radiobutton(self, text="", variable=button_val, value=1,
                                            font=("Rosewood Std Regular", 10), pady=5, selectcolor="Black")
             radio_button1.grid(row=counter + 2, column=1)
@@ -69,13 +68,14 @@ class ManualSettingsGui(tk.Toplevel):
             self.grid_no += 1
 
         # Build command buttons
-        self.randomize = tk.Button(self, text="Randomize", command=self.random_select, font=("Rosewood Std Regular", 25), padx=7)
+        self.randomize = tk.Button(self, text="Randomize", command=self.random_select,
+                                   font=("Rosewood Std Regular", 25), padx=7)
         self.randomize.grid(row=self.grid_no, column=1)
         self.submit = tk.Button(self, text="Submit", command=self.on_submit, font=("Rosewood Std Regular", 25), padx=7)
         self.submit.grid(row=self.grid_no, column=2)
 
         # Padding bottom
-        self.padding1 = tk.Label(self, pady=5).grid(row=self.grid_no+1, columnspan=3)
+        self.padding1 = tk.Label(self, pady=5).grid(row=self.grid_no + 1, columnspan=3)
 
     def random_select(self):
         selected = 0
@@ -103,7 +103,6 @@ class ManualSettingsGui(tk.Toplevel):
                 result.append(key)
         self.cell_paths = cell_assigner.CellAssigner(image_data_loader.get_these_images(self.path, result))
         self.root.run_score_gui()
-
 
 
 if __name__ == "__main__":
