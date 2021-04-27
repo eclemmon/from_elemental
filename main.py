@@ -29,6 +29,7 @@ class Main(tk.Tk):
         self.settings = None
         self.score_gui = None
         self.preroll = None
+        self.section_start = None
         self.instrument_net_settings = instrument_and_network_settings_gui.InstrumentNetworkSettingsGui(self)
         self.withdraw()
 
@@ -45,7 +46,8 @@ class Main(tk.Tk):
         :return: None
         """
         self.settings.withdraw()
-        self.score_gui = score_gui.ScoreGUI(self, self.sections_manager, self.settings.cell_paths, preroll=self.preroll)
+        self.score_gui = score_gui.ScoreGUI(self, self.sections_manager, self.settings.cell_paths,
+                                            preroll=self.preroll, section_start=self.section_start)
 
     def get_settings_automatically_via_local_network(self):
         """
@@ -66,7 +68,7 @@ class Main(tk.Tk):
 
 
 if __name__ == "__main__":
-    sections = [("Cosmic", 10),
+    sections = [("Cosmic", 40),
                 ("Element Introduction", 90),
                 ("Life Forms", 90),
                 ("Emergence of Individuals", 40),

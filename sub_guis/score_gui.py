@@ -23,7 +23,7 @@ from PIL import ImageTk, Image
 
 class ScoreGUI(tk.Toplevel):
     # configure root
-    def __init__(self, root, section_manager, cell_assigner, preroll=5):
+    def __init__(self, root, section_manager, cell_assigner, preroll=5, section_start=1):
         tk.Toplevel.__init__(self)
         self.root = root
         self.protocol("WM_DELETE_WINDOW", root.destroy)
@@ -34,14 +34,20 @@ class ScoreGUI(tk.Toplevel):
         self.preroll = timer.Timer(preroll)
         self.piece_length = section_manager.get_total_timing()
         self.section_manager = section_manager
+        self.start_from(section_start)
         self.image_paths = cell_assigner.cells
+        self.first_section = True
 
         # If click, advance to next image
         self.title('Image Viewer App')
 
         # Set an image
         self.image_path = None
-        self.label = tk.Label(self, text="#TACET#", pady=5, font=("Rosewood Std Regular", 50))
+        if section_start == 1:
+            text = "### TACET ###"
+        else:
+            text = ""
+        self.label = tk.Label(self, text=text, pady=5, font=("Rosewood Std Regular", 50))
         self.label.grid(row=1, column=0, columnspan=2)
 
         # Initialize and run timer
@@ -113,11 +119,12 @@ class ScoreGUI(tk.Toplevel):
         self.after(end_seconds*1000, func=root.destroy)
 
     def update_section(self):
-        if self.timer.get_time() < 2:
+        if self.first_section == True:
             duration_of_section = self.section_manager.get_current_section_timing()
             self.after(duration_of_section * 1000, func=self.update_section)
             self.section.config(text=self.section_manager.get_current_section_name())
             self.section.flash(flashes=10)
+            self.first_section = False
         else:
             self.section_manager.next()
             duration_of_section = self.section_manager.get_current_section_timing()
