@@ -16,6 +16,8 @@ import image_data_loader
 import cell_assigner
 import pathlib
 import os
+import main
+import section_manager
 
 
 class ManualSettingsGui(tk.Toplevel):
@@ -38,44 +40,70 @@ class ManualSettingsGui(tk.Toplevel):
         self.file_names = image_data_loader.get_image_names(self.path)
 
         # Initialize instructions
-        instructions_text = """
-        Violinist hits the 'randomize' button, 
-        and tells the cellist which cells have been selected. 
-        The cello player then selects the remaining cells.
-        """
-        self.instructions = tk.Label(self, text=instructions_text,
-                                     font=("Rosewood Std Regular", 25), pady=10, padx=10)
-        self.instructions.grid(row=0, columnspan=3)
+        instructions_text = [
+        "Violinist hits the 'randomize' button,",
+        "and tells the cellist which cells have been selected.",
+        "The cello player then selects the remaining cells."
+        ]
+        self.header_frame = tk.Frame(self, bg="light steel blue")
+        self.header_frame.grid(row=0, columnspan=3, sticky="ew")
+        for i in range(len(instructions_text)):
+            instructions = tk.Label(self.header_frame, text=instructions_text[i],
+                                         font=("Rosewood Std Regular", 25), fg="snow", bg="light steel blue", padx=5)
+            instructions.grid(row=i)
+            self.header_frame.grid_columnconfigure(0, weight=1)
+            self.header_frame.grid_columnconfigure(2, weight=1)
 
-        # Initialize labels
-        self.is_selected = tk.Label(self, text="Selected", font=("Rosewood Std Regular", 25), pady=10, padx=10)
-        self.is_selected.grid(row=1, column=1)
-        self.is_not_selected = tk.Label(self, text="Not Selected", font=("Rosewood Std Regular", 25), pady=10, padx=10)
-        self.is_not_selected.grid(row=1, column=2)
+        # Initialize Selected labels
+        self.selected_frame = tk.Frame(self, bg="snow")
+        self.selected_frame.grid(row=1, columnspan=3, sticky="ew")
+        self.is_selected = tk.Label(self.selected_frame, text="Selected", fg="steel blue", bg="snow",
+                                    font=("Rosewood Std Regular", 25), pady=10, padx=10)
+        self.is_selected.grid(row=0, column=1, sticky="w")
+        self.is_not_selected = tk.Label(self.selected_frame, text="Not Selected", fg="steel blue", bg="snow",
+                                        font=("Rosewood Std Regular", 25), pady=10, padx=10)
+        self.is_not_selected.grid(row=0, column=2, sticky="w")
+        self.selected_frame.grid_columnconfigure(0, weight=1)
 
         # Build radio buttons
+        self.buttons_frame = tk.Frame(self, bg="light steel blue")
+        self.buttons_frame.grid(row=2, columnspan=3, sticky="ew")
         for counter, value in enumerate(self.file_names):
             button_val = tk.IntVar()
-            label = tk.Label(self, text=value, font=("Rosewood Std Regular", 15), pady=5, padx=5)
-            label.grid(row=counter + 2, column=0, sticky=tk.E)
-            radio_button1 = tk.Radiobutton(self, text="", variable=button_val, value=1,
-                                           font=("Rosewood Std Regular", 10), pady=5, selectcolor="Black")
-            radio_button1.grid(row=counter + 2, column=1)
-            radio_button2 = tk.Radiobutton(self, text="", variable=button_val, value=2,
-                                           font=("Rosewood Std Regular", 10), pady=5, selectcolor="Black")
-            radio_button2.grid(row=counter + 2, column=2)
+            label = tk.Label(self.buttons_frame, text=value, font=("Rosewood Std Regular", 15),
+                             fg="snow", bg="light steel blue", pady=5, padx=22)
+            label.grid(row=counter, column=1, sticky=tk.E)
+            radio_button1 = tk.Radiobutton(self.buttons_frame, text="", variable=button_val, value=1,
+                                           font=("Rosewood Std Regular", 10), pady=5, selectcolor="Black",
+                                           fg="snow", bg="light steel blue",)
+            radio_button1.grid(row=counter, column=2)
+            radio_button2 = tk.Radiobutton(self.buttons_frame, text="", variable=button_val, value=2,
+                                           font=("Rosewood Std Regular", 10), pady=5, selectcolor="Black",
+                                           fg="snow", bg="light steel blue",)
+            radio_button2.grid(row=counter, column=3)
+
             self.radio_button_values[value] = button_val
             self.grid_no += 1
+        self.buttons_frame.grid_columnconfigure(2, weight=1)
+        self.buttons_frame.grid_columnconfigure(3, weight=1)
+
 
         # Build command buttons
-        self.randomize = tk.Button(self, text="Randomize", command=self.random_select,
-                                   font=("Rosewood Std Regular", 25), padx=7)
-        self.randomize.grid(row=self.grid_no, column=1)
-        self.submit = tk.Button(self, text="Submit", command=self.on_submit, font=("Rosewood Std Regular", 25), padx=7)
-        self.submit.grid(row=self.grid_no, column=2)
+        self.commands_frame = tk.Frame(self, bg="snow")
+        self.commands_frame.grid(row=3, columnspan=3, sticky='ew')
+        self.randomize = tk.Button(self.commands_frame, text="Randomize", command=self.random_select,
+                                   font=("Rosewood Std Regular", 25), padx=7, fg="steel blue", bg="snow")
+        self.randomize.grid(row=0, column=1)
+        self.submit = tk.Button(self.commands_frame, text="Submit", command=self.on_submit,
+                                font=("Rosewood Std Regular", 25), padx=7, fg="steel blue", bg="snow")
+        self.submit.grid(row=0, column=2)
+        self.commands_frame.grid_columnconfigure(0, weight=1)
+        self.commands_frame.grid_columnconfigure(3, weight=1)
+
 
         # Padding bottom
-        self.padding1 = tk.Label(self, pady=5).grid(row=self.grid_no + 1, columnspan=3)
+        self.padding1 = tk.Label(self.commands_frame, pady=5, bg="snow")
+        self.padding1.grid(row=1, columnspan=3)
 
     def random_select(self):
         selected = 0
@@ -106,7 +134,16 @@ class ManualSettingsGui(tk.Toplevel):
 
 
 if __name__ == "__main__":
-    root = tk.Tk()
+    sections = [("Cosmic", 40),
+                ("Element Introduction", 90),
+                ("Life Forms", 90),
+                ("Emergence of Individuals", 40),
+                ("Emergence of collective", 40),
+                ("Conflict between collective and individual", 50),
+                ("INCISION", 10),
+                ("Trancendence: COSMIC RE-FRAMED", 60)]
+    sm = section_manager.SectionManager(sections)
+    root = main.Main(sm)
     root.withdraw()
     mansetgui = ManualSettingsGui(root)
     root.mainloop()
