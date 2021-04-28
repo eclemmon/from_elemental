@@ -10,21 +10,24 @@ __maintainer__ = "Eric Lemmon"
 __email__ = "ec.lemmon@gmail.com"
 __status__ = "Testing"
 
-
 import tkinter as tk
 import server
 import client
 import cell_assigner
 import image_data_loader
+import socket
 
 class ServerSettingsGUI(tk.Toplevel):
     def __init__(self, root):
+        """
+        Server settings GUI that takes in
+        :param root: Root of tkinter app, from main.py
+        """
         tk.Toplevel.__init__(self)
         self.root = root
         self.protocol("WM_DELETE_WINDOW", root.destroy)
         self.title('Server Settings')
         # Initialize variables
-        # self.instrument = tk.IntVar()
         self.server_ip = tk.StringVar()
         self.server = tk.IntVar()
         self.cell_paths = None
@@ -42,7 +45,8 @@ class ServerSettingsGUI(tk.Toplevel):
         self.server_button_frame = tk.Frame(self, bg="snow")
         self.server_button_frame.grid(row=1, columnspan=4, sticky="ew")
         self.server_button = tk.Radiobutton(self.server_button_frame, text="Server", variable=self.server, value=1,
-                                            font=("Rosewood Std Regular", 20), pady=10, bg="snow", fg="steel blue")
+                                            font=("Rosewood Std Regular", 20), pady=10, bg="snow", fg="steel blue",
+                                            command=self.server_selected)
         self.server_button.grid(row=0, column=1)
         self.client_button = tk.Radiobutton(self.server_button_frame, text="Client", variable=self.server, value=2,
                                             font=("Rosewood Std Regular", 20), pady=10, bg="snow", fg="steel blue")
@@ -52,14 +56,18 @@ class ServerSettingsGUI(tk.Toplevel):
 
         # Set up IP Address
         self.ip_label_frame = tk.Frame(self, bg="light steel blue")
-        self.ip_label_frame.grid(row=2, columnspan=2, sticky="ew")
-        self.ip_label = tk.Label(self.ip_label_frame, text="Type in the server IP Address here",
-                                 pady=10, padx=10, fg="snow", bg="light steel blue")
+        self.ip_label_frame.grid(row=2, columnspan=3, sticky="ew")
+        self.ip_label = tk.Label(self.ip_label_frame, font=("Rosewood Std Regular", 14),
+                                 text="""Type in the server's IP Address here, it will autofill the server's IP if server has been selected""",
+                                 fg="snow", bg="light steel blue")
         self.ip_label.grid(row=0, column=1)
-        self.ip_client_entry = tk.Entry(self.ip_label_frame, textvariable=self.server_ip, fg="snow", bg="light steel blue")
-        self.ip_client_entry.grid(row=0, column=2)
+        self.ip_client_entry = tk.Entry(self.ip_label_frame, textvariable=self.server_ip,
+                                        fg="snow", bg="light steel blue")
+        self.ip_client_entry.grid(row=1, column=1)
+        self.ip_pad_bottom = tk.Label(self.ip_label_frame, bg="light steel blue")
+        self.ip_pad_bottom.grid(row=2, columnspan=3)
         self.ip_label_frame.grid_columnconfigure(0, weight=1)
-        self.ip_label_frame.grid_columnconfigure(3, weight=1)
+        self.ip_label_frame.grid_columnconfigure(2, weight=1)
 
         # Create submit button
         self.submit_frame = tk.Frame(self, bg="snow")
@@ -97,6 +105,10 @@ class ServerSettingsGUI(tk.Toplevel):
         cells = c.run()
         print(cells)
         return cells
+
+    def server_selected(self):
+        localhost = socket.gethostbyname(socket.gethostname())
+        self.server_ip.set(str(localhost))
 
 
 
