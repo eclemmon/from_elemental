@@ -14,13 +14,25 @@ import tkinter as tk
 
 
 class InstrumentNetworkSettingsGui(tk.Toplevel):
+    """
+    A subclass of tkinter's Toplevel class to build a GUI for the instrument, network, section and preroll
+    settings. The instrument selector will define which instrument, and therefore which cells are given
+    to the player. The network options determine whether the cells will be distributed automatically via a
+    TCP-IP server and client or set manually by the players. The preroll option determines how long players
+    have to get ready before the section timer starts. The section selection determines which section
+    of the piece players want to start at for rehearsal purposes.
+    """
     def __init__(self, root):
+        """
+        Initializes all the GUI classes and positions them in the window.
+        :param root: the root GUI class in tkinter (tk.Tk())
+        """
         tk.Toplevel.__init__(self)
         self.root = root
         self.protocol("WM_DELETE_WINDOW", root.destroy)
         self.title('Instrument and Network Selection')
 
-        #variable selectors
+        # variable selectors
         self.instrument = tk.IntVar()
         self.local_network_or_not = tk.IntVar()
         self.preroll = tk.StringVar()
@@ -32,7 +44,7 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
                                        font=("Rosewood Std Regular", 50), pady=10, padx=10, fg="snow", bg="light steel blue")
         self.v_vcl_selector.grid(row=0, columnspan=3)
 
-        # Set up radio buttons
+        # Set up radio buttons for instruments
         self.instrument_buttons_frame = tk.Frame(self, bg="snow")
         self.instrument_buttons_frame.grid(row=1, columnspan=3, sticky='ew')
         self.cello_button = tk.Radiobutton(self.instrument_buttons_frame, text="Cello", variable=self.instrument, value=1,
@@ -54,7 +66,7 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         self.networked_or_not_text_frame.grid_columnconfigure(0, weight=1)
         self.networked_or_not_text_frame.grid_columnconfigure(2, weight=1)
 
-        # Set up radio buttons
+        # Set up radio buttons for network selection
         self.network_button_frame = tk.Frame(self, bg="snow")
         self.network_button_frame.grid(row=3, columnspan=3, sticky='ew')
         self.local_button = tk.Radiobutton(self.network_button_frame, text="Local Network", variable=self.local_network_or_not, value=1,
@@ -122,6 +134,11 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         self.padding2.grid(rowspan=row+1, column=2)
 
     def on_submit(self):
+        """
+        On submit will set program variables at the root level. Checks some of the inputs to ensure that
+        all options have been set prior to starting.
+        :return: None
+        """
         print("instrument: ", self.instrument.get())
         print("section selection: ", self.section_selection.get())
         try:
@@ -141,14 +158,30 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
             pass
 
     def if_cello(self):
+        """
+        If the instrument selected is cello, it will set root.instrument to cello and call the function that
+        checks whether there is a local network or not so that the root knows which settings GUI to
+        call next.
+        :return: None
+        """
         self.root.instrument = "cello"
         self.nol()
 
     def if_violin(self):
+        """
+        If the instrument selected is violin, it will set root.instrument to violin and call the function that
+        checks whether there is a local network or not so that the root knows which settings GUI to
+        call next.
+        :return: None
+        """
         self.root.instrument = "violin"
         self.nol()
 
     def nol(self):
+        """
+        Calls the next setting GUI from root.
+        :return: None
+        """
         print("Network Status: ", self.local_network_or_not.get())
         if self.local_network_or_not.get() == 1:
             self.root.get_settings_automatically_via_local_network()
