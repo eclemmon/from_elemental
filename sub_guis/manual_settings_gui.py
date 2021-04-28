@@ -22,6 +22,10 @@ import section_manager
 
 class ManualSettingsGui(tk.Toplevel):
     def __init__(self, root):
+        """
+        Initializes the manual settings GUI.
+        :param root: the root of the tkinter GUI app, comes from main.py.
+        """
         self.root = root
         tk.Toplevel.__init__(self)
         self.protocol("WM_DELETE_WINDOW", root.destroy)
@@ -30,6 +34,7 @@ class ManualSettingsGui(tk.Toplevel):
         self.radio_button_values = {}
         self.cell_paths = None
 
+        # Determine the image paths based on the instrument selected in root.instrument
         if self.root.instrument == "violin":
             path = pathlib.Path(__file__).parent
             self.path = os.path.join(path, "../violin_cells/")
@@ -100,12 +105,16 @@ class ManualSettingsGui(tk.Toplevel):
         self.commands_frame.grid_columnconfigure(0, weight=1)
         self.commands_frame.grid_columnconfigure(3, weight=1)
 
-
         # Padding bottom
         self.padding1 = tk.Label(self.commands_frame, pady=5, bg="snow")
         self.padding1.grid(row=1, columnspan=3)
 
     def random_select(self):
+        """
+        Randomly selects the available buttons when pressed. Once half the number of options + 1 have beeen selected
+        the other half are selected with the other option by default.
+        :return: None
+        """
         selected = 0
         not_selected = 0
         half = (len(self.file_names) // 2 + 1)
@@ -125,6 +134,11 @@ class ManualSettingsGui(tk.Toplevel):
                     val.set(result)
 
     def on_submit(self):
+        """
+        On submit gets the selected image paths and builds a CellAssigner object, which are then used
+        when the score GUI runs as the randomly selected images.
+        :return: None
+        """
         result = []
         for key, val in self.radio_button_values.items():
             if val.get() == 1:
