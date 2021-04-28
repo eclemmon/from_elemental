@@ -10,12 +10,14 @@ __maintainer__ = "Eric Lemmon"
 __email__ = "ec.lemmon@gmail.com"
 __status__ = "Testing"
 
+
 import tkinter as tk
 import server
 import client
 import cell_assigner
 import image_data_loader
 import socket
+
 
 class ServerSettingsGUI(tk.Toplevel):
     def __init__(self, root):
@@ -35,8 +37,10 @@ class ServerSettingsGUI(tk.Toplevel):
         # Initialize header
         self.server_label_frame = tk.Frame(self, bg="light steel blue")
         self.server_label_frame.grid(row=0, columnspan=2, sticky='ew')
-        self.server_label = tk.Label(self.server_label_frame, text="Select server or client, wait for server to submit first",
-                                     font=("Rosewood Std Regular", 30), fg="snow", bg="light steel blue", pady=10, padx=10)
+        self.server_label = tk.Label(self.server_label_frame,
+                                     text="Select server or client, wait for server to submit first",
+                                     font=("Rosewood Std Regular", 30), fg="snow", bg="light steel blue", pady=10,
+                                     padx=10)
         self.server_label.grid(row=0, columnspan=2)
         self.padding1 = tk.Label(self.server_label_frame, pady=5, fg="snow", bg="light steel blue")
         self.padding1.grid(row=1, columnspan=2)
@@ -81,7 +85,7 @@ class ServerSettingsGUI(tk.Toplevel):
         self.submit_frame.grid_columnconfigure(2, weight=1)
 
         # Padding at bottom
-        self.padding1 = tk.Label(self.submit_frame, pady=5,  bg="light steel blue", fg="steel blue")
+        self.padding1 = tk.Label(self.submit_frame, pady=5, bg="light steel blue", fg="steel blue")
         self.padding1.grid(row=2)
 
     def on_submit(self):
@@ -136,11 +140,6 @@ class ServerSettingsGUI(tk.Toplevel):
         """
         localhost = socket.gethostbyname(socket.gethostname())
         self.server_ip.set(str(localhost))
-
-
-
-
-
 
 
 if __name__ == "__main__":
