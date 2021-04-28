@@ -30,29 +30,49 @@ class ServerSettingsGUI(tk.Toplevel):
         self.cell_paths = None
 
         # Initialize header
-        self.server_label = tk.Label(self, text="Select server or client, wait for server to submit first",
-                                     font=("Rosewood Std Regular", 50), pady=10, padx=10)
+        self.server_label_frame = tk.Frame(self, bg="light steel blue")
+        self.server_label_frame.grid(row=0, columnspan=2, sticky='ew')
+        self.server_label = tk.Label(self.server_label_frame, text="Select server or client, wait for server to submit first",
+                                     font=("Rosewood Std Regular", 30), fg="snow", bg="light steel blue", pady=10, padx=10)
         self.server_label.grid(row=0, columnspan=2)
-        self.padding1 = tk.Label(self, pady=5).grid(row=3, columnspan=2)
-        self.server_button = tk.Radiobutton(self, text="Server", variable=self.server, value=1,
-                                            font=("Rosewood Std Regular", 20), pady=10)
-        self.server_button.grid(row=2, column=0)
-        self.client_button = tk.Radiobutton(self, text="Client", variable=self.server, value=2,
-                                            font=("Rosewood Std Regular", 20), pady=10)
-        self.client_button.grid(row=2, column=1)
+        self.padding1 = tk.Label(self.server_label_frame, pady=5, fg="snow", bg="light steel blue")
+        self.padding1.grid(row=1, columnspan=2)
+
+        # Initialize server button selectors
+        self.server_button_frame = tk.Frame(self, bg="snow")
+        self.server_button_frame.grid(row=1, columnspan=4, sticky="ew")
+        self.server_button = tk.Radiobutton(self.server_button_frame, text="Server", variable=self.server, value=1,
+                                            font=("Rosewood Std Regular", 20), pady=10, bg="snow", fg="steel blue")
+        self.server_button.grid(row=0, column=1)
+        self.client_button = tk.Radiobutton(self.server_button_frame, text="Client", variable=self.server, value=2,
+                                            font=("Rosewood Std Regular", 20), pady=10, bg="snow", fg="steel blue")
+        self.client_button.grid(row=0, column=2)
+        self.server_button_frame.grid_columnconfigure(0, weight=1)
+        self.server_button_frame.grid_columnconfigure(3, weight=1)
 
         # Set up IP Address
-        self.ip_label = tk.Label(self, text="Type in the server IP Address here", pady=10)
-        self.ip_label.grid(row=4, column=0)
-        self.ip_client_entry = tk.Entry(self, textvariable=self.server_ip)
-        self.ip_client_entry.grid(row=4, column=1)
+        self.ip_label_frame = tk.Frame(self, bg="light steel blue")
+        self.ip_label_frame.grid(row=2, columnspan=2, sticky="ew")
+        self.ip_label = tk.Label(self.ip_label_frame, text="Type in the server IP Address here",
+                                 pady=10, padx=10, fg="snow", bg="light steel blue")
+        self.ip_label.grid(row=0, column=1)
+        self.ip_client_entry = tk.Entry(self.ip_label_frame, textvariable=self.server_ip, fg="snow", bg="light steel blue")
+        self.ip_client_entry.grid(row=0, column=2)
+        self.ip_label_frame.grid_columnconfigure(0, weight=1)
+        self.ip_label_frame.grid_columnconfigure(3, weight=1)
 
         # Create submit button
-        self.submit = tk.Button(self, text="Submit", command=self.on_submit, font=("Rosewood Std Regular", 50), padx=7)
-        self.submit.grid(row=5, columnspan=2)
+        self.submit_frame = tk.Frame(self, bg="snow")
+        self.submit_frame.grid(row=3, columnspan=2, sticky="ew")
+        self.submit = tk.Button(self.submit_frame, text="Submit", command=self.on_submit,
+                                font=("Rosewood Std Regular", 50), bg="snow", fg="steel blue")
+        self.submit.grid(column=1)
+        self.submit_frame.grid_columnconfigure(0, weight=1)
+        self.submit_frame.grid_columnconfigure(2, weight=1)
 
         # Padding at bottom
-        self.padding1 = tk.Label(self, pady=5).grid(row=6, columnspan=2)
+        self.padding1 = tk.Label(self.submit_frame, pady=5,  bg="snow", fg="steel blue")
+        self.padding1.grid(row=2)
 
     def on_submit(self):
         print("Server: ", self.server.get())
