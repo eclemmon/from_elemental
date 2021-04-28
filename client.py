@@ -16,13 +16,24 @@ import pickle
 import time
 
 class Client:
+    """
+    TCP-IP client class to handle assigning scored cells.
+    """
     def __init__(self, IP_ADDRESS):
+        """
+        Initializes client
+        :param IP_ADDRESS: IP Address of server.
+        """
         print("booting")
         self.server_address = (IP_ADDRESS, 10000)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("connecting to {} port {}".format(*self.server_address))
 
     def run(self):
+        """
+        Seeks out server and accepts incoming CellAssigner class. Closes connection after run.
+        :return: Returns CellAssigner class.
+        """
         connected = False
         while not connected:
             try:
@@ -39,19 +50,15 @@ class Client:
             print('sending "{}"'.format(message))
             self.sock.sendall(message.encode())
 
-            # Look for the response
-            amount_received = 0
-            amount_expected = len(message)
-
             while True:
                 data = pickle.loads(self.sock.recv(4096))
-                # print('client received "{}"'.format(data))
                 if data:
                     break
         finally:
             print('closing socket')
             self.sock.close()
-            return data
+            if data:
+                return data
 
 if __name__ == "__main__":
     client = Client('192.168.178.46')
