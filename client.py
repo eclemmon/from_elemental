@@ -10,25 +10,27 @@ __maintainer__ = "Eric Lemmon"
 __email__ = "ec.lemmon@gmail.com"
 __status__ = "Testing"
 
-
 import socket
 import pickle
 import time
+
 
 class Client:
     """
     TCP-IP client class to handle assigning scored cells.
     """
-    def __init__(self, IP_ADDRESS):
+
+    def __init__(self, ip_address):
         """
         Initializes client
-        :param IP_ADDRESS: IP Address of server.
+        :param ip_address: IP Address of server.
         """
         print("booting")
-        self.server_address = (IP_ADDRESS, 10000)
+        self.server_address = (ip_address, 10000)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("connecting to {} port {}".format(*self.server_address))
 
+    # noinspection PyBroadException
     def run(self):
         """
         Seeks out server and accepts incoming CellAssigner class. Closes connection after run.
@@ -39,7 +41,7 @@ class Client:
             try:
                 self.sock.connect(self.server_address)
                 connected = True
-            except Exception as e:
+            except Exception:
                 print("Waiting for server...")
                 time.sleep(1)
                 pass
@@ -59,6 +61,7 @@ class Client:
             self.sock.close()
             if data:
                 return data
+
 
 if __name__ == "__main__":
     client = Client('192.168.178.46')
