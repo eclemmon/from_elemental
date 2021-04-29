@@ -24,7 +24,6 @@ from PIL import ImageTk, Image
 
 
 class ScoreGUI(tk.Toplevel):
-    # configure root
     def __init__(self, root, section_manager: SectionManager, cell_assigner: cell_assigner.CellAssigner,
                  preroll=5, section_start=1):
         tk.Toplevel.__init__(self)

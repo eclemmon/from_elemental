@@ -16,11 +16,23 @@ import image_data_loader
 
 
 class CellAssigner:
+    """
+    A class that manages score cell assignments.
+    """
     def __init__(self, cells):
+        """
+        Initializes the CellAssigner
+        :param cells: List of cell paths.
+        """
         assert type(list()) == type(cells)
         self.cells = cells
 
     def __sub__(self, other):
+        """
+        Removes 'other' cell paths from self's cell paths, and returns a new CellAssigner object.
+        :param other: Other CellAssigner object.
+        :return: CellAssigner
+        """
         cells = self.cells.copy()
         for cell in other.cells:
             if cell in self.cells:
@@ -28,6 +40,11 @@ class CellAssigner:
         return CellAssigner(cells)
 
     def __add__(self, other):
+        """
+        Adds 'other cell paths to self's cell paths and returns a new CellAssigner object.
+        :param other: Other CellAssigner object
+        :return: CellAssigner
+        """
         cells = self.cells.copy()
         for cell in other.cells:
             if cell not in self.cells:
@@ -35,14 +52,19 @@ class CellAssigner:
         return CellAssigner(cells)
 
     def select_half_of_cells_randomly(self):
+        """
+        Randomly removes half the cell paths from self.cells.
+        :return: None
+        """
         for _ in range(len(self.cells) // 2):
             self.cells.remove(random.choice(self.cells))
 
     def __str__(self):
+        """
+        Returns the list of cells as a printable string.
+        :return: String
+        """
         return str(self.cells)
-
-    def get_list_of_cells(self):
-        return str(self.cells.split())
 
 
 if __name__ == "__main__":
