@@ -12,8 +12,11 @@ __status__ = "Testing"
 
 
 import tkinter as tk
-from sub_guis import score_gui, server_settings_gui, instrument_and_network_settings_gui, manual_settings_gui
 import section_manager
+from sub_guis import score_gui
+from sub_guis import server_settings_gui
+from sub_guis import instrument_and_network_settings_gui
+from sub_guis import manual_settings_gui
 
 
 class Main(tk.Tk):
