@@ -36,13 +36,6 @@ class ManualSettingsGui(tk.Toplevel):
 
         # Determine the image paths based on the instrument selected in root.instrument
         self.path = image_data_loader.get_path_by_instrument_name(root.instrument)
-        # if self.root.instrument == "violin":
-        #     path = pathlib.Path(__file__).parent
-        #     self.path = os.path.join(path, "../violin_cells/")
-        # else:
-        #     path = pathlib.Path(__file__).parent
-        #     self.path = os.path.join(path, "../cello_cells/")
-        print(self.path)
         self.file_names = image_data_loader.get_image_names(self.path)
 
         # Initialize instructions

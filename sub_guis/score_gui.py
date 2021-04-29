@@ -27,6 +27,7 @@ class ScoreGUI(tk.Toplevel):
     def __init__(self, root, section_manager: SectionManager, cell_assigner: cell_assigner.CellAssigner,
                  preroll=5, section_start=1):
         tk.Toplevel.__init__(self)
+        # initialize necessary objects.
         self.root = root
         self.protocol("WM_DELETE_WINDOW", root.destroy)
         width = str(self.winfo_screenwidth())
@@ -38,7 +39,6 @@ class ScoreGUI(tk.Toplevel):
         self.section_manager = section_manager
         self.start_from(section_start)
         self.cell_assignment_for_score = cell_assigner
-        # self.section_cells_update()
         self.first_section = True
 
         # Title of window
@@ -50,31 +50,53 @@ class ScoreGUI(tk.Toplevel):
             text = "### TACET ###"
         else:
             text = ""
-        self.label = tk.Label(self, text=text, pady=5, font=("Rosewood Std Regular", 50))
-        self.label.grid(row=1, column=0, columnspan=2)
+        self.label_frame = tk.Frame(self, bg="white")
+        self.label_frame.grid(row=1, columnspan=2, sticky="ew")
+        self.label_pad1 = tk.Label(self.label_frame, fg="snow", bg="white", pady=5)
+        self.label_pad1.grid(row=0, columnspan=2, sticky='ew')
+        self.label = tk.Label(self.label_frame, text=text, pady=5, font=("Rosewood Std Regular", 50),
+                              fg="steel blue", bg="white")
+        self.label.grid(row=0, column=1, columnspan=2)
+        self.label_frame.grid_columnconfigure(0, weight=1)
+        self.label_frame.grid_columnconfigure(2, weight=1)
 
         # Initialize and run timer
-        self.timer_display = flashable_label.FlashableLabel(self, text=self.preroll.get_formatted_time(),
-                                                            font=("Rosewood Std Regular", 50))
-        self.timer_display.grid(row=0, column=0)
+        self.timer_frame = tk.Frame(self, bg="light steel blue")
+        self.timer_frame.grid(row=0, columnspan=2, sticky='ew')
+        self.timer_display = flashable_label.FlashableLabel(self.timer_frame, text=self.preroll.get_formatted_time(),
+                                                            font=("Rosewood Std Regular", 50),
+                                                            fg="snow", bg="light steel blue")
+        self.timer_display.grid(row=0, column=1)
         self.update_timer()
 
         # Set section text
-        self.section = flashable_label.FlashableLabel(self, text="PRE-ROLL",
-                                                      font=("Rosewood Std Regular", 50))
-        self.section.grid(row=0, column=1)
+        self.section = flashable_label.FlashableLabel(self.timer_frame, text="PRE-ROLL",
+                                                      font=("Rosewood Std Regular", 50),
+                                                      fg="snow", bg="light steel blue")
+        self.section.grid(row=0, column=2)
+        self.timer_frame.grid_columnconfigure(0, weight=1)
+        self.timer_frame.grid_columnconfigure(3, weight=1)
         self.after((self.preroll.get_time()+1)*1000, self.update_section)
 
         # Set kill button
-        self.close_program = tk.Button(self, text="QUIT", font=("Rosewood Std Regular", 50),
-                                       command=self.close, border=20, activeforeground="black", padx=7)
-        self.close_program.grid(row=2, column=0)
+        self.buttons_frame = tk.Frame(self, bg="light steel blue")
+        self.buttons_frame.grid(row=2, columnspan=2, sticky='ew')
+        self.buttons_pad1 = tk.Label(self.buttons_frame, fg="snow", bg="light steel blue", pady=5)
+        self.buttons_pad1.grid(row=0, columnspan=2, sticky='ew')
+        self.close_program = tk.Button(self.buttons_frame, text="QUIT", font=("Rosewood Std Regular", 50),
+                                       command=self.close, border=20, activeforeground="black", padx=7,
+                                       fg="light steel blue", bg="snow")
+        self.close_program.grid(row=1, column=0)
 
         # Set next button
-        self.next_button = tk.Button(self, text="NEXT CELL", font=("Rosewood Std Regular", 50),
-                                     command=self.on_click, border=20, activeforeground="black", padx=7)
-        self.next_button.grid(row=2, column=1)
-        self.padding = tk.Label(self, pady=5).grid(row=3, columnspan=2)
+        self.next_button = tk.Button(self.buttons_frame, text="NEXT CELL", font=("Rosewood Std Regular", 50),
+                                     command=self.on_click, border=20, activeforeground="black", padx=7,
+                                     fg="light steel blue", bg="snow")
+        self.next_button.grid(row=1, column=1)
+        self.buttons_pad2 = tk.Label(self.buttons_frame, fg="snow", bg="light steel blue", pady=5)
+        self.buttons_pad2.grid(row=2, columnspan=2, sticky='ew')
+        self.buttons_frame.grid_columnconfigure(0, weight=1)
+        self.buttons_frame.grid_columnconfigure(2, weight=1)
 
     @staticmethod
     def resize_image(image):
