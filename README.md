@@ -82,7 +82,7 @@ to connect.
 
 ### Main Score GUI
 
-######First Section
+###### First Section
 
 ![Alt text](readme_images/main_score_gui.png)
 
@@ -96,10 +96,10 @@ Once the main score GUI progresses past the 1st section, players
 can begin to play and can click on the NEXT CELL button to receive
 assigned cells at random.
 
-##Tutorials for Each Setting Configuration
+## Tutorials for Each Setting Configuration
 
-######<a href=https://youtu.be/SMe_E7PTY20>No Local Network</a>
-######<a href=https://youtu.be/Mm_J5_zRtwU>Local Network</a>
+###### <a href=https://youtu.be/SMe_E7PTY20>No Local Network</a>
+###### <a href=https://youtu.be/Mm_J5_zRtwU>Local Network</a>
 
 
 
