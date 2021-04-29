@@ -23,7 +23,6 @@ from sub_guis import flashable_label
 from PIL import ImageTk, Image
 
 
-
 class ScoreGUI(tk.Toplevel):
     # configure root
     def __init__(self, root, section_manager: SectionManager, cell_assigner: cell_assigner.CellAssigner,
@@ -40,7 +39,7 @@ class ScoreGUI(tk.Toplevel):
         self.section_manager = section_manager
         self.start_from(section_start)
         self.cell_assignment_for_score = cell_assigner
-        self.section_cells_update()
+        # self.section_cells_update()
         self.first_section = True
 
         # Title of window
@@ -128,6 +127,7 @@ class ScoreGUI(tk.Toplevel):
     def update_section(self):
         if self.first_section:
             duration_of_section = self.section_manager.get_current_section_timing()
+            self.section_cells_update()
             self.after(duration_of_section * 1000, func=self.update_section)
             self.section.config(text=self.section_manager.get_current_section_name())
             self.section.flash(flashes=10)
@@ -153,14 +153,14 @@ class ScoreGUI(tk.Toplevel):
         directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
         subtract_this_ca = cell_assigner.CellAssigner(
             image_data_loader.get_these_images(dir=directory, image_list=img_list))
-        self.cell_assignment_for_score -= subtract_this_ca
+        self.cell_assignment_for_score = self.cell_assignment_for_score - subtract_this_ca
 
     def section_four(self):
         self.sections_one_through_three()
         img_list = ["cell_first_five_combo_as.png", "cell_first_five_combo_ecl.png"]
         directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
         add_this_ca = cell_assigner.CellAssigner(image_data_loader.get_these_images(dir=directory, image_list=img_list))
-        self.cell_assignment_for_score += add_this_ca
+        self.cell_assignment_for_score = self.cell_assignment_for_score + add_this_ca
 
     def section_five(self):
         self.sections_one_through_three()
@@ -169,7 +169,7 @@ class ScoreGUI(tk.Toplevel):
         directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
         add_this_ca = cell_assigner.CellAssigner(
             image_data_loader.get_these_images(dir=directory, image_list=img_list))
-        self.cell_assignment_for_score += add_this_ca
+        self.cell_assignment_for_score = self.cell_assignment_for_score + add_this_ca
 
     def section_cells_update(self):
         if self.section_manager.current_section <= 3:
@@ -181,8 +181,7 @@ class ScoreGUI(tk.Toplevel):
 
 
 if __name__ == '__main__':
-    root = tk.Tk()
-    root.withdraw()
+
     sections = [("Cosmic", 10),
                 ("Element Introduction", 90),
                 ("Life Forms", 90),
@@ -191,10 +190,9 @@ if __name__ == '__main__':
                 ("Conflict between collective and individual", 50),
                 ("INCISION", 10),
                 ("Trancendence: COSMIC RE-FRAMED", 60)]
-    section_manager = SectionManager(sections)
-    cells = cell_assigner.CellAssigner(image_data_loader.get_image_paths(dir="../cello_cells"))
-    gui = ScoreGUI(root, section_manager, cells)
+    sm = SectionManager(sections)
+    root = main.Main(sm)
+    cells = cell_assigner.CellAssigner(image_data_loader.get_image_paths(dir="cello_cells"))
+    gui = ScoreGUI(root, sm, cells)
     gui.state('zoomed')
     root.mainloop()
-
-

@@ -17,7 +17,8 @@ import random
 import pathlib
 
 def get_image_paths(dir="./final_cells"):
-    return [path.join(dir, img) for img in listdir(dir) if img.endswith(".png")]
+    return [path.join(pathlib.Path(__file__).parent, dir, img) for img in
+            listdir(path.join(pathlib.Path(__file__).parent, dir)) if img.endswith(".png")]
 
 def select_random_image(images):
     return random.choice(images)
@@ -50,3 +51,5 @@ if __name__ == "__main__":
     # print(select_random_image(image_paths))
     print(get_image_names())
     print(get_these_images())
+    print(get_path_by_instrument_name("violin"))
+    print(pathlib.Path(__file__).parent)
