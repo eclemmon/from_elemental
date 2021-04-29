@@ -4,6 +4,9 @@ Score GUI Module
 
 __author__ = "Eric Lemmon"
 __copyright__ = "Copyright 2021, Eric Lemmon"
+
+import main
+
 __credits = ["Eric Lemmon, Anne Sophie Andersen"]
 __version__ = "0.9"
 __maintainer__ = "Eric Lemmon"
@@ -23,7 +26,8 @@ from PIL import ImageTk, Image
 
 class ScoreGUI(tk.Toplevel):
     # configure root
-    def __init__(self, root, section_manager, cell_assigner, preroll=5, section_start=1):
+    def __init__(self, root, section_manager: SectionManager, cell_assigner: cell_assigner.CellAssigner,
+                 preroll=5, section_start=1):
         tk.Toplevel.__init__(self)
         self.root = root
         self.protocol("WM_DELETE_WINDOW", root.destroy)
@@ -35,13 +39,14 @@ class ScoreGUI(tk.Toplevel):
         self.piece_length = section_manager.get_total_timing()
         self.section_manager = section_manager
         self.start_from(section_start)
-        self.image_paths = cell_assigner.cells
+        self.cell_assignment_for_score = cell_assigner
+        self.section_cells_update()
         self.first_section = True
 
-        # If click, advance to next image
+        # Title of window
         self.title('Image Viewer App')
 
-        # Set an image
+        # Set initial display
         self.image_path = None
         if section_start == 1:
             text = "### TACET ###"
@@ -66,18 +71,20 @@ class ScoreGUI(tk.Toplevel):
         self.close_program = tk.Button(self, text="QUIT", font=("Rosewood Std Regular", 50),
                                        command=self.close, border=20, activeforeground="black", padx=7)
         self.close_program.grid(row=2, column=0)
+
         # Set next button
         self.next_button = tk.Button(self, text="NEXT CELL", font=("Rosewood Std Regular", 50),
                                      command=self.on_click, border=20, activeforeground="black", padx=7)
         self.next_button.grid(row=2, column=1)
         self.padding = tk.Label(self, pady=5).grid(row=3, columnspan=2)
 
-    def resize_image(self, image):
+    @staticmethod
+    def resize_image(image):
         ratio = min(1300/image.width, 680/image.height)
         return image.resize((int(image.width*ratio), int(image.height*ratio)), Image.ANTIALIAS)
 
     def get_new_image(self):
-        image_path = image_data_loader.select_random_image(self.image_paths)
+        image_path = image_data_loader.select_random_image(self.cell_assignment_for_score.cells)
         print(self.image_path, image_path)
         if image_path == self.image_path:
             print("SAME PATH!")
@@ -86,7 +93,7 @@ class ScoreGUI(tk.Toplevel):
             self.image_path = image_path
             new_image = Image.open(image_path)
             print(new_image)
-            return ImageTk.PhotoImage(self.resize_image(new_image))
+            return ImageTk.PhotoImage(ScoreGUI.resize_image(new_image))
 
     def set_new_image(self):
         new_image = self.get_new_image()
@@ -119,7 +126,7 @@ class ScoreGUI(tk.Toplevel):
         self.after(end_seconds*1000, func=root.destroy)
 
     def update_section(self):
-        if self.first_section == True:
+        if self.first_section:
             duration_of_section = self.section_manager.get_current_section_timing()
             self.after(duration_of_section * 1000, func=self.update_section)
             self.section.config(text=self.section_manager.get_current_section_name())
@@ -127,6 +134,7 @@ class ScoreGUI(tk.Toplevel):
             self.first_section = False
         else:
             self.section_manager.next()
+            self.section_cells_update()
             duration_of_section = self.section_manager.get_current_section_timing()
             self.section.config(text=self.section_manager.get_current_section_name())
             self.section.flash(flashes=10)
@@ -139,7 +147,37 @@ class ScoreGUI(tk.Toplevel):
     def close(self):
         self.after(0, func=self.root.destroy)
 
+    def sections_one_through_three(self):
+        img_list = ["cell_aggregate_as.png", "cell_aggregate_ecl.png",
+                    "cell_first_five_combo_as.png", "cell_first_five_combo_ecl.png"]
+        directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
+        subtract_this_ca = cell_assigner.CellAssigner(
+            image_data_loader.get_these_images(dir=directory, image_list=img_list))
+        self.cell_assignment_for_score -= subtract_this_ca
 
+    def section_four(self):
+        self.sections_one_through_three()
+        img_list = ["cell_first_five_combo_as.png", "cell_first_five_combo_ecl.png"]
+        directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
+        add_this_ca = cell_assigner.CellAssigner(image_data_loader.get_these_images(dir=directory, image_list=img_list))
+        self.cell_assignment_for_score += add_this_ca
+
+    def section_five(self):
+        self.sections_one_through_three()
+        self.section_four()
+        img_list = ["cell_aggregate_as.png", "cell_aggregate_ecl.png"]
+        directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
+        add_this_ca = cell_assigner.CellAssigner(
+            image_data_loader.get_these_images(dir=directory, image_list=img_list))
+        self.cell_assignment_for_score += add_this_ca
+
+    def section_cells_update(self):
+        if self.section_manager.current_section <= 3:
+            self.sections_one_through_three()
+        elif self.section_manager.current_section == 4:
+            self.section_four()
+        else:
+            self.section_five()
 
 
 if __name__ == '__main__':
@@ -154,7 +192,7 @@ if __name__ == '__main__':
                 ("INCISION", 10),
                 ("Trancendence: COSMIC RE-FRAMED", 60)]
     section_manager = SectionManager(sections)
-    cells = cell_assigner.CellAssigner(image_data_loader.get_image_paths())
+    cells = cell_assigner.CellAssigner(image_data_loader.get_image_paths(dir="../cello_cells"))
     gui = ScoreGUI(root, section_manager, cells)
     gui.state('zoomed')
     root.mainloop()

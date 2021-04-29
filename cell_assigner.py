@@ -27,6 +27,13 @@ class CellAssigner:
                 cells.remove(cell)
         return CellAssigner(cells)
 
+    def __add__(self, other):
+        cells = self.cells.copy()
+        for cell in other.cells:
+            if cell not in self.cells:
+                cells.append(cell)
+        return CellAssigner(cells)
+
     def select_half_of_cells_randomly(self):
         for _ in range(len(self.cells) // 2):
             self.cells.remove(random.choice(self.cells))
@@ -45,3 +52,5 @@ if __name__ == "__main__":
     print(ca)
     ca2 = CellAssigner(image_data_loader.get_image_paths())
     print(ca-ca2)
+    ca2.select_half_of_cells_randomly()
+    print(ca+ca2)

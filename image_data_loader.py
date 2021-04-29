@@ -14,6 +14,7 @@ __status__ = "Testing"
 from os import listdir
 from os import path
 import random
+import pathlib
 
 def get_image_paths(dir="./final_cells"):
     return [path.join(dir, img) for img in listdir(dir) if img.endswith(".png")]
@@ -33,6 +34,15 @@ def get_these_images(dir="./cello_cells", image_list=['cell_ether_ecl.png', 'cel
         if img in listdir(dir):
             result.append(path.join(dir, img))
     return result
+
+def get_path_by_instrument_name(instrument_name):
+    if instrument_name == "violin":
+        instrument_path = pathlib.Path(__file__).parent
+        instrument_path = path.join(instrument_path, "violin_cells/")
+    else:
+        instrument_path = pathlib.Path(__file__).parent
+        instrument_path = path.join(instrument_path, "cello_cells/")
+    return instrument_path
 
 if __name__ == "__main__":
     image_paths = get_image_paths()
