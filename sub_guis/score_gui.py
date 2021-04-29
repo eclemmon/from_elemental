@@ -100,10 +100,19 @@ class ScoreGUI(tk.Toplevel):
 
     @staticmethod
     def resize_image(image):
+        """
+        Resizes the score cell image to be approximately the correct size.
+        :param image: ImageTk object
+        :return: resized ImageTk
+        """
         ratio = min(1300/image.width, 680/image.height)
         return image.resize((int(image.width*ratio), int(image.height*ratio)), Image.ANTIALIAS)
 
     def get_new_image(self):
+        """
+        Gets a new image based on the path. Excludes images that come from the same path.
+        :return: Returns an ImageTk object.
+        """
         image_path = image_data_loader.select_random_image(self.cell_assignment_for_score.cells)
         print(self.image_path, image_path)
         if image_path == self.image_path:
@@ -116,11 +125,20 @@ class ScoreGUI(tk.Toplevel):
             return ImageTk.PhotoImage(ScoreGUI.resize_image(new_image))
 
     def set_new_image(self):
+        """
+        Calls self.get_new_image() and configures the center label of the GUI to be the image.
+        :return:
+        """
         new_image = self.get_new_image()
         self.label.image = new_image
         self.label.config(image=new_image)
 
     def update_timer(self):
+        """
+        Logic for updating the timer. Takes into account the ending of the piece, and whether there has been
+        a pre-roll set.
+        :return: None
+        """
         if self.timer.get_time() == self.piece_length:
             self.timer_display.config(text="THE PIECE IS ENDING")
             self.after(0, self.end_of_piece_protocol)
@@ -134,6 +152,11 @@ class ScoreGUI(tk.Toplevel):
             self.after(1000, self.update_timer)
 
     def on_click(self):
+        """
+        When next button is clicked will remove any text from the central label and set a new image. If in section
+        one, will pass silently.
+        :return: None
+        """
         if self.section_manager.current_section == 1:
             pass
         else:
@@ -141,11 +164,22 @@ class ScoreGUI(tk.Toplevel):
             self.set_new_image()
 
     def end_of_piece_protocol(self):
+        """
+        Organizes the ending of the piece and elegantly ends the main loop.
+        :return: None
+        """
         end_seconds = 10
         self.timer_display.flash(flashes=end_seconds*4)
         self.after(end_seconds*1000, func=root.destroy)
 
     def update_section(self):
+        """
+        Logic for updating the section. If this is the first section on boot, will get appropriate time elapsed,
+        get the appropriate score cells, and call itself until the end of piece protocol. In further sections
+        The next section is loaded, the necessary cells are set and calls update_section through the after
+        function on the root.
+        :return: None
+        """
         if self.first_section:
             duration_of_section = self.section_manager.get_current_section_timing()
             self.section_cells_update()
@@ -162,13 +196,27 @@ class ScoreGUI(tk.Toplevel):
             self.after(duration_of_section*1000, func=self.update_section)
 
     def start_from(self, section_value):
+        """
+        Helper rehearsal function that sets the starting section of the piece when sections other than the start
+        of the piece are selected as the starting point.
+        :param section_value: Integer, section of the piece from IntVar in instrument_and_network_settings.py
+        :return: None
+        """
         timing = self.section_manager.start_from_section(section_value)
         self.timer.set_time(timing)
 
     def close(self):
+        """
+        Shorthand to close the whole program.
+        :return: None
+        """
         self.after(0, func=self.root.destroy)
 
     def sections_one_through_three(self):
+        """
+        Updates the cells that are available to the players by removing cells that belong in later sections.
+        :return: None
+        """
         img_list = ["cell_aggregate_as.png", "cell_aggregate_ecl.png",
                     "cell_first_five_combo_as.png", "cell_first_five_combo_ecl.png"]
         directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
@@ -177,6 +225,10 @@ class ScoreGUI(tk.Toplevel):
         self.cell_assignment_for_score = self.cell_assignment_for_score - subtract_this_ca
 
     def section_four(self):
+        """
+        Updates the cells that are available to the players by removing cells that belong in later sections.
+        :return: None
+        """
         self.sections_one_through_three()
         img_list = ["cell_first_five_combo_as.png", "cell_first_five_combo_ecl.png"]
         directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
@@ -184,7 +236,10 @@ class ScoreGUI(tk.Toplevel):
         self.cell_assignment_for_score = self.cell_assignment_for_score + add_this_ca
 
     def section_five(self):
-        self.sections_one_through_three()
+        """
+        Adds back in the remaining score cells.
+        :return: None
+        """
         self.section_four()
         img_list = ["cell_aggregate_as.png", "cell_aggregate_ecl.png"]
         directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
@@ -193,6 +248,10 @@ class ScoreGUI(tk.Toplevel):
         self.cell_assignment_for_score = self.cell_assignment_for_score + add_this_ca
 
     def section_cells_update(self):
+        """
+        A helper function that executes logical operations based on which section of the piece we are in.
+        :return: None
+        """
         if self.section_manager.current_section <= 3:
             self.sections_one_through_three()
         elif self.section_manager.current_section == 4:
