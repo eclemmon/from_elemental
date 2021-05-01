@@ -9,18 +9,27 @@ held in Aarhus and Copenhagen Denmark.
 
 ## INSTRUCTIONS FOR RUNNING THE SOFTWARE
 
+If you haven't installed Python, 
+<a href=https://www.python.org/downloads/>install it by downloading it here.</a>
+The software has been tested in Python 3.8 and up.
+
 Navigate to the directory that you want to the folder to be downloaded to in the
 CLI of your choice (e.g. terminal on mac):
 
 `cd Users/yourusernamehere/Desktop`
 
-Download the software by copying this into the CLI:
+Download the software by copying this into the CLI. You may be asked to 
+install xcode developer tools on Mac. Do so if asked:
 
 `git clone https://github.com/eclemmon/new_music_for_strings.git`
 
+Install Pillow, a necessary python package:
+
+`python3 -m pip install Pillow`
+
 Navigate into the directory:
 
-`cd score_gui`
+`cd new_music_for_strings`
 
 Run the program:
 
