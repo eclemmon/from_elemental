@@ -218,7 +218,8 @@ class ScoreGUI(tk.Toplevel):
         :return: None
         """
         img_list = ["cell_aggregate_as.png", "cell_aggregate_ecl.png",
-                    "cell_first_five_combo_as.png", "cell_first_five_combo_ecl.png"]
+                    "cell_first_five_combo_as.png", "cell_first_five_combo_ecl.png",
+                    "cell_aggregate_1", "cell_aggregate_2", "cell_first_five_1", "cell_first_five_2"]
         directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
         subtract_this_ca = cell_assigner.CellAssigner(
             image_data_loader.get_these_images(dir=directory, image_list=img_list))
@@ -230,7 +231,8 @@ class ScoreGUI(tk.Toplevel):
         :return: None
         """
         self.sections_one_through_three()
-        img_list = ["cell_first_five_combo_as.png", "cell_first_five_combo_ecl.png"]
+        img_list = ["cell_first_five_combo_as.png", "cell_first_five_combo_ecl.png", "cell_first_five_1",
+                    "cell_first_five_2"]
         directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
         add_this_ca = cell_assigner.CellAssigner(image_data_loader.get_these_images(dir=directory, image_list=img_list))
         self.cell_assignment_for_score = self.cell_assignment_for_score + add_this_ca
@@ -241,7 +243,7 @@ class ScoreGUI(tk.Toplevel):
         :return: None
         """
         self.section_four()
-        img_list = ["cell_aggregate_as.png", "cell_aggregate_ecl.png"]
+        img_list = ["cell_aggregate_as.png", "cell_aggregate_ecl.png", "cell_aggregate_1", "cell_aggregate_2"]
         directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
         add_this_ca = cell_assigner.CellAssigner(
             image_data_loader.get_these_images(dir=directory, image_list=img_list))
