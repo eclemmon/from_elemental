@@ -174,7 +174,7 @@ class ScoreGUI(tk.Toplevel):
         """
         end_seconds = 10
         self.timer_display.flash(flashes=end_seconds*4)
-        self.after(end_seconds*1000, func=root.destroy)
+        self.after(end_seconds*1000, func=self.root.destroy)
 
     def update_section(self):
         """
