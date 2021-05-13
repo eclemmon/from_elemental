@@ -11,6 +11,7 @@ __email__ = "ec.lemmon@gmail.com"
 __status__ = "Testing"
 
 import tkinter as tk
+from sub_guis import scrollable_frame
 import random
 import image_data_loader
 import cell_assigner
@@ -38,13 +39,26 @@ class ManualSettingsGui(tk.Toplevel):
         self.path = image_data_loader.get_path_by_instrument_name(root.instrument)
         self.file_names = image_data_loader.get_image_names(self.path)
 
+        # Build scrollable frame
+        # self.main_frame = tk.Frame(self)
+        # self.main_frame.grid(sticky="nwse")
+        # self.canvas = tk.Canvas(self.main_frame)
+        # self.canvas.grid(row=0, column=0, sticky="news")
+        # self.vertical_bar = tk.Scrollbar(self.main_frame, orient="vertical", command=self.canvas.yview)
+        # self.vertical_bar.grid(row=0, column=1, sticky="ns")
+        # self.canvas.configure(yscrollcommand=self.vertical_bar.set)
+        # self.canvas_frame = tk.Frame(self.canvas)
+        # self.canvas.create_window((0, 0), window=self.canvas_frame, anchor="nw", tags="self.canvas_frame")
+        self.main_frame = scrollable_frame.ScrollableFrame(self)
+        self.main_frame.grid()
+
         # Initialize instructions
         instructions_text = [
         "Violinist hits the 'randomize' button,",
         "and tells the cellist which cells have been selected.",
         "The cello player then selects the remaining cells."
         ]
-        self.header_frame = tk.Frame(self, bg="light steel blue")
+        self.header_frame = tk.Frame(self.main_frame, bg="light steel blue")
         self.header_frame.grid(row=0, columnspan=3, sticky="ew")
         for i in range(len(instructions_text)):
             instructions = tk.Label(self.header_frame, text=instructions_text[i],
@@ -54,7 +68,7 @@ class ManualSettingsGui(tk.Toplevel):
             self.header_frame.grid_columnconfigure(2, weight=1)
 
         # Initialize Selected labels
-        self.selected_frame = tk.Frame(self, bg="snow")
+        self.selected_frame = tk.Frame(self.main_frame, bg="snow")
         self.selected_frame.grid(row=1, columnspan=3, sticky="ew")
         self.is_selected = tk.Label(self.selected_frame, text="Selected", fg="steel blue", bg="snow",
                                     font=("Rosewood Std Regular", 25), pady=10, padx=10)
@@ -65,7 +79,7 @@ class ManualSettingsGui(tk.Toplevel):
         self.selected_frame.grid_columnconfigure(0, weight=1)
 
         # Build radio buttons
-        self.buttons_frame = tk.Frame(self, bg="light steel blue")
+        self.buttons_frame = tk.Frame(self.main_frame, bg="light steel blue")
         self.buttons_frame.grid(row=2, columnspan=3, sticky="ew")
         for counter, value in enumerate(self.file_names):
             button_val = tk.IntVar()
@@ -88,7 +102,7 @@ class ManualSettingsGui(tk.Toplevel):
 
 
         # Build command buttons
-        self.commands_frame = tk.Frame(self, bg="snow")
+        self.commands_frame = tk.Frame(self.main_frame, bg="snow")
         self.commands_frame.grid(row=3, columnspan=3, sticky='ew')
         self.randomize = tk.Button(self.commands_frame, text="Randomize", command=self.random_select,
                                    font=("Rosewood Std Regular", 25), padx=7, fg="steel blue", bg="snow")
@@ -102,6 +116,11 @@ class ManualSettingsGui(tk.Toplevel):
         # Padding bottom
         self.padding1 = tk.Label(self.commands_frame, pady=5, bg="snow")
         self.padding1.grid(row=1, columnspan=3)
+
+        self.update()
+        self.main_frame.resize("fit_width", height=800)
+
+
 
     def random_select(self):
         """
@@ -139,6 +158,7 @@ class ManualSettingsGui(tk.Toplevel):
                 result.append(key)
         self.cell_paths = cell_assigner.CellAssigner(image_data_loader.get_these_images(self.path, result))
         self.root.run_score_gui()
+
 
 
 if __name__ == "__main__":

@@ -20,6 +20,7 @@ import timer
 import cell_assigner
 from section_manager import SectionManager
 from sub_guis import flashable_label
+from sub_guis import scrollable_frame
 from PIL import ImageTk, Image
 
 
@@ -30,9 +31,6 @@ class ScoreGUI(tk.Toplevel):
         # initialize necessary objects.
         self.root = root
         self.protocol("WM_DELETE_WINDOW", root.destroy)
-        width = str(self.winfo_screenwidth())
-        height = str(self.winfo_screenheight())
-        self.geometry("{}x{}".format(width, height))
         self.timer = timer.Timer()
         self.preroll = timer.Timer(preroll)
         self.piece_length = section_manager.get_total_timing()
@@ -45,12 +43,15 @@ class ScoreGUI(tk.Toplevel):
         self.title('Image Viewer App')
 
         # Set initial display
+        self.scrollable_frame = scrollable_frame.ScrollableFrame(self)
+        self.scrollable_frame.grid()
+
         self.image_path = None
         if section_start == 1:
             text = "### TACET ###"
         else:
             text = ""
-        self.label_frame = tk.Frame(self, bg="white")
+        self.label_frame = tk.Frame(self.scrollable_frame, bg="white")
         self.label_frame.grid(row=1, columnspan=2, sticky="ew")
         self.label_pad1 = tk.Label(self.label_frame, fg="snow", bg="white", pady=5)
         self.label_pad1.grid(row=0, columnspan=2, sticky='ew')
@@ -61,7 +62,7 @@ class ScoreGUI(tk.Toplevel):
         self.label_frame.grid_columnconfigure(2, weight=1)
 
         # Initialize and run timer
-        self.timer_frame = tk.Frame(self, bg="light steel blue")
+        self.timer_frame = tk.Frame(self.scrollable_frame, bg="light steel blue")
         self.timer_frame.grid(row=0, columnspan=2, sticky='ew')
         self.timer_display = flashable_label.FlashableLabel(self.timer_frame, text=self.preroll.get_formatted_time(),
                                                             font=("Rosewood Std Regular", 50),
@@ -79,7 +80,7 @@ class ScoreGUI(tk.Toplevel):
         self.after((self.preroll.get_time()+1)*1000, self.update_section)
 
         # Set kill button
-        self.buttons_frame = tk.Frame(self, bg="light steel blue")
+        self.buttons_frame = tk.Frame(self.scrollable_frame, bg="light steel blue")
         self.buttons_frame.grid(row=2, columnspan=2, sticky='ew')
         self.buttons_pad1 = tk.Label(self.buttons_frame, fg="snow", bg="light steel blue", pady=5)
         self.buttons_pad1.grid(row=0, columnspan=2, sticky='ew')
@@ -97,6 +98,8 @@ class ScoreGUI(tk.Toplevel):
         self.buttons_pad2.grid(row=2, columnspan=2, sticky='ew')
         self.buttons_frame.grid_columnconfigure(0, weight=1)
         self.buttons_frame.grid_columnconfigure(2, weight=1)
+
+        self.resize()
 
     @staticmethod
     def resize_image(image):
@@ -162,6 +165,7 @@ class ScoreGUI(tk.Toplevel):
         else:
             self.label.config(text="")
             self.set_new_image()
+        self.resize()
 
     def end_of_piece_protocol(self):
         """
@@ -260,6 +264,9 @@ class ScoreGUI(tk.Toplevel):
             self.section_four()
         else:
             self.section_five()
+
+    def resize(self):
+        self.scrollable_frame.resize(fit="fit_all")
 
 
 if __name__ == '__main__':
