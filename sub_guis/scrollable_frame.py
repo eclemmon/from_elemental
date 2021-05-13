@@ -1,12 +1,14 @@
+"""
+Scrollable frame module
+H/t TheLizzard
+https://stackoverflow.com/questions/66213754/unable-to-scroll-frame-using-mouse-wheel-adding-horizontal-scrollbar/66215091#66215091
+"""
+
 import tkinter as tk
 
 
 class ScrollableFrame(tk.Frame):
     """
-    There is no way to scroll <tkinter.Frame> so we are
-    going to create a canvas and place the frame there.
-    Scrolling the canvas will give the illution of scrolling
-    the frame
     Partly taken from:
         https://blog.tecladocode.com/tkinter-scrollable-frames/
         https://stackoverflow.com/a/17457843/11106801
