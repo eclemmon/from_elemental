@@ -36,13 +36,16 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         self.instrument = tk.IntVar()
         self.local_network_or_not = tk.IntVar()
         self.preroll = tk.StringVar()
+        self.image_trigger = tk.IntVar()
 
         # Initialize header
         self.header_frame = tk.Frame(self, bg="light steel blue")
         self.header_frame.grid(row=0, columnspan=3, sticky='ew')
         self.v_vcl_selector = tk.Label(self.header_frame, text="SELECT YOUR INSTRUMENT",
-                                       font=("Rosewood Std Regular", 50), pady=10, padx=10, fg="snow", bg="light steel blue")
-        self.v_vcl_selector.grid(row=0, columnspan=3)
+                                       font=("Rosewood Std Regular", 40), pady=10, padx=10, fg="snow", bg="light steel blue")
+        self.v_vcl_selector.grid(row=1, columnspan=3)
+        self.header_frame.grid_columnconfigure(0, weight=1)
+        self.header_frame.grid_columnconfigure(2, weight=1)
 
         # Set up radio buttons for instruments
         self.instrument_buttons_frame = tk.Frame(self, bg="snow")
@@ -60,7 +63,7 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         self.networked_or_not_text_frame = tk.Frame(self, bg="light steel blue")
         self.networked_or_not_text_frame.grid(row=2, columnspan=3, sticky='ew')
         self.networked_or_not_text = tk.Label(self.networked_or_not_text_frame, text="NETWORK SETTINGS",
-                                            font=("Rosewood Std Regular", 50), pady=10, padx=10,
+                                            font=("Rosewood Std Regular", 20), pady=5, padx=10,
                                             fg="snow", bg ="light steel blue")
         self.networked_or_not_text.grid(row=1, columnspan=3)
         self.networked_or_not_text_frame.grid_columnconfigure(0, weight=1)
@@ -78,11 +81,35 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         self.network_button_frame.grid_columnconfigure(0, weight=1)
         self.network_button_frame.grid_columnconfigure(3, weight=1)
 
+        # Initialize label for next image trigger selection
+        self.image_trigger_selection_frame = tk.Frame(self, bg="light steel blue")
+        self.image_trigger_selection_frame.grid(row=4, columnspan=3, sticky='ew')
+        self.image_trigger_selection_label = tk.Label(self.image_trigger_selection_frame, text="TRIGGER NEXT IMAGE OPTIONS",
+                                              font=("Rosewood Std Regular", 20), pady=5, padx=10,
+                                              fg="snow", bg="light steel blue")
+        self.image_trigger_selection_label.grid(row=0, column=1)
+        self.image_trigger_selection_frame.grid_columnconfigure(0, weight=1)
+        self.image_trigger_selection_frame.grid_columnconfigure(2, weight=1)
+
+        # Radio buttons for image trigger selection
+        self.image_trigger_button_frame = tk.Frame(self, bg="snow")
+        self.image_trigger_button_frame.grid(row=5, columnspan=3, sticky="ew")
+        image_trigger_label_texts = ["Foot Pedal: ", "Space Bar: ", "Next Button: "]
+        img_trig_row = 0
+        for i in image_trigger_label_texts:
+            label1 = tk.Label(self.image_trigger_button_frame, text=i, font=("Rosewood Std Regular", 20),
+                              pady=5, fg="steel blue", bg="snow")
+            label1.grid(row=img_trig_row, column=1, sticky="w")
+            button = tk.Radiobutton(self.image_trigger_button_frame, variable=self.image_trigger, value=img_trig_row+1,
+                                    pady=5, fg="steel blue", bg="snow")
+            button.grid(row=img_trig_row, column=2, sticky="w")
+            img_trig_row += 1
+
         # Pre-roll option
         self.preroll_label_frame = tk.Frame(self, bg="light steel blue")
-        self.preroll_label_frame.grid(row=4, columnspan=3, sticky='ew')
+        self.preroll_label_frame.grid(row=6, columnspan=3, sticky='ew')
         self.preroll_label = tk.Label(self.preroll_label_frame, text="AMOUNT OF PRE-ROLL", pady=10, padx=5,
-                                      font=("Rosewood Std Regular", 25), fg="snow",
+                                      font=("Rosewood Std Regular", 20), fg="snow",
                                       bg="light steel blue")
         self.preroll_label.grid(row=1, columnspan=2)
         self.preroll_entry = tk.Entry(self.preroll_label_frame, textvariable=self.preroll)
@@ -94,7 +121,7 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         row = 0
         self.section_selection = tk.IntVar()
         self.fill_frame = tk.Frame(self, bg="snow")
-        self.fill_frame.grid(row=5, columnspan=3, sticky='ew')
+        self.fill_frame.grid(row=7, columnspan=3, sticky='ew')
         self.section_selection_canvas = tk.Canvas(self.fill_frame, width=self.winfo_width(), height=self.winfo_height())
         self.section_selection_canvas.grid(row=0, sticky='ew')
         self.section_selection_frame = tk.Frame(self.section_selection_canvas, bg="snow")
@@ -104,21 +131,21 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
             string1 = "Section {}:".format(i+1)
             string2 = "{}".format(self.root.sections_manager.sections[i+1][0])
             # print(string)
-            label1 = tk.Label(self.section_selection_frame, text=string1, font=("Rosewood Std Regular", 20),
+            label1 = tk.Label(self.section_selection_frame, text=string1, font=("Rosewood Std Regular", 15),
                               pady=10, fg="steel blue", bg="snow")
             label1.grid(row=row, column=1, sticky="w")
             button = tk.Radiobutton(self.section_selection_frame, variable=self.section_selection, value=i+1,
                                     pady=10, fg="steel blue", bg="snow")
             button.grid(row=row, column=2, sticky="w")
-            label2 = tk.Label(self.section_selection_frame, text=string2, font=("Rosewood Std Regular", 20), pady=10,
+            label2 = tk.Label(self.section_selection_frame, text=string2, font=("Rosewood Std Regular", 15), pady=10,
                               fg="steel blue", bg="snow")
             label2.grid(row=row, column=3, sticky="w")
             row += 1
 
         # Submit button
         self.submit_button_frame = tk.Frame(self, bg="light steel blue")
-        self.submit_button_frame.grid(row=6, columnspan=3, sticky='ew')
-        self.submit = tk.Button(self.submit_button_frame, text="Submit", command=self.on_submit, font=("Rosewood Std Regular", 50))
+        self.submit_button_frame.grid(row=8, columnspan=3, sticky='ew')
+        self.submit = tk.Button(self.submit_button_frame, text="Submit", command=self.on_submit, font=("Rosewood Std Regular", 20))
         self.submit.grid(row=1, column=1)
         self.submitpad1 = tk.Label(self.submit_button_frame, bg="light steel blue", pady=5)
         self.submitpad1.grid(row=0, columnspan=3)
@@ -141,12 +168,14 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         """
         print("instrument: ", self.instrument.get())
         print("section selection: ", self.section_selection.get())
+        print("Trigger Option: ", self.image_trigger.get())
         try:
             if not (int(self.preroll.get()) > 0):
                 tk.Label(self, text="You must select an instrument!").grid(row=6, columnspan=2)
             else:
                 self.root.preroll = int(self.preroll.get())
                 self.root.section_start = self.section_selection.get()
+                self.root.image_trigger = self.image_trigger.get()
                 if self.instrument.get() == 1:
                     self.if_cello()
                 elif self.instrument.get() == 2:

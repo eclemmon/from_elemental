@@ -33,6 +33,7 @@ class Main(tk.Tk):
         self.score_gui = None
         self.preroll = None
         self.section_start = None
+        self.image_trigger = None
         self.instrument_net_settings = instrument_and_network_settings_gui.InstrumentNetworkSettingsGui(self)
         self.withdraw()
 
@@ -50,7 +51,8 @@ class Main(tk.Tk):
         """
         self.settings.withdraw()
         self.score_gui = score_gui.ScoreGUI(self, self.sections_manager, self.settings.cell_paths,
-                                            preroll=self.preroll, section_start=self.section_start)
+                                            preroll=self.preroll, section_start=self.section_start,
+                                            image_trigger=self.image_trigger)
 
     def get_settings_automatically_via_local_network(self):
         """

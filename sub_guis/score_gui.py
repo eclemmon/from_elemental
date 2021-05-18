@@ -26,7 +26,7 @@ from PIL import ImageTk, Image
 
 class ScoreGUI(tk.Toplevel):
     def __init__(self, root, section_manager: SectionManager, cell_assigner: cell_assigner.CellAssigner,
-                 preroll=5, section_start=1):
+                 preroll=5, section_start=1, image_trigger=None):
         tk.Toplevel.__init__(self)
         # initialize necessary objects.
         self.root = root
@@ -38,6 +38,14 @@ class ScoreGUI(tk.Toplevel):
         self.start_from(section_start)
         self.cell_assignment_for_score = cell_assigner
         self.first_section = True
+        self.image_trigger = image_trigger
+
+        if self.image_trigger == 1:
+            self.bind("<Button-1>", self.on_event)
+        elif self.image_trigger == 2:
+            self.bind("<space>", self.on_event)
+        else:
+            pass
 
         # Title of window
         self.title('Image Viewer App')
@@ -98,6 +106,7 @@ class ScoreGUI(tk.Toplevel):
         self.buttons_pad2.grid(row=2, columnspan=2, sticky='ew')
         self.buttons_frame.grid_columnconfigure(0, weight=1)
         self.buttons_frame.grid_columnconfigure(2, weight=1)
+        # Set event call for on_click()
 
         self.resize()
 
@@ -166,6 +175,9 @@ class ScoreGUI(tk.Toplevel):
             self.label.config(text="")
             self.set_new_image()
         self.resize()
+
+    def on_event(self, event):
+        self.on_click()
 
     def end_of_piece_protocol(self):
         """
