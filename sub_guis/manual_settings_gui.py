@@ -22,7 +22,8 @@ import section_manager
 
 
 class ManualSettingsGui(tk.Toplevel):
-    def __init__(self, root, color_2="snow", color_1="light steel blue", color_3="steel blue"):
+    def __init__(self, root, color_2="snow", color_1="light steel blue", color_3="steel blue",
+                 font="Rosewood Std Regular"):
         """
         Initializes the manual settings GUI.
         :param root: the root of the tkinter GUI app, comes from main.py.
@@ -51,7 +52,7 @@ class ManualSettingsGui(tk.Toplevel):
         self.header_frame.grid(row=0, columnspan=3, sticky="ew")
         for i in range(len(instructions_text)):
             instructions = tk.Label(self.header_frame, text=instructions_text[i],
-                                    font=("Rosewood Std Regular", 25), fg=color_2, bg=color_1, padx=5)
+                                    font=(font, 25), fg=color_2, bg=color_1, padx=5)
             instructions.grid(row=i)
             self.header_frame.grid_columnconfigure(0, weight=1)
             self.header_frame.grid_columnconfigure(2, weight=1)
@@ -60,10 +61,10 @@ class ManualSettingsGui(tk.Toplevel):
         self.selected_frame = tk.Frame(self.main_frame, bg=color_2)
         self.selected_frame.grid(row=1, columnspan=3, sticky="ew")
         self.is_selected = tk.Label(self.selected_frame, text="Selected", fg=color_3, bg=color_2,
-                                    font=("Rosewood Std Regular", 25), pady=10, padx=10)
+                                    font=(font, 25), pady=10, padx=10)
         self.is_selected.grid(row=0, column=1, sticky="w")
         self.is_not_selected = tk.Label(self.selected_frame, text="Not Selected", fg=color_3, bg=color_2,
-                                        font=("Rosewood Std Regular", 25), pady=10, padx=10)
+                                        font=(font, 25), pady=10, padx=10)
         self.is_not_selected.grid(row=0, column=2, sticky="w")
         self.selected_frame.grid_columnconfigure(0, weight=1)
 
@@ -72,15 +73,15 @@ class ManualSettingsGui(tk.Toplevel):
         self.buttons_frame.grid(row=2, columnspan=3, sticky="ew")
         for counter, value in enumerate(self.file_names):
             button_val = tk.IntVar()
-            label = tk.Label(self.buttons_frame, text=value, font=("Rosewood Std Regular", 15),
+            label = tk.Label(self.buttons_frame, text=value, font=(font, 15),
                              fg=color_2, bg=color_1, pady=5, padx=22)
             label.grid(row=counter, column=1, sticky=tk.E)
             radio_button1 = tk.Radiobutton(self.buttons_frame, text="", variable=button_val, value=1,
-                                           font=("Rosewood Std Regular", 10), pady=5, selectcolor="Black",
+                                           font=(font, 10), pady=5, selectcolor="Black",
                                            fg=color_2, bg=color_1, )
             radio_button1.grid(row=counter, column=2)
             radio_button2 = tk.Radiobutton(self.buttons_frame, text="", variable=button_val, value=2,
-                                           font=("Rosewood Std Regular", 10), pady=5, selectcolor="Black",
+                                           font=(font, 10), pady=5, selectcolor="Black",
                                            fg=color_2, bg=color_1, )
             radio_button2.grid(row=counter, column=3)
 
@@ -94,10 +95,10 @@ class ManualSettingsGui(tk.Toplevel):
         self.commands_frame = tk.Frame(self.main_frame, bg=color_2)
         self.commands_frame.grid(row=3, columnspan=3, sticky='ew')
         self.randomize = tk.Button(self.commands_frame, text="Randomize", command=self.random_select,
-                                   font=("Rosewood Std Regular", 25), padx=7, fg=color_3, bg=color_2)
+                                   font=(font, 25), padx=7, fg=color_3, bg=color_2)
         self.randomize.grid(row=0, column=1)
         self.submit = tk.Button(self.commands_frame, text="Submit", command=self.on_submit,
-                                font=("Rosewood Std Regular", 25), padx=7, fg=color_3, bg=color_2)
+                                font=(font, 25), padx=7, fg=color_3, bg=color_2)
         self.submit.grid(row=0, column=2)
         self.commands_frame.grid_columnconfigure(0, weight=1)
         self.commands_frame.grid_columnconfigure(3, weight=1)

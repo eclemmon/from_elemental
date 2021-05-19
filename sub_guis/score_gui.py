@@ -27,7 +27,7 @@ from PIL import ImageTk, Image
 class ScoreGUI(tk.Toplevel):
     def __init__(self, root, section_manager: SectionManager, cell_assigner: cell_assigner.CellAssigner,
                  preroll=5, section_start=1, image_trigger=None, color_3="steel blue", color_1="light steel blue",
-                 color_2="snow"):
+                 color_2="snow", font="Rosewood Std Regular"):
         tk.Toplevel.__init__(self)
         # initialize necessary objects.
         self.root = root
@@ -64,7 +64,7 @@ class ScoreGUI(tk.Toplevel):
         self.label_frame.grid(row=1, columnspan=2, sticky="ew")
         self.label_pad1 = tk.Label(self.label_frame, fg=color_2, bg="white", pady=5)
         self.label_pad1.grid(row=0, columnspan=2, sticky='ew')
-        self.label = tk.Label(self.label_frame, text=text, pady=5, font=("Rosewood Std Regular", 50),
+        self.label = tk.Label(self.label_frame, text=text, pady=5, font=(font, 50),
                               fg=color_3, bg="white")
         self.label.grid(row=0, column=1, columnspan=2)
         self.label_frame.grid_columnconfigure(0, weight=1)
@@ -74,14 +74,14 @@ class ScoreGUI(tk.Toplevel):
         self.timer_frame = tk.Frame(self.scrollable_frame, bg=color_1)
         self.timer_frame.grid(row=0, columnspan=2, sticky='ew')
         self.timer_display = flashable_label.FlashableLabel(self.timer_frame, text=self.preroll.get_formatted_time(),
-                                                            font=("Rosewood Std Regular", 50),
+                                                            font=(font, 25),
                                                             fg=color_2, bg=color_1)
         self.timer_display.grid(row=0, column=1)
         self.update_timer()
 
         # Set section text
         self.section = flashable_label.FlashableLabel(self.timer_frame, text="PRE-ROLL",
-                                                      font=("Rosewood Std Regular", 50),
+                                                      font=(font, 25),
                                                       fg=color_2, bg=color_1)
         self.section.grid(row=0, column=2)
         self.timer_frame.grid_columnconfigure(0, weight=1)
@@ -90,23 +90,23 @@ class ScoreGUI(tk.Toplevel):
 
         # Set kill button
         self.buttons_frame = tk.Frame(self.scrollable_frame, bg=color_1)
-        self.buttons_frame.grid(row=2, columnspan=2, sticky='ew')
-        self.buttons_pad1 = tk.Label(self.buttons_frame, fg=color_2, bg=color_1, pady=5)
-        self.buttons_pad1.grid(row=0, columnspan=2, sticky='ew')
-        self.close_program = tk.Button(self.buttons_frame, text="QUIT", font=("Rosewood Std Regular", 50),
+        self.buttons_frame.grid(row=2, columnspan=3, sticky='ew')
+        self.buttons_pad1 = tk.Label(self.buttons_frame, fg=color_2, bg=color_1, pady=2)
+        self.buttons_pad1.grid(row=0, columnspan=3, sticky='ew')
+        self.close_program = tk.Button(self.buttons_frame, text="QUIT", font=(font, 25),
                                        command=self.close, border=20, activeforeground="black", padx=7,
                                        fg=color_1, bg=color_2)
         self.close_program.grid(row=1, column=0)
 
         # Set next button
-        self.next_button = tk.Button(self.buttons_frame, text="NEXT CELL", font=("Rosewood Std Regular", 50),
+        self.next_button = tk.Button(self.buttons_frame, text="NEXT CELL", font=(font, 25),
                                      command=self.on_click, border=20, activeforeground="black", padx=7,
                                      fg=color_1, bg=color_2)
         self.next_button.grid(row=1, column=1)
-        self.buttons_pad2 = tk.Label(self.buttons_frame, fg=color_2, bg=color_1, pady=5)
+        self.buttons_pad2 = tk.Label(self.buttons_frame, fg=color_2, bg=color_1, pady=2)
         self.buttons_pad2.grid(row=2, columnspan=2, sticky='ew')
         self.buttons_frame.grid_columnconfigure(0, weight=1)
-        self.buttons_frame.grid_columnconfigure(2, weight=1)
+        self.buttons_frame.grid_columnconfigure(3, weight=1)
         # Set event call for on_click()
 
         self.resize()

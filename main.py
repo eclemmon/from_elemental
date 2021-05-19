@@ -35,14 +35,14 @@ class Main(tk.Tk):
         self.section_start = None
         self.image_trigger = None
         # Set some global styles
-        self.color_1 = "light steel blue"
-        self.color_2 = "snow"
-        self.color_3 = "steel blue"
+        self.color_1 = "#0A2463"
+        self.color_2 = "#FFFAFF"
+        self.color_3 = "#009FFD"
+        self.font = "THE LED DISPLAY ST"
         self.instrument_net_settings = instrument_and_network_settings_gui.\
-            InstrumentNetworkSettingsGui(self, color_1=self.color_1, color_2=self.color_2, color_3=self.color_3)
+            InstrumentNetworkSettingsGui(self, color_1=self.color_1, color_2=self.color_2, color_3=self.color_3,
+                                         font=self.font)
         self.withdraw()
-
-
 
     def run(self):
         """
@@ -60,7 +60,7 @@ class Main(tk.Tk):
         self.score_gui = score_gui.ScoreGUI(self, self.sections_manager, self.settings.cell_paths,
                                             preroll=self.preroll, section_start=self.section_start,
                                             image_trigger=self.image_trigger, color_1=self.color_1,
-                                            color_2=self.color_2, color_3=self.color_3)
+                                            color_2=self.color_2, color_3=self.color_3, font=self.font)
 
     def get_settings_automatically_via_local_network(self):
         """
@@ -69,7 +69,7 @@ class Main(tk.Tk):
         """
         self.instrument_net_settings.withdraw()
         self.settings = server_settings_gui.ServerSettingsGUI(self, color_1=self.color_1, color_2=self.color_2,
-                                                              color_3=self.color_3)
+                                                              color_3=self.color_3, font=self.font)
 
     def manually_set_settings(self):
         """
@@ -78,8 +78,8 @@ class Main(tk.Tk):
         :return: None
         """
         self.instrument_net_settings.withdraw()
-        self.settings = manual_settings_gui.ManualSettingsGui(self, color_1=self.color_1,
-                                                              color_2=self.color_2, color_3=self.color_3)
+        self.settings = manual_settings_gui.ManualSettingsGui(self, color_1=self.color_1, color_2=self.color_2,
+                                                              color_3=self.color_3, font=self.font)
 
 
 if __name__ == "__main__":
