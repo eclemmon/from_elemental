@@ -22,7 +22,7 @@ import section_manager
 
 
 class ManualSettingsGui(tk.Toplevel):
-    def __init__(self, root):
+    def __init__(self, root, color_2="snow", color_1="light steel blue", color_3="steel blue"):
         """
         Initializes the manual settings GUI.
         :param root: the root of the tkinter GUI app, comes from main.py.
@@ -38,17 +38,6 @@ class ManualSettingsGui(tk.Toplevel):
         # Determine the image paths based on the instrument selected in root.instrument
         self.path = image_data_loader.get_path_by_instrument_name(root.instrument)
         self.file_names = image_data_loader.get_image_names(self.path)
-
-        # Build scrollable frame
-        # self.main_frame = tk.Frame(self)
-        # self.main_frame.grid(sticky="nwse")
-        # self.canvas = tk.Canvas(self.main_frame)
-        # self.canvas.grid(row=0, column=0, sticky="news")
-        # self.vertical_bar = tk.Scrollbar(self.main_frame, orient="vertical", command=self.canvas.yview)
-        # self.vertical_bar.grid(row=0, column=1, sticky="ns")
-        # self.canvas.configure(yscrollcommand=self.vertical_bar.set)
-        # self.canvas_frame = tk.Frame(self.canvas)
-        # self.canvas.create_window((0, 0), window=self.canvas_frame, anchor="nw", tags="self.canvas_frame")
         self.main_frame = scrollable_frame.ScrollableFrame(self)
         self.main_frame.grid()
 
@@ -58,41 +47,41 @@ class ManualSettingsGui(tk.Toplevel):
         "and tells the cellist which cells have been selected.",
         "The cello player then selects the remaining cells."
         ]
-        self.header_frame = tk.Frame(self.main_frame, bg="light steel blue")
+        self.header_frame = tk.Frame(self.main_frame, bg=color_1)
         self.header_frame.grid(row=0, columnspan=3, sticky="ew")
         for i in range(len(instructions_text)):
             instructions = tk.Label(self.header_frame, text=instructions_text[i],
-                                         font=("Rosewood Std Regular", 25), fg="snow", bg="light steel blue", padx=5)
+                                    font=("Rosewood Std Regular", 25), fg=color_2, bg=color_1, padx=5)
             instructions.grid(row=i)
             self.header_frame.grid_columnconfigure(0, weight=1)
             self.header_frame.grid_columnconfigure(2, weight=1)
 
         # Initialize Selected labels
-        self.selected_frame = tk.Frame(self.main_frame, bg="snow")
+        self.selected_frame = tk.Frame(self.main_frame, bg=color_2)
         self.selected_frame.grid(row=1, columnspan=3, sticky="ew")
-        self.is_selected = tk.Label(self.selected_frame, text="Selected", fg="steel blue", bg="snow",
+        self.is_selected = tk.Label(self.selected_frame, text="Selected", fg=color_3, bg=color_2,
                                     font=("Rosewood Std Regular", 25), pady=10, padx=10)
         self.is_selected.grid(row=0, column=1, sticky="w")
-        self.is_not_selected = tk.Label(self.selected_frame, text="Not Selected", fg="steel blue", bg="snow",
+        self.is_not_selected = tk.Label(self.selected_frame, text="Not Selected", fg=color_3, bg=color_2,
                                         font=("Rosewood Std Regular", 25), pady=10, padx=10)
         self.is_not_selected.grid(row=0, column=2, sticky="w")
         self.selected_frame.grid_columnconfigure(0, weight=1)
 
         # Build radio buttons
-        self.buttons_frame = tk.Frame(self.main_frame, bg="light steel blue")
+        self.buttons_frame = tk.Frame(self.main_frame, bg=color_1)
         self.buttons_frame.grid(row=2, columnspan=3, sticky="ew")
         for counter, value in enumerate(self.file_names):
             button_val = tk.IntVar()
             label = tk.Label(self.buttons_frame, text=value, font=("Rosewood Std Regular", 15),
-                             fg="snow", bg="light steel blue", pady=5, padx=22)
+                             fg=color_2, bg=color_1, pady=5, padx=22)
             label.grid(row=counter, column=1, sticky=tk.E)
             radio_button1 = tk.Radiobutton(self.buttons_frame, text="", variable=button_val, value=1,
                                            font=("Rosewood Std Regular", 10), pady=5, selectcolor="Black",
-                                           fg="snow", bg="light steel blue",)
+                                           fg=color_2, bg=color_1, )
             radio_button1.grid(row=counter, column=2)
             radio_button2 = tk.Radiobutton(self.buttons_frame, text="", variable=button_val, value=2,
                                            font=("Rosewood Std Regular", 10), pady=5, selectcolor="Black",
-                                           fg="snow", bg="light steel blue",)
+                                           fg=color_2, bg=color_1, )
             radio_button2.grid(row=counter, column=3)
 
             self.radio_button_values[value] = button_val
@@ -102,19 +91,19 @@ class ManualSettingsGui(tk.Toplevel):
 
 
         # Build command buttons
-        self.commands_frame = tk.Frame(self.main_frame, bg="snow")
+        self.commands_frame = tk.Frame(self.main_frame, bg=color_2)
         self.commands_frame.grid(row=3, columnspan=3, sticky='ew')
         self.randomize = tk.Button(self.commands_frame, text="Randomize", command=self.random_select,
-                                   font=("Rosewood Std Regular", 25), padx=7, fg="steel blue", bg="snow")
+                                   font=("Rosewood Std Regular", 25), padx=7, fg=color_3, bg=color_2)
         self.randomize.grid(row=0, column=1)
         self.submit = tk.Button(self.commands_frame, text="Submit", command=self.on_submit,
-                                font=("Rosewood Std Regular", 25), padx=7, fg="steel blue", bg="snow")
+                                font=("Rosewood Std Regular", 25), padx=7, fg=color_3, bg=color_2)
         self.submit.grid(row=0, column=2)
         self.commands_frame.grid_columnconfigure(0, weight=1)
         self.commands_frame.grid_columnconfigure(3, weight=1)
 
         # Padding bottom
-        self.padding1 = tk.Label(self.commands_frame, pady=5, bg="snow")
+        self.padding1 = tk.Label(self.commands_frame, pady=5, bg=color_2)
         self.padding1.grid(row=1, columnspan=3)
 
         self.update()

@@ -34,8 +34,15 @@ class Main(tk.Tk):
         self.preroll = None
         self.section_start = None
         self.image_trigger = None
-        self.instrument_net_settings = instrument_and_network_settings_gui.InstrumentNetworkSettingsGui(self)
+        # Set some global styles
+        self.color_1 = "light steel blue"
+        self.color_2 = "snow"
+        self.color_3 = "steel blue"
+        self.instrument_net_settings = instrument_and_network_settings_gui.\
+            InstrumentNetworkSettingsGui(self, color_1=self.color_1, color_2=self.color_2, color_3=self.color_3)
         self.withdraw()
+
+
 
     def run(self):
         """
@@ -52,7 +59,8 @@ class Main(tk.Tk):
         self.settings.withdraw()
         self.score_gui = score_gui.ScoreGUI(self, self.sections_manager, self.settings.cell_paths,
                                             preroll=self.preroll, section_start=self.section_start,
-                                            image_trigger=self.image_trigger)
+                                            image_trigger=self.image_trigger, color_1=self.color_1,
+                                            color_2=self.color_2, color_3=self.color_3)
 
     def get_settings_automatically_via_local_network(self):
         """
@@ -60,7 +68,8 @@ class Main(tk.Tk):
         :return: None
         """
         self.instrument_net_settings.withdraw()
-        self.settings = server_settings_gui.ServerSettingsGUI(self)
+        self.settings = server_settings_gui.ServerSettingsGUI(self, color_1=self.color_1, color_2=self.color_2,
+                                                              color_3=self.color_3)
 
     def manually_set_settings(self):
         """
@@ -69,7 +78,8 @@ class Main(tk.Tk):
         :return: None
         """
         self.instrument_net_settings.withdraw()
-        self.settings = manual_settings_gui.ManualSettingsGui(self)
+        self.settings = manual_settings_gui.ManualSettingsGui(self, color_1=self.color_1,
+                                                              color_2=self.color_2, color_3=self.color_3)
 
 
 if __name__ == "__main__":
