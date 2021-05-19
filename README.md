@@ -16,7 +16,7 @@ The software has been tested in Python 3.8 and up.
 Navigate to the directory that you want to the folder to be downloaded to in the
 CLI of your choice (e.g. terminal on mac):
 
-`cd Users/yourusernamehere/Desktop`
+`cd Users/your_user_name_here/Desktop`
 
 Download the software by copying this into the CLI. You may be asked to 
 install xcode developer tools on Mac. Do so if asked:
@@ -54,6 +54,20 @@ the scores available to each player.
 
 If the players are not co-located or not on the same local network,
 they can set the score distribution manually.
+
+###### TRIGGER NEXT IMAGE OPTIONS
+
+The GUI offers three means by which a performer can select next the next image.
+If the performer is using a page turning foot pedal (<a href=https://www.pageflip.com/>like so</a>),
+the performer can map the foot pedal to the left mouse button on their computer
+and tapping the pedal with the mouse cursor over the window will get the next
+image when the 'foot pedal' option is selected. The 'space bar' option is a 
+convenience option for performance if the performer has no foot pedal available 
+to them. In this case, the space bar will be an available trigger button that 
+gets the next graphic or notated cell since the spacebar is a large key and 
+towards the front of a laptop's keyboard. The 'next button' option, will only
+get images when the large 'next' button in the window is clicked. In all cases
+the next button will still work.
 
 ###### AMOUNT OF PRE-ROLL
 
@@ -109,8 +123,6 @@ assigned cells at random.
 
 ###### <a href=https://youtu.be/SMe_E7PTY20>No Local Network</a>
 ###### <a href=https://youtu.be/Mm_J5_zRtwU>Local Network</a>
-
-
 
 If you have any questions about this software, feel free to contact
 me at `ec.lemmon@gmail.com`

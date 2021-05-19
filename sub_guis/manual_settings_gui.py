@@ -90,7 +90,6 @@ class ManualSettingsGui(tk.Toplevel):
         self.buttons_frame.grid_columnconfigure(2, weight=1)
         self.buttons_frame.grid_columnconfigure(3, weight=1)
 
-
         # Build command buttons
         self.commands_frame = tk.Frame(self.main_frame, bg=color_2)
         self.commands_frame.grid(row=3, columnspan=3, sticky='ew')
