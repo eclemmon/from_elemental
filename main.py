@@ -38,10 +38,11 @@ class Main(tk.Tk):
         self.color_1 = "#0A2463"
         self.color_2 = "#FFFAFF"
         self.color_3 = "#009FFD"
-        self.font = "THE LED DISPLAY ST"
+        self.font_header = "THE LED DISPLAY ST"
+        self.font_text = "LOTTE PAPERFANG"
         self.instrument_net_settings = instrument_and_network_settings_gui.\
             InstrumentNetworkSettingsGui(self, color_1=self.color_1, color_2=self.color_2, color_3=self.color_3,
-                                         font=self.font)
+                                         font_header=self.font_header, font_text=self.font_text)
         self.withdraw()
 
     def run(self):
@@ -60,7 +61,8 @@ class Main(tk.Tk):
         self.score_gui = score_gui.ScoreGUI(self, self.sections_manager, self.settings.cell_paths,
                                             preroll=self.preroll, section_start=self.section_start,
                                             image_trigger=self.image_trigger, color_1=self.color_1,
-                                            color_2=self.color_2, color_3=self.color_3, font=self.font)
+                                            color_2=self.color_2, color_3=self.color_3, font_header=self.font_header,
+                                            font_text=self.font_text)
 
     def get_settings_automatically_via_local_network(self):
         """
@@ -69,7 +71,8 @@ class Main(tk.Tk):
         """
         self.instrument_net_settings.withdraw()
         self.settings = server_settings_gui.ServerSettingsGUI(self, color_1=self.color_1, color_2=self.color_2,
-                                                              color_3=self.color_3, font=self.font)
+                                                              color_3=self.color_3, font_header=self.font_header,
+                                                              font_text=self.font_text)
 
     def manually_set_settings(self):
         """
@@ -79,7 +82,8 @@ class Main(tk.Tk):
         """
         self.instrument_net_settings.withdraw()
         self.settings = manual_settings_gui.ManualSettingsGui(self, color_1=self.color_1, color_2=self.color_2,
-                                                              color_3=self.color_3, font=self.font)
+                                                              color_3=self.color_3, font_header=self.font_header,
+                                                              font_text=self.font_text)
 
 
 if __name__ == "__main__":
