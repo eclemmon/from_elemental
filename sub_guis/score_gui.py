@@ -206,6 +206,8 @@ class ScoreGUI(tk.Toplevel):
             self.first_section = False
         else:
             self.section_manager.next()
+            if self.section_manager.current_section >= 4:
+                self.on_click()
             self.section_cells_update()
             duration_of_section = self.section_manager.get_current_section_timing()
             self.section.config(text=self.section_manager.get_current_section_name())
