@@ -40,6 +40,9 @@ class ScoreGUI(tk.Toplevel):
         self.cell_assignment_for_score = cell_assigner
         self.first_section = True
         self.image_trigger = image_trigger
+        self.geometry('+{}+{}'.format('0', '0'))
+        self.grid_rowconfigure(0, minsize=800, weight=1)
+        self.grid_columnconfigure(0, minsize=1400, weight=1)
 
         if self.image_trigger == 1:
             self.bind("<Button-1>", self.on_event)
@@ -53,19 +56,21 @@ class ScoreGUI(tk.Toplevel):
 
         # Set initial display
         self.scrollable_frame = scrollable_frame.ScrollableFrame(self)
-        self.scrollable_frame.grid()
-
+        self.scrollable_frame.grid(row=0, column=0, sticky='nsew')
         self.image_path = None
+
         if section_start == 1:
             text = "### TACET ###"
         else:
             text = ""
+
+        # Set up label for image and starting tacet text
         self.label_frame = tk.Frame(self.scrollable_frame, bg="white")
-        self.label_frame.grid(row=1, columnspan=2, sticky="ew")
+        self.label_frame.grid(row=1, columnspan=2, sticky="nsew")
         self.label_pad1 = tk.Label(self.label_frame, fg=color_2, bg="white", pady=5)
         self.label_pad1.grid(row=0, columnspan=2, sticky='ew')
-        self.label = tk.Label(self.label_frame, text=text, pady=5, font=(font_header, 50),
-                              fg=color_3, bg="white")
+        self.label = flashable_label.FlashableLabel(self.label_frame, text=text, pady=5, font=(font_header, 50),
+                                                    fg=color_3, bg="white")
         self.label.grid(row=0, column=1, columnspan=2)
         self.label_frame.grid_columnconfigure(0, weight=1)
         self.label_frame.grid_columnconfigure(2, weight=1)
@@ -107,7 +112,30 @@ class ScoreGUI(tk.Toplevel):
         self.buttons_pad2.grid(row=2, columnspan=2, sticky='ew')
         self.buttons_frame.grid_columnconfigure(0, weight=1)
         self.buttons_frame.grid_columnconfigure(3, weight=1)
-        # Set event call for on_click()
+
+        # Set frame to right of everything
+        self.instruction_text_frame = tk.Frame(self.scrollable_frame, bg=color_1)
+        self.instruction_text_frame.grid(row=0, column=3, rowspan=3, sticky='nsew')
+
+        # Padding
+        self.right_pad = flashable_label.FlashableLabel(self.instruction_text_frame, text=" ",
+                                                      font=(font_header, 25),
+                                                      fg=color_2, bg=color_1, padx=20)
+        self.right_pad.grid(row=0, column=0, rowspan=1, sticky='nsew')
+
+        # Label with instructions
+        self.instruction_text = flashable_label.FlashableLabel(self.instruction_text_frame, text="PRE-ROLL",
+                                                      font=(font_header, 25),
+                                                      fg=color_2, bg=color_1)
+        self.instruction_text.grid(row=1, column=1, rowspan=1, sticky='nsew')
+
+        # More padding
+        self.right_pad = flashable_label.FlashableLabel(self.instruction_text_frame, text=" ",
+                                                      font=(font_header, 25),
+                                                      fg=color_2, bg=color_1, padx=20)
+        self.right_pad.grid(row=0, column=2, rowspan=1, sticky='nsew')
+        self.instruction_text_frame.grid_columnconfigure(0, weight=1)
+        self.instruction_text_frame.grid_columnconfigure(2, weight=1)
 
         self.resize()
 
@@ -203,6 +231,7 @@ class ScoreGUI(tk.Toplevel):
             self.after(duration_of_section * 1000, func=self.update_section)
             self.section.config(text=self.section_manager.get_current_section_name())
             self.section.flash(flashes=10)
+            self.label.flash(flashes=10)
             self.first_section = False
         else:
             self.section_manager.next()
