@@ -115,27 +115,32 @@ class ScoreGUI(tk.Toplevel):
 
         # Set frame to right of everything
         self.instruction_text_frame = tk.Frame(self.scrollable_frame, bg=color_1)
-        self.instruction_text_frame.grid(row=0, column=3, rowspan=3, sticky='nsew')
-
-        # Padding
-        self.right_pad = flashable_label.FlashableLabel(self.instruction_text_frame, text=" ",
-                                                      font=(font_header, 25),
-                                                      fg=color_2, bg=color_1, padx=20)
-        self.right_pad.grid(row=0, column=0, rowspan=1, sticky='nsew')
+        self.instruction_text_frame.grid(row=0, column=4, rowspan=3)
 
         # Label with instructions
-        self.instruction_text = flashable_label.FlashableLabel(self.instruction_text_frame, text="PRE-ROLL",
-                                                      font=(font_header, 25),
-                                                      fg=color_2, bg=color_1)
-        self.instruction_text.grid(row=1, column=1, rowspan=1, sticky='nsew')
+        self.instruction_header = flashable_label.FlashableLabel(self.instruction_text_frame,
+                                                            text="Instructions\n------------",
+                                                            font=(font_header, 25),
+                                                            fg=color_2, bg=color_1)
+        self.instruction_header.grid(row=0, column=0)
 
-        # More padding
-        self.right_pad = flashable_label.FlashableLabel(self.instruction_text_frame, text=" ",
-                                                      font=(font_header, 25),
-                                                      fg=color_2, bg=color_1, padx=20)
-        self.right_pad.grid(row=0, column=2, rowspan=1, sticky='nsew')
-        self.instruction_text_frame.grid_columnconfigure(0, weight=1)
-        self.instruction_text_frame.grid_columnconfigure(2, weight=1)
+        self.instruction_text = flashable_label.FlashableLabel(self.instruction_text_frame,
+                                                               text=self.set_instructions(),
+                                                               font=(font_text, 12),
+                                                               fg=color_2, bg=color_1)
+        self.instruction_text.grid(row=1, column=0)
+
+        self.instruction_next_section_header = flashable_label.FlashableLabel(self.instruction_text_frame,
+                                                            text="Next Section\n------------",
+                                                            font=(font_header, 25),
+                                                            fg=color_2, bg=color_1)
+        self.instruction_next_section_header.grid(row=2, column=0)
+
+        self.next_section_text = flashable_label.FlashableLabel(self.instruction_text_frame,
+                                                               text=self.set_next_section_text(),
+                                                               font=(font_text, 12),
+                                                               fg=color_2, bg=color_1)
+        self.next_section_text.grid(row=3, column=0)
 
         self.resize()
 
@@ -242,6 +247,7 @@ class ScoreGUI(tk.Toplevel):
             self.section.config(text=self.section_manager.get_current_section_name())
             self.section.flash(flashes=10)
             self.after(duration_of_section*1000, func=self.update_section)
+        self.instruction_text.configure(text=self.set_instructions())
 
     def start_from(self, section_value):
         """
@@ -312,6 +318,13 @@ class ScoreGUI(tk.Toplevel):
     def resize(self):
         self.scrollable_frame.resize(fit="fit_all")
 
+    def set_instructions(self):
+        string = ""
+        string += self.section_manager.get_current_section_instructions()
+        return string
+
+    def set_next_section_text(self):
+        return self.section_manager.sections[self.section_manager.current_section+1][0]
 
 if __name__ == '__main__':
 

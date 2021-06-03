@@ -91,7 +91,7 @@ def generate_timings(old_init_time, new_total_time):
 
 if __name__ == "__main__":
 
-    sections = [("Cosmic", generate_timings(40, 600)),
+    sections = [("Cosmic", generate_timings(40, 600), "Electronics Introduction\nTacet"),
                 ("Element Introduction", generate_timings(90, 600)),
                 ("Life Forms", generate_timings(90, 600)),
                 ("Emergence of Individuals", generate_timings(40, 600)),

@@ -44,6 +44,13 @@ class SectionManager:
         """
         return self.sections[self.current_section][1]
 
+    def get_current_section_instructions(self):
+        """
+        Gets the instructions of the current section.
+        :return: String of current section instructions
+        """
+        return self.sections[self.current_section][2]
+
     def set_current_section(self, key):
         """
         Sets the SectionManager's current section.
