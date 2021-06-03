@@ -13,6 +13,7 @@ __status__ = "Testing"
 
 import tkinter as tk
 import section_manager
+import math
 from sub_guis import score_gui
 from sub_guis import server_settings_gui
 from sub_guis import instrument_and_network_settings_gui
@@ -85,16 +86,21 @@ class Main(tk.Tk):
                                                               color_3=self.color_3, font_header=self.font_header,
                                                               font_text=self.font_text)
 
+def generate_timings(old_init_time, new_total_time):
+    return math.ceil(old_init_time / 420 * new_total_time)
 
 if __name__ == "__main__":
-    sections = [("Cosmic", 40),
-                ("Element Introduction", 90),
-                ("Life Forms", 90),
-                ("Emergence of Individuals", 40),
-                ("Emergence of collective", 40),
-                ("Conflict between collective and individual", 50),
-                ("INCISION", 10),
-                ("Trancendence: COSMIC RE-FRAMED", 60)]
+
+    sections = [("Cosmic", generate_timings(40, 600)),
+                ("Element Introduction", generate_timings(90, 600)),
+                ("Life Forms", generate_timings(90, 600)),
+                ("Emergence of Individuals", generate_timings(40, 600)),
+                ("Emergence of collective", generate_timings(40, 600)),
+                ("Conflict between collective and individual", generate_timings(50, 600)),
+                ("INCISION", generate_timings(10, 600)),
+                ("Trancendence: COSMIC RE-FRAMED", generate_timings(60, 600))]
     sm = section_manager.SectionManager(sections)
+    # print(generate_timings(10, 600))
+    # print(sm.get_total_timing())
     main = Main(sm)
     main.run()
