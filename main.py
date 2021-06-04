@@ -92,13 +92,13 @@ def generate_timings(old_init_time, new_total_time):
 if __name__ == "__main__":
 
     sections = [("Cosmic", generate_timings(40, 600), "Electronics Introduction\nTacet"),
-                ("Element Introduction", generate_timings(90, 600)),
-                ("Life Forms", generate_timings(90, 600)),
-                ("Emergence of Individuals", generate_timings(40, 600)),
-                ("Emergence of collective", generate_timings(40, 600)),
-                ("Conflict between collective and individual", generate_timings(50, 600)),
-                ("INCISION", generate_timings(10, 600)),
-                ("Trancendence: COSMIC RE-FRAMED", generate_timings(60, 600))]
+                ("Element Introduction", generate_timings(90, 600), "lorum\nipsum"),
+                ("Life Forms", generate_timings(90, 600), "lorum\nipsum"),
+                ("Emergence of Individuals", generate_timings(40, 600), "lorum\nipsum"),
+                ("Emergence of collective", generate_timings(40, 600), "lorum\nipsum"),
+                ("Conflict between collective and individual", generate_timings(50, 600), "lorum\nipsum"),
+                ("INCISION", generate_timings(10, 600), "lorum\nipsum"),
+                ("Trancendence: COSMIC RE-FRAMED", generate_timings(60, 600), "lorum\nipsum")]
     sm = section_manager.SectionManager(sections)
     # print(generate_timings(10, 600))
     # print(sm.get_total_timing())

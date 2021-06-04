@@ -68,7 +68,7 @@ class ScoreGUI(tk.Toplevel):
         self.label_frame = tk.Frame(self.scrollable_frame, bg="white")
         self.label_frame.grid(row=1, columnspan=2, sticky="nsew")
         self.label_pad1 = tk.Label(self.label_frame, fg=color_2, bg="white", pady=5)
-        self.label_pad1.grid(row=0, columnspan=2, sticky='ew')
+        self.label_pad1.grid(row=0, columnspan=2, sticky='nsew')
         self.label = flashable_label.FlashableLabel(self.label_frame, text=text, pady=5, font=(font_header, 50),
                                                     fg=color_3, bg="white")
         self.label.grid(row=0, column=1, columnspan=2)
@@ -77,7 +77,7 @@ class ScoreGUI(tk.Toplevel):
 
         # Initialize and run timer
         self.timer_frame = tk.Frame(self.scrollable_frame, bg=color_1)
-        self.timer_frame.grid(row=0, columnspan=2, sticky='ew')
+        self.timer_frame.grid(row=0, columnspan=2, sticky='nsew')
         self.timer_display = flashable_label.FlashableLabel(self.timer_frame, text=self.preroll.get_formatted_time(),
                                                             font=(font_header, 25),
                                                             fg=color_2, bg=color_1)
@@ -88,14 +88,14 @@ class ScoreGUI(tk.Toplevel):
         self.section = flashable_label.FlashableLabel(self.timer_frame, text="PRE-ROLL",
                                                       font=(font_header, 25),
                                                       fg=color_2, bg=color_1)
-        self.section.grid(row=0, column=2)
+        self.section.grid(row=0, column=2, sticky='ew')
         self.timer_frame.grid_columnconfigure(0, weight=1)
         self.timer_frame.grid_columnconfigure(3, weight=1)
         self.after((self.preroll.get_time()+1)*1000, self.update_section)
 
         # Set kill button
         self.buttons_frame = tk.Frame(self.scrollable_frame, bg=color_1)
-        self.buttons_frame.grid(row=2, columnspan=3, sticky='ew')
+        self.buttons_frame.grid(row=2, columnspan=3, sticky='nsew')
         self.buttons_pad1 = tk.Label(self.buttons_frame, fg=color_2, bg=color_1, pady=2)
         self.buttons_pad1.grid(row=0, columnspan=3, sticky='ew')
         self.close_program = tk.Button(self.buttons_frame, text="QUIT", font=(font_text, 25),
@@ -109,25 +109,26 @@ class ScoreGUI(tk.Toplevel):
                                      fg=color_1, bg=color_2)
         self.next_button.grid(row=1, column=1)
         self.buttons_pad2 = tk.Label(self.buttons_frame, fg=color_2, bg=color_1, pady=2)
-        self.buttons_pad2.grid(row=2, columnspan=2, sticky='ew')
+        self.buttons_pad2.grid(row=2, columnspan=2, sticky='nsew')
         self.buttons_frame.grid_columnconfigure(0, weight=1)
         self.buttons_frame.grid_columnconfigure(3, weight=1)
 
         # Set frame to right of everything
         self.instruction_text_frame = tk.Frame(self.scrollable_frame, bg=color_1)
-        self.instruction_text_frame.grid(row=0, column=4, rowspan=3)
+        self.instruction_text_frame.grid(row=0, column=4, rowspan=3, sticky='ns')
 
         # Label with instructions
         self.instruction_header = flashable_label.FlashableLabel(self.instruction_text_frame,
                                                             text="Instructions\n------------",
                                                             font=(font_header, 25),
                                                             fg=color_2, bg=color_1)
-        self.instruction_header.grid(row=0, column=0)
+        self.instruction_header.grid(row=0, column=0, sticky='n')
 
         self.instruction_text = flashable_label.FlashableLabel(self.instruction_text_frame,
                                                                text=self.set_instructions(),
                                                                font=(font_text, 12),
-                                                               fg=color_2, bg=color_1)
+                                                               fg=color_2, bg=color_1,
+                                                               wraplength=150, justify='center')
         self.instruction_text.grid(row=1, column=0)
 
         self.instruction_next_section_header = flashable_label.FlashableLabel(self.instruction_text_frame,
@@ -139,8 +140,9 @@ class ScoreGUI(tk.Toplevel):
         self.next_section_text = flashable_label.FlashableLabel(self.instruction_text_frame,
                                                                text=self.set_next_section_text(),
                                                                font=(font_text, 12),
-                                                               fg=color_2, bg=color_1)
-        self.next_section_text.grid(row=3, column=0)
+                                                               fg=color_2, bg=color_1,
+                                                               wraplength=150, justify='center')
+        self.next_section_text.grid(row=3, column=0, sticky='s')
 
         self.resize()
 
@@ -248,6 +250,7 @@ class ScoreGUI(tk.Toplevel):
             self.section.flash(flashes=10)
             self.after(duration_of_section*1000, func=self.update_section)
         self.instruction_text.configure(text=self.set_instructions())
+        self.next_section_text.configure(text=self.set_next_section_text())
 
     def start_from(self, section_value):
         """
@@ -324,7 +327,10 @@ class ScoreGUI(tk.Toplevel):
         return string
 
     def set_next_section_text(self):
-        return self.section_manager.sections[self.section_manager.current_section+1][0]
+        if self.section_manager.current_section + 1 > len(self.section_manager.sections):
+            return "Work Ending"
+        else:
+            return self.section_manager.sections[self.section_manager.current_section+1][0]
 
 if __name__ == '__main__':
 
