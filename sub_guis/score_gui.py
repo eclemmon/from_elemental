@@ -89,6 +89,10 @@ class ScoreGUI(tk.Toplevel):
                                                       font=(font_header, 25),
                                                       fg=color_2, bg=color_1)
         self.section.grid(row=0, column=2, sticky='ew')
+        self.section_right_pad = flashable_label.FlashableLabel(self.timer_frame, text="   ",
+                                                      font=(font_header, 25),
+                                                      fg=color_2, bg=color_1)
+        self.section_right_pad.grid(row=0, column=3, sticky='ew')
         self.timer_frame.grid_columnconfigure(0, weight=1)
         self.timer_frame.grid_columnconfigure(3, weight=1)
         self.after((self.preroll.get_time()+1)*1000, self.update_section)
@@ -109,7 +113,7 @@ class ScoreGUI(tk.Toplevel):
                                      fg=color_1, bg=color_2)
         self.next_button.grid(row=1, column=1)
         self.buttons_pad2 = tk.Label(self.buttons_frame, fg=color_2, bg=color_1, pady=2)
-        self.buttons_pad2.grid(row=2, columnspan=2, sticky='nsew')
+        self.buttons_pad2.grid(row=2, columnspan=3, sticky='nsew')
         self.buttons_frame.grid_columnconfigure(0, weight=1)
         self.buttons_frame.grid_columnconfigure(3, weight=1)
 
@@ -237,8 +241,7 @@ class ScoreGUI(tk.Toplevel):
             self.section_cells_update()
             self.after(duration_of_section * 1000, func=self.update_section)
             self.section.config(text=self.section_manager.get_current_section_name())
-            self.section.flash(flashes=10)
-            self.label.flash(flashes=10)
+            self.flash_GUI()
             self.first_section = False
         else:
             self.section_manager.next()
@@ -247,10 +250,16 @@ class ScoreGUI(tk.Toplevel):
             self.section_cells_update()
             duration_of_section = self.section_manager.get_current_section_timing()
             self.section.config(text=self.section_manager.get_current_section_name())
-            self.section.flash(flashes=10)
+            self.flash_GUI()
             self.after(duration_of_section*1000, func=self.update_section)
         self.instruction_text.configure(text=self.set_instructions())
         self.next_section_text.configure(text=self.set_next_section_text())
+
+    def flash_GUI(self):
+        self.label.flash(flashes=10)
+        self.section.flash(flashes=10)
+        self.instruction_text.flash(flashes=10)
+        self.next_section_text.flash(flashes=10)
 
     def start_from(self, section_value):
         """
