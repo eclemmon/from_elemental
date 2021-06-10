@@ -130,9 +130,9 @@ class ScoreGUI(tk.Toplevel):
 
         self.instruction_text = flashable_label.FlashableLabel(self.instruction_text_frame,
                                                                text=self.set_instructions(),
-                                                               font=(font_text, 12),
+                                                               font=(font_text, 16),
                                                                fg=color_2, bg=color_1,
-                                                               wraplength=150, justify='center')
+                                                               wraplength=175, justify='center')
         self.instruction_text.grid(row=1, column=0)
 
         self.instruction_next_section_header = flashable_label.FlashableLabel(self.instruction_text_frame,
@@ -143,9 +143,9 @@ class ScoreGUI(tk.Toplevel):
 
         self.next_section_text = flashable_label.FlashableLabel(self.instruction_text_frame,
                                                                text=self.set_next_section_text(),
-                                                               font=(font_text, 12),
+                                                               font=(font_text, 16),
                                                                fg=color_2, bg=color_1,
-                                                               wraplength=150, justify='center')
+                                                               wraplength=175, justify='center')
         self.next_section_text.grid(row=3, column=0, sticky='s')
 
         self.resize()

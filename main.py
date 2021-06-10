@@ -40,7 +40,7 @@ class Main(tk.Tk):
         self.color_2 = "#FFFAFF"
         self.color_3 = "#009FFD"
         self.font_header = "THE LED DISPLAY ST"
-        self.font_text = "LOTTE PAPERFANG"
+        self.font_text = "Avenir Next"
         self.instrument_net_settings = instrument_and_network_settings_gui.\
             InstrumentNetworkSettingsGui(self, color_1=self.color_1, color_2=self.color_2, color_3=self.color_3,
                                          font_header=self.font_header, font_text=self.font_text)
@@ -90,15 +90,25 @@ def generate_timings(old_init_time, new_total_time):
     return math.ceil(old_init_time / 420 * new_total_time)
 
 if __name__ == "__main__":
-
-    sections = [("Cosmic", generate_timings(40, 600), "Electronics Introduction\nTacet"),
-                ("Element Introduction", generate_timings(90, 600), "lorum\nipsum"),
-                ("Life Forms", generate_timings(90, 600), "lorum\nipsum"),
-                ("Emergence of Individuals", generate_timings(40, 600), "lorum\nipsum"),
-                ("Emergence of collective", generate_timings(40, 600), "lorum\nipsum"),
-                ("Conflict between collective and individual", generate_timings(50, 600), "lorum\nipsum"),
-                ("INCISION", generate_timings(10, 600), "lorum\nipsum"),
-                ("Trancendence: COSMIC RE-FRAMED", generate_timings(60, 600), "lorum\nipsum")]
+    section_instructions = (
+        "Electronics Introduction\nTacet",
+        "Tacet, then after 30 seconds imitate electronics",
+        "Play whole or part of cell. Introduce rarely, then with increasing frequency",
+        "(apply to cells + electronics only):\n\nACTIONS:\n• Imitate\n• Embellish\n\nANTI-ACTIONS:\n• Obfuscate",
+        "(apply to all including players):\n\nActions:\n• Imitate\n• Embellish\n\nAnti-Actions:\n• Obfuscate",
+        "(apply to all including players):\n\nActions:\n• Imitate\n• Embellish\n• Improvised "
+        "response\n\nAnti-Actions:\n• Obfuscate\n• Contrast\n\nIncrease rate of actions / anti-actions progressively",
+        "(cosmos interjects):\n\nRespond with either:\n• Panic, or\n• Calmness",
+        "Actions (gradual):\n\n• Align with electronics (i.e. unison, parallel)\n• harmonics with electronics"
+    )
+    sections = [("Cosmic", generate_timings(40, 600), section_instructions[0]),
+                ("Element Introduction", generate_timings(90, 600), section_instructions[1]),
+                ("Life Forms", generate_timings(90, 600), section_instructions[2]),
+                ("Emergence of Individuals", generate_timings(40, 600), section_instructions[3]),
+                ("Emergence of Collective", generate_timings(40, 600), section_instructions[4]),
+                ("Conflict between collective and individual", generate_timings(50, 600), section_instructions[5]),
+                ("INCISION", generate_timings(10, 600), section_instructions[6]),
+                ("Trancendence: COSMIC RE-FRAMED", generate_timings(60, 600), section_instructions[7])]
     sm = section_manager.SectionManager(sections)
     # print(generate_timings(10, 600))
     # print(sm.get_total_timing())
