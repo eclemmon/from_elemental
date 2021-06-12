@@ -211,7 +211,7 @@ class ScoreGUI(tk.Toplevel):
         one, will pass silently.
         :return: None
         """
-        if self.section_manager.current_section <= 2 or self.section_manager.current_section == 8:
+        if self.section_manager.current_section <= 3 or self.section_manager.current_section == 8:
             pass
         else:
             self.label.config(text="")
@@ -248,7 +248,7 @@ class ScoreGUI(tk.Toplevel):
         else:
             self.section_manager.next()
             self.section_cells_update()
-            if self.section_manager.current_section >= 5:
+            if self.section_manager.current_section >= 4:
                 self.on_click()
             duration_of_section = self.section_manager.get_current_section_timing()
             self.section.config(text=self.section_manager.get_current_section_name())
