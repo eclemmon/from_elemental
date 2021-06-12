@@ -90,6 +90,8 @@ def generate_timings(old_init_time, new_total_time):
     return math.ceil(old_init_time / 420 * new_total_time)
 
 if __name__ == "__main__":
+    DURATION = 600
+
     section_instructions = (
         "Electronics Introduction\nTacet",
         "Tacet, then after 30 seconds imitate electronics",
@@ -101,14 +103,14 @@ if __name__ == "__main__":
         "(cosmos interjects):\n\nRespond with either:\n• Panic, or\n• Calmness",
         "Actions (gradual):\n\n• Align with electronics (i.e. unison, parallel)\n• harmonics with electronics"
     )
-    sections = [("Cosmic", generate_timings(40, 600), section_instructions[0]),
-                ("Element Introduction", generate_timings(90, 600), section_instructions[1]),
-                ("Life Forms", generate_timings(90, 600), section_instructions[2]),
-                ("Emergence of Individuals", generate_timings(40, 600), section_instructions[3]),
-                ("Emergence of Collective", generate_timings(40, 600), section_instructions[4]),
-                ("Conflict between collective and individual", generate_timings(50, 600), section_instructions[5]),
-                ("INCISION", generate_timings(10, 600), section_instructions[6]),
-                ("Trancendence: COSMIC RE-FRAMED", generate_timings(60, 600), section_instructions[7])]
+    sections = [("Cosmic", generate_timings(40, DURATION), section_instructions[0]),
+                ("Element Introduction", generate_timings(90, DURATION), section_instructions[1]),
+                ("Life Forms", generate_timings(90, DURATION), section_instructions[2]),
+                ("Emergence of Individuals", generate_timings(40, DURATION), section_instructions[3]),
+                ("Emergence of Collective", generate_timings(40, DURATION), section_instructions[4]),
+                ("Conflict between collective and individual", generate_timings(50, DURATION), section_instructions[5]),
+                ("INCISION", generate_timings(10, DURATION), section_instructions[6]),
+                ("Trancendence: COSMIC RE-FRAMED", generate_timings(60, DURATION), section_instructions[7])]
     sm = section_manager.SectionManager(sections)
     # print(generate_timings(10, 600))
     # print(sm.get_total_timing())

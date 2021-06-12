@@ -6,9 +6,9 @@ Anne Sophie Andersen</a> and Eric Lemmon
 This repository holds the scores, instructions, and code for the collaboration between Anne Sophie Andersen 
 and Eric Lemmon for their work titled:
 
-### **...from elemental singularities to unified complexities:**
+### **From Elemental Singularities to Unified Complexities:**
 
-###### _a microcosmic journey..._
+###### a microcosmic journey
 
 The work will be premiered on the 2021 New Music for String festival
 held in Aarhus and Copenhagen Denmark.

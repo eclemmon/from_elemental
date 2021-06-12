@@ -17,19 +17,44 @@ import random
 import pathlib
 
 def get_image_paths(dir="./final_cells"):
+    """
+    Gets a list of image paths
+    :param dir: String as relative directory path
+    :return: List of paths as strings
+    """
     return [path.join(pathlib.Path(__file__).parent, dir, img) for img in
             listdir(path.join(pathlib.Path(__file__).parent, dir)) if img.endswith(".png")]
 
 def select_random_image(images):
+    """
+    Selects a random image path from a list of images
+    :param images: List of images
+    :return: String of a path
+    """
     return random.choice(images)
 
 def get_random_image_path():
+    """
+    Helper function that calls get_image_paths() with the default relative path.
+    :return: String of a path
+    """
     return select_random_image(get_image_paths())
 
 def get_image_names(dir="./violin_cells"):
+    """
+    Gets a list of the png files in a directory
+    :param dir: String as relative directory path
+    :return: List of png image file names
+    """
     return [img for img in listdir(dir) if img.endswith(".png")]
 
 def get_these_images(dir="./cello_cells", image_list=['cell_ether_ecl.png', 'cell_wind_ecl.png']):
+    """
+    Requests a particular set of files from (image files) from a relative directory path.
+    :param dir: String as relative directory path
+    :param image_list: List of file names.
+    :return: List of full paths to file names.
+    """
     result = []
     for img in image_list:
         if img in listdir(dir):
@@ -37,6 +62,11 @@ def get_these_images(dir="./cello_cells", image_list=['cell_ether_ecl.png', 'cel
     return result
 
 def get_path_by_instrument_name(instrument_name):
+    """
+    Helper function to get full path to violin_cells/ directory or cello_cells/ directory
+    :param instrument_name: String
+    :return: String as path to violin or cello cells directories
+    """
     if instrument_name == "violin":
         instrument_path = pathlib.Path(__file__).parent
         instrument_path = path.join(instrument_path, "violin_cells/")
