@@ -10,8 +10,12 @@ and Eric Lemmon for their work titled:
 
 ###### a microcosmic journey
 
-The work will be premiered on the 2021 New Music for String festival
-held in Aarhus and Copenhagen Denmark.
+The work will be premiered on the <a href=https://www.newmusicforstrings.org/concerts-2021/>
+2021 New Music for String festival</a> held in Aarhus and Copenhagen Denmark.
+
+## PERFORMER INSTRUCTIONS
+
+[Download perform instructions here.](performer_instructions.pdf)
 
 ## INSTRUCTIONS FOR RUNNING THE SOFTWARE
 
@@ -19,7 +23,7 @@ If you haven't installed Python,
 <a href=https://www.python.org/downloads/>install it by downloading it here.</a>
 The software has been tested in Python 3.8 and up.
 
-Navigate to the directory that you want to the folder to be downloaded to in the
+Navigate to the directory that you want the folder to be downloaded to in the
 CLI of your choice (e.g. terminal on mac):
 
 `cd Users/your_user_name_here/Desktop`
@@ -121,9 +125,9 @@ first section, the 'NEXT CELL' button is disabled.
 
 ![Alt text](readme_images/main_score_gui_2.png)
 
-Once the main score GUI progresses past the 1st section, players
-can begin to play and can click on the NEXT CELL button to receive
-assigned cells at random.
+Once the main score GUI progresses past the 3rd section, players
+can begin call for assigned cells based on the instructions provided
+at the top of this README.
 
 ## Tutorials for Each Setting Configuration
 
