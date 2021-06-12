@@ -59,8 +59,10 @@ class ScoreGUI(tk.Toplevel):
         self.scrollable_frame.grid(row=0, column=0, sticky='nsew')
         self.image_path = None
 
-        if section_start == 1:
+        if section_start == 1 or section_start == 2:
             text = "### TACET ###"
+        elif section_start == 3:
+            text = '### Imitate Electronics ###'
         else:
             text = ""
 
@@ -209,7 +211,7 @@ class ScoreGUI(tk.Toplevel):
         one, will pass silently.
         :return: None
         """
-        if self.section_manager.current_section == 1:
+        if self.section_manager.current_section <= 2 or self.section_manager.current_section == 8:
             pass
         else:
             self.label.config(text="")
@@ -245,9 +247,9 @@ class ScoreGUI(tk.Toplevel):
             self.first_section = False
         else:
             self.section_manager.next()
-            if self.section_manager.current_section >= 4:
-                self.on_click()
             self.section_cells_update()
+            if self.section_manager.current_section >= 5:
+                self.on_click()
             duration_of_section = self.section_manager.get_current_section_timing()
             self.section.config(text=self.section_manager.get_current_section_name())
             self.flash_GUI()
@@ -278,7 +280,13 @@ class ScoreGUI(tk.Toplevel):
         """
         self.after(0, func=self.root.destroy)
 
-    def sections_one_through_three(self):
+    def section_two(self):
+        pass
+
+    def section_three(self):
+        self.label.config(text='### Imitate Electronics ###')
+
+    def section_four(self):
         """
         Updates the cells that are available to the players by removing cells that belong in later sections.
         :return: None
@@ -291,41 +299,51 @@ class ScoreGUI(tk.Toplevel):
             image_data_loader.get_these_images(dir=directory, image_list=img_list))
         self.cell_assignment_for_score = self.cell_assignment_for_score - subtract_this_ca
 
-    def section_four(self):
+    def section_six(self):
         """
         Updates the cells that are available to the players by removing cells that belong in later sections.
         :return: None
         """
-        self.sections_one_through_three()
+        self.section_four()
         img_list = ["cell_first_five_combo_as.png", "cell_first_five_combo_ecl.png", "cell_first_five_1.png",
                     "cell_first_five_2.png"]
         directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
         add_this_ca = cell_assigner.CellAssigner(image_data_loader.get_these_images(dir=directory, image_list=img_list))
         self.cell_assignment_for_score = self.cell_assignment_for_score + add_this_ca
 
-    def section_five(self):
+    def section_eight(self):
+        self.label.config(image='')
+        self.label.config(text="### PANIC OR CALMNESS! ###")
+
+    def section_nine(self):
         """
         Adds back in the remaining score cells.
         :return: None
         """
-        self.section_four()
+        # self.section_five()
         img_list = ["cell_aggregate_as.png", "cell_aggregate_ecl.png", "cell_aggregate_1.png", "cell_aggregate_2.png"]
         directory = image_data_loader.get_path_by_instrument_name(self.root.instrument)
         add_this_ca = cell_assigner.CellAssigner(
             image_data_loader.get_these_images(dir=directory, image_list=img_list))
-        self.cell_assignment_for_score = self.cell_assignment_for_score + add_this_ca
+        self.cell_assignment_for_score = add_this_ca
 
     def section_cells_update(self):
         """
         A helper function that executes logical operations based on which section of the piece we are in.
         :return: None
         """
-        if self.section_manager.current_section <= 3:
-            self.sections_one_through_three()
+        if self.section_manager.current_section == 3:
+            self.section_three()
         elif self.section_manager.current_section == 4:
             self.section_four()
+        elif self.section_manager.current_section == 6:
+            self.section_six()
+        elif self.section_manager.current_section == 8:
+            self.section_eight()
+        elif self.section_manager.current_section == 9:
+            self.section_nine()
         else:
-            self.section_five()
+            pass
 
     def resize(self):
         self.scrollable_frame.resize(fit="fit_all")

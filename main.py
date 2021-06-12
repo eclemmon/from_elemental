@@ -104,7 +104,8 @@ if __name__ == "__main__":
         "Actions (gradual):\n\n• Align with electronics (i.e. unison, parallel)\n• harmonics with electronics"
     )
     sections = [("Cosmic", generate_timings(40, DURATION), section_instructions[0]),
-                ("Element Introduction", generate_timings(90, DURATION), section_instructions[1]),
+                ("Element Introduction (tacet)", 30, section_instructions[1]),
+                ("Element Introduction", generate_timings(90, DURATION)-30, section_instructions[1]),
                 ("Life Forms", generate_timings(90, DURATION), section_instructions[2]),
                 ("Emergence of Individuals", generate_timings(40, DURATION), section_instructions[3]),
                 ("Emergence of Collective", generate_timings(40, DURATION), section_instructions[4]),
