@@ -39,6 +39,7 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         self.local_network_or_not = tk.IntVar()
         self.preroll = tk.StringVar()
         self.image_trigger = tk.IntVar()
+        self.section_selection = tk.IntVar()
 
         # Scrollable frame
         self.scrollable_frame = scrollable_frame.ScrollableFrame(self)
@@ -125,7 +126,6 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
 
         # Section selection buttons
         row = 0
-        self.section_selection = tk.IntVar()
         self.fill_frame = tk.Frame(self.scrollable_frame, bg=color_2)
         self.fill_frame.grid(row=7, columnspan=3, sticky='ew')
         self.section_selection_canvas = tk.Canvas(self.fill_frame, width=self.winfo_width(), height=self.winfo_height())
@@ -179,8 +179,8 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         print("section selection: ", self.section_selection.get())
         print("Trigger Option: ", self.image_trigger.get())
         try:
-            if not (int(self.preroll.get()) > 0):
-                tk.Label(self, text="You must select an instrument!").grid(row=6, columnspan=2)
+            if not (int(self.preroll.get()) > 0 and int(self.section_selection.get()) > 0):
+                tk.Label(self, text="You must select an instrument and a section!").grid(row=6, columnspan=2)
             else:
                 self.root.preroll = int(self.preroll.get())
                 self.root.section_start = self.section_selection.get()
