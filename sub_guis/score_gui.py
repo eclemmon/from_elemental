@@ -248,14 +248,21 @@ class ScoreGUI(tk.Toplevel):
         else:
             self.section_manager.next()
             self.section_cells_update()
-            if self.section_manager.current_section >= 4:
+            if self.section_manager.current_section >= 4 and self.section_manager.current_section <= len(self.section_manager.sections):
                 self.on_click()
-            duration_of_section = self.section_manager.get_current_section_timing()
-            self.section.config(text=self.section_manager.get_current_section_name())
+            if self.section_manager.current_section <= len(self.section_manager.sections):
+                duration_of_section = self.section_manager.get_current_section_timing()
+                self.section.config(text=self.section_manager.get_current_section_name())
+                self.instruction_text.configure(text=self.set_instructions())
+                self.next_section_text.configure(text=self.set_next_section_text())
+            else:
+                duration_of_section = 10
+                self.section.config(text="Work Ending")
+                self.instruction_text.configure(text="Work Ending")
+                self.next_section_text.configure(text="Work Ending")
             self.flash_GUI()
             self.after(duration_of_section*1000, func=self.update_section)
-        self.instruction_text.configure(text=self.set_instructions())
-        self.next_section_text.configure(text=self.set_next_section_text())
+
 
     def flash_GUI(self):
         self.label.flash(flashes=10)
