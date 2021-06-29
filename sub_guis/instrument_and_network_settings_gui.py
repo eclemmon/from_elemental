@@ -10,6 +10,7 @@ __maintainer__ = "Eric Lemmon"
 __email__ = "ec.lemmon@gmail.com"
 __status__ = "Testing"
 
+
 import tkinter as tk
 from sub_guis import scrollable_frame
 
@@ -23,6 +24,7 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
     have to get ready before the section timer starts. The section selection determines which section
     of the piece players want to start at for rehearsal purposes.
     """
+
     def __init__(self, root, color_1="light steel blue", color_2="snow", color_3="steel blue",
                  font_header="Rosewood Std Regular", font_text="Rosewood Std Regular"):
         """
@@ -57,10 +59,12 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         # Set up radio buttons for instruments
         self.instrument_buttons_frame = tk.Frame(self.scrollable_frame, bg=color_2)
         self.instrument_buttons_frame.grid(row=1, columnspan=3, sticky='ew')
-        self.cello_button = tk.Radiobutton(self.instrument_buttons_frame, text="Cello", variable=self.instrument, value=1,
+        self.cello_button = tk.Radiobutton(self.instrument_buttons_frame, text="Cello", variable=self.instrument,
+                                           value=1,
                                            font=(font_text, 20), pady=10, fg=color_3, bg=color_2)
         self.cello_button.grid(row=0, column=1, sticky=tk.EW)
-        self.violin_button = tk.Radiobutton(self.instrument_buttons_frame, text="Violin", variable=self.instrument, value=2,
+        self.violin_button = tk.Radiobutton(self.instrument_buttons_frame, text="Violin", variable=self.instrument,
+                                            value=2,
                                             font=(font_text, 20), pady=10, fg=color_3, bg=color_2)
         self.violin_button.grid(row=0, column=2, sticky=tk.EW)
         self.instrument_buttons_frame.grid_columnconfigure(0, weight=1)
@@ -71,7 +75,7 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         self.networked_or_not_text_frame.grid(row=2, columnspan=3, sticky='ew')
         self.networked_or_not_text = tk.Label(self.networked_or_not_text_frame, text="NETWORK SETTINGS",
                                               font=(font_header, 20), pady=5, padx=10,
-                                              fg=color_2, bg =color_1)
+                                              fg=color_2, bg=color_1)
         self.networked_or_not_text.grid(row=1, columnspan=3)
         self.networked_or_not_text_frame.grid_columnconfigure(0, weight=1)
         self.networked_or_not_text_frame.grid_columnconfigure(2, weight=1)
@@ -79,10 +83,12 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         # Set up radio buttons for network selection
         self.network_button_frame = tk.Frame(self.scrollable_frame, bg=color_2)
         self.network_button_frame.grid(row=3, columnspan=3, sticky='ew')
-        self.local_button = tk.Radiobutton(self.network_button_frame, text="Local Network", variable=self.local_network_or_not, value=1,
+        self.local_button = tk.Radiobutton(self.network_button_frame, text="Local Network",
+                                           variable=self.local_network_or_not, value=1,
                                            font=(font_text, 20), pady=10, fg=color_3, bg=color_2)
         self.local_button.grid(row=0, column=1)
-        self.not_local_button = tk.Radiobutton(self.network_button_frame, text="No Local Network", variable=self.local_network_or_not, value=2,
+        self.not_local_button = tk.Radiobutton(self.network_button_frame, text="No Local Network",
+                                               variable=self.local_network_or_not, value=2,
                                                font=(font_text, 20), pady=10, fg=color_3, bg=color_2)
         self.not_local_button.grid(row=0, column=2)
         self.network_button_frame.grid_columnconfigure(0, weight=1)
@@ -91,7 +97,8 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         # Initialize label for next image trigger selection
         self.image_trigger_selection_frame = tk.Frame(self.scrollable_frame, bg=color_1)
         self.image_trigger_selection_frame.grid(row=4, columnspan=3, sticky='ew')
-        self.image_trigger_selection_label = tk.Label(self.image_trigger_selection_frame, text="TRIGGER NEXT IMAGE OPTIONS",
+        self.image_trigger_selection_label = tk.Label(self.image_trigger_selection_frame,
+                                                      text="TRIGGER NEXT IMAGE OPTIONS",
                                                       font=(font_header, 20), pady=5, padx=10,
                                                       fg=color_2, bg=color_1)
         self.image_trigger_selection_label.grid(row=0, column=1)
@@ -107,7 +114,8 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
             label1 = tk.Label(self.image_trigger_button_frame, text=i, font=(font_text, 20),
                               pady=5, fg=color_3, bg=color_2)
             label1.grid(row=img_trig_row, column=1, sticky="w")
-            button = tk.Radiobutton(self.image_trigger_button_frame, variable=self.image_trigger, value=img_trig_row+1,
+            button = tk.Radiobutton(self.image_trigger_button_frame, variable=self.image_trigger,
+                                    value=img_trig_row + 1,
                                     pady=5, fg=color_3, bg=color_2)
             button.grid(row=img_trig_row, column=2, sticky="w")
             img_trig_row += 1
@@ -134,13 +142,13 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         self.section_selection_frame.grid(row=0, sticky="ew")
 
         for i in range(len(self.root.sections_manager.sections)):
-            string1 = "Section {}:".format(i+1)
-            string2 = "{}".format(self.root.sections_manager.sections[i+1][0])
+            string1 = "Section {}:".format(i + 1)
+            string2 = "{}".format(self.root.sections_manager.sections[i + 1][0])
             # print(string)
             label1 = tk.Label(self.section_selection_frame, text=string1, font=(font_text, 15),
                               pady=10, fg=color_3, bg=color_2)
             label1.grid(row=row, column=1, sticky="w")
-            button = tk.Radiobutton(self.section_selection_frame, variable=self.section_selection, value=i+1,
+            button = tk.Radiobutton(self.section_selection_frame, variable=self.section_selection, value=i + 1,
                                     pady=10, fg=color_3, bg=color_2)
             button.grid(row=row, column=2, sticky="w")
             label2 = tk.Label(self.section_selection_frame, text=string2, font=(font_text, 15), pady=10,
@@ -162,9 +170,9 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
 
         # Window padding
         self.padding1 = tk.Label(self.scrollable_frame, pady=5)
-        self.padding1.grid(row=row+1, columnspan=2)
+        self.padding1.grid(row=row + 1, columnspan=2)
         self.padding2 = tk.Label(self.scrollable_frame, padx=5)
-        self.padding2.grid(rowspan=row+1, column=2)
+        self.padding2.grid(rowspan=row + 1, column=2)
 
         self.update()
         self.scrollable_frame.resize("fit_width", height=800)
@@ -225,7 +233,6 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
             self.root.get_settings_automatically_via_local_network()
         elif self.local_network_or_not.get() == 2:
             self.root.manually_set_settings()
-
 
 
 if __name__ == "__main__":
