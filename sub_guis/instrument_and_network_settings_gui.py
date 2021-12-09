@@ -58,7 +58,7 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
 
         # Set up radio buttons for instruments
         self.instrument_buttons_frame = tk.Frame(self.scrollable_frame, bg=color_2)
-        self.instrument_buttons_frame.grid(row=1, columnspan=4, sticky='ew')
+        self.instrument_buttons_frame.grid(row=1, columnspan=5, sticky='ew')
         self.cello_button = tk.Radiobutton(self.instrument_buttons_frame, text="Cello", variable=self.instrument,
                                            value=1,
                                            font=(font_text, 20), pady=10, fg=color_3, bg=color_2)
@@ -71,8 +71,12 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
                                             value=3,
                                             font=(font_text, 20), pady=10, fg=color_3, bg=color_2)
         self.open_button.grid(row=0, column=3, sticky=tk.EW)
+        self.flute_button = tk.Radiobutton(self.instrument_buttons_frame, text="Flute", variable=self.instrument,
+                                            value=4,
+                                            font=(font_text, 20), pady=10, fg=color_3, bg=color_2)
+        self.flute_button.grid(row=0, column=4, sticky=tk.EW)
         self.instrument_buttons_frame.grid_columnconfigure(0, weight=1)
-        self.instrument_buttons_frame.grid_columnconfigure(4, weight=1)
+        self.instrument_buttons_frame.grid_columnconfigure(5, weight=1)
 
         # Initialize networked or randomized selection
         self.networked_or_not_text_frame = tk.Frame(self.scrollable_frame, bg=color_1)
@@ -203,6 +207,8 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
                     self.if_violin()
                 elif self.instrument.get() == 3:
                     self.if_open()
+                elif self.instrument.get() == 4:
+                    self.if_flute()
                 else:
                     tk.Label(self, text="You must select an instrument!").grid(row=6, columnspan=2)
         except:
@@ -237,6 +243,16 @@ class InstrumentNetworkSettingsGui(tk.Toplevel):
         :return: None
         """
         self.root.instrument = "open"
+        self.nol()
+
+    def if_flute(self):
+        """
+        If the instrument selected is flute, it will set root.instrument to flute and call the function that
+        checks whether there is a local network or not so that the root knows which settings GUI to
+        call next.
+        :return: None
+        """
+        self.root.instrument = "flute"
         self.nol()
 
     def nol(self):
