@@ -44,8 +44,8 @@ class ManualSettingsGui(tk.Toplevel):
 
         # Initialize instructions
         instructions_text = [
-        "Violinist hits the 'randomize' button,",
-        "and tells the cellist which cells have been selected.",
+        "Lead player hits the 'randomize' button,",
+        "and tells the others which cells have been selected.",
         "The cello player then selects the remaining cells."
         ]
         self.header_frame = tk.Frame(self.main_frame, bg=color_1)
@@ -108,7 +108,6 @@ class ManualSettingsGui(tk.Toplevel):
 
         self.update()
         self.main_frame.resize("fit_width", height=800)
-
 
 
     def random_select(self):

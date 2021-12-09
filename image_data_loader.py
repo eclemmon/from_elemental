@@ -67,12 +67,9 @@ def get_path_by_instrument_name(instrument_name):
     :param instrument_name: String
     :return: String as path to violin or cello cells directories
     """
-    if instrument_name == "violin":
-        instrument_path = pathlib.Path(__file__).parent
-        instrument_path = path.join(instrument_path, "violin_cells/")
-    else:
-        instrument_path = pathlib.Path(__file__).parent
-        instrument_path = path.join(instrument_path, "cello_cells/")
+    sub_path = "{}_cells/".format(instrument_name)
+    parent_path = pathlib.Path(__file__).parent
+    instrument_path = path.join(parent_path, sub_path)
     return instrument_path
 
 if __name__ == "__main__":
