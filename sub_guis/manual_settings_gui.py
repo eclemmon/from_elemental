@@ -11,14 +11,12 @@ __email__ = "ec.lemmon@gmail.com"
 __status__ = "Testing"
 
 import tkinter as tk
-from sub_guis import scrollable_frame
 import random
 import image_data_loader
 import cell_assigner
-import pathlib
-import os
 import main
 import section_manager
+from sub_guis import scrollable_frame
 
 
 class ManualSettingsGui(tk.Toplevel):
@@ -108,7 +106,6 @@ class ManualSettingsGui(tk.Toplevel):
 
         self.update()
         self.main_frame.resize("fit_width", height=800)
-
 
     def random_select(self):
         """
