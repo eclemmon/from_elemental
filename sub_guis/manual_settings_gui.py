@@ -113,6 +113,7 @@ class ManualSettingsGui(tk.Toplevel):
         the other half are selected with the other option by default.
         :return: None
         """
+        # TODO: fix logic so that it is based on number of players.
         selected = 0
         not_selected = 0
         half = (len(self.file_names) // 2 + 1)
