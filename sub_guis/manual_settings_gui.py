@@ -28,14 +28,14 @@ class ManualSettingsGui(tk.Toplevel):
         """
         self.root = root
         tk.Toplevel.__init__(self)
-        self.protocol("WM_DELETE_WINDOW", root.destroy)
+        self.protocol("WM_DELETE_WINDOW", self.root.destroy)
         self.title('Manually select cells across sections')
         self.grid_no = 2
         self.radio_button_values = {}
         self.cell_paths = None
 
         # Determine the image paths based on the instrument selected in root.instrument
-        self.path = image_data_loader.get_path_by_instrument_name(root.instrument)
+        self.path = image_data_loader.get_path_by_instrument_name(self.root.instrument)
         self.file_names = image_data_loader.get_image_names(self.path)
         self.main_frame = scrollable_frame.ScrollableFrame(self)
         self.main_frame.grid()
@@ -143,7 +143,6 @@ class ManualSettingsGui(tk.Toplevel):
                 result.append(key)
         self.cell_paths = cell_assigner.CellAssigner(image_data_loader.get_these_images(self.path, result))
         self.root.run_score_gui()
-
 
 
 if __name__ == "__main__":
