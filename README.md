@@ -113,7 +113,8 @@ hits the randomize button, and then tells the other player(s) which cells are
 'not selected'. The other player(s) then set 'not
 selected' for the options the lead player has as 'selected'. If there
 are more than two players (beyond the electronics part), the
-next player hits randomize
+next player then hits randomize and the process continues until
+all the players have finished selecting cells.
 
 ### Set Scores Automatically
 
