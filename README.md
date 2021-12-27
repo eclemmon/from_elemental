@@ -15,9 +15,12 @@ The work will be premiered on the <a href=https://www.newmusicforstrings.org/con
 
 ## PERFORMER INSTRUCTIONS
 
-[Download perform instructions here.](performer_instructions.pdf)
+[Download performer instructions here.](performer_instructions.pdf)
 
 ## INSTRUCTIONS FOR RUNNING THE SOFTWARE
+
+NB: These instructions are for OSX only. The software does run well for windows, however. Some familiarity with 
+PowerShell or another CLI is necessary, however.
 
 If you haven't installed Python, 
 <a href=https://www.python.org/downloads/>install it by downloading it here.</a>
@@ -28,10 +31,14 @@ CLI of your choice (e.g. terminal on mac):
 
 `cd Users/your_user_name_here/Desktop`
 
-Download the software by copying this into the CLI. You may be asked to 
-install xcode developer tools on Mac. Do so if asked:
+Download the software by copying this into the CLI. 
 
 `git clone https://github.com/eclemmon/new_music_for_strings.git`
+
+You may be asked to install x-code cli tools on Mac. Do so if asked and 
+repeat the previous step:
+
+`xcode-select --install`
 
 Install Pillow, a necessary python package:
 
@@ -55,7 +62,7 @@ There are several options to select from when the program runs.
 
 ###### SELECT YOUR INSTRUMENT OPTIONS
 
-Selecting cello or violin will define the scores that the respective player
+Selecting a particular instrument will define the scores that the respective player
 receives.
 
 If the players are co-located and on the same local network, they
@@ -78,6 +85,9 @@ gets the next graphic or notated cell since the spacebar is a large key and
 towards the front of a laptop's keyboard. The 'next button' option, will only
 get images when the large 'next' button in the window is clicked. In all cases
 the next button will still work.
+
+NB: because the base OS keycodes differ between mac and windows, sometimes the 
+spacebar will not function on windows machines. 
 
 ###### AMOUNT OF PRE-ROLL
 
