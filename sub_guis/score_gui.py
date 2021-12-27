@@ -219,6 +219,7 @@ class ScoreGUI(tk.Toplevel):
         self.resize()
 
     def on_event(self, event):
+        # TODO: Check on event buttons for windows environment
         self.on_click()
 
     def end_of_piece_protocol(self):
