@@ -20,7 +20,7 @@ The work will be premiered on the <a href=https://www.newmusicforstrings.org/con
 ## INSTRUCTIONS FOR RUNNING THE SOFTWARE
 
 NB: These instructions are for OSX only. The software does run well for windows, however. Some familiarity with 
-PowerShell or another CLI is necessary, however.
+PowerShell or another CLI is necessary.
 
 If you haven't installed Python, 
 <a href=https://www.python.org/downloads/>install it by downloading it here.</a>
@@ -35,8 +35,8 @@ Download the software by copying this into the CLI.
 
 `git clone https://github.com/eclemmon/new_music_for_strings.git`
 
-You may be asked to install x-code cli tools on Mac. Do so if asked and 
-repeat the previous step:
+You may be asked to install xcode command line interface tools on Mac. Do so if asked and 
+repeat the previous step, then go on to the next one:
 
 `xcode-select --install`
 
@@ -103,10 +103,17 @@ at the beginning of the piece, simply select Section 1.
 
 ![Alt text](readme_images/manual_score_selection.png)
 
-As described in the GUI, the violinist (or alternatively, the cellist)
-hits the randomize button, and then tells the other player which cells are 
-'not selected'. The other player then selects those options and 'not
-selected' for the options the violinist has as 'selected'.
+The electronics player uses the score primarily to track
+the section that all the players are in (think of it as a 
+timer on steroids if you are playing this part). So this 
+performer can hit randomize and wait for the other players.
+
+As described in the GUI, the lead player
+hits the randomize button, and then tells the other player(s) which cells are 
+'not selected'. The other player(s) then set 'not
+selected' for the options the lead player has as 'selected'. If there
+are more than two players (beyond the electronics part), the
+next player hits randomize
 
 ### Set Scores Automatically
 

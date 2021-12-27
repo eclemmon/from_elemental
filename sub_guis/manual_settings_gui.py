@@ -117,19 +117,22 @@ class ManualSettingsGui(tk.Toplevel):
         not_selected = 0
         half = (len(self.file_names) // 2 + 1)
         for val in self.radio_button_values.values():
-            result = random.choice([1, 2])
-            if selected == half or not_selected == half:
-                if selected == half:
-                    val.set(2)
-                else:
-                    val.set(1)
+            if val.get() == 2:
+                pass
             else:
-                if result == 1:
-                    selected += 1
-                    val.set(result)
+                result = random.choice([1, 2])
+                if selected == half or not_selected == half:
+                    if selected == half:
+                        val.set(2)
+                    else:
+                        val.set(1)
                 else:
-                    not_selected += 1
-                    val.set(result)
+                    if result == 1:
+                        selected += 1
+                        val.set(result)
+                    else:
+                        not_selected += 1
+                        val.set(result)
 
     def on_submit(self):
         """
