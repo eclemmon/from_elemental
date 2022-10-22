@@ -90,7 +90,7 @@ def generate_timings(old_init_time, new_total_time):
     return math.ceil(old_init_time / 420 * new_total_time)
 
 if __name__ == "__main__":
-    DURATION = 60 * 13.5
+    DURATION = 60 * 40
 
     section_instructions = (
         "Electronics Introduction\nTacet",
