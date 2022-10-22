@@ -105,13 +105,13 @@ class ScoreGUI(tk.Toplevel):
         self.buttons_pad1 = tk.Label(self.buttons_frame, fg=color_2, bg=color_1, pady=2)
         self.buttons_pad1.grid(row=0, columnspan=3, sticky='ew')
         self.close_program = tk.Button(self.buttons_frame, text="QUIT", font=(font_text, 25),
-                                       command=self.close, border=20, activeforeground="black", padx=7,
+                                       command=self.close, border=0, activeforeground="black", padx=7,
                                        fg=color_1, bg=color_2)
         self.close_program.grid(row=1, column=0)
 
         # Set next button
         self.next_button = tk.Button(self.buttons_frame, text="NEXT CELL", font=(font_text, 25),
-                                     command=self.on_click, border=20, activeforeground="black", padx=7,
+                                     command=self.on_click, border=0, activeforeground="black", padx=7,
                                      fg=color_1, bg=color_2)
         self.next_button.grid(row=1, column=1)
         self.buttons_pad2 = tk.Label(self.buttons_frame, fg=color_2, bg=color_1, pady=2)

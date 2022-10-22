@@ -59,7 +59,7 @@ class ManualSettingsGui(tk.Toplevel):
         self.selected_frame = tk.Frame(self.main_frame, bg=color_2)
         self.selected_frame.grid(row=1, columnspan=3, sticky="ew")
         self.is_selected = tk.Label(self.selected_frame, text="Selected", fg=color_3, bg=color_2,
-                                    font=(font_header, 25), pady=10, padx=10)
+                                    font=(font_header, 25), pady=10, padx=100)
         self.is_selected.grid(row=0, column=1, sticky="w")
         self.is_not_selected = tk.Label(self.selected_frame, text="Not Selected", fg=color_3, bg=color_2,
                                         font=(font_header, 25), pady=10, padx=10)
