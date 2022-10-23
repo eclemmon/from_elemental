@@ -10,7 +10,7 @@ and Eric Lemmon for their work titled:
 
 ###### a microcosmic journey
 
-The work will be premiered on the <a href=https://www.newmusicforstrings.org/concerts-2021/>
+This work was premiered on the <a href=https://www.newmusicforstrings.org/concerts-2021/>
 2021 New Music for String festival</a> held in Aarhus and Copenhagen Denmark.
 
 ## PERFORMER INSTRUCTIONS
@@ -22,31 +22,50 @@ The work will be premiered on the <a href=https://www.newmusicforstrings.org/con
 NB: These instructions are for OSX only. The software does run well for windows, however. Some familiarity with 
 PowerShell or another CLI is necessary.
 
+### INSTALLATION
+
 If you haven't installed Python, 
 <a href=https://www.python.org/downloads/>install it by downloading it here.</a>
 The software has been tested in Python 3.8 and up.
 
-Navigate to the directory that you want the folder to be downloaded to in the
+> You can also install python through brew:
+
+`brew install python@3.10`
+
+> Navigate to the directory that you want the folder to be downloaded to in the
 CLI of your choice (e.g. terminal on mac):
 
 `cd Users/your_user_name_here/Desktop`
 
-Download the software by copying this into the CLI. 
-
-`git clone https://github.com/eclemmon/new_music_for_strings.git`
-
-You may be asked to install xcode command line interface tools on Mac. Do so if asked and 
-repeat the previous step, then go on to the next one:
+>If you don't have git installed and your OS is OSX, you can open terminal and install it with other cli tools in x-code select:
 
 `xcode-select --install`
 
-Install Pillow, a necessary python package:
+> Download the software by copying this into the CLI. 
+
+`git clone https://github.com/eclemmon/from_elemental`
+
+>If you do not want to install CLI tools, you can also download the codebase as a .zip file:
+
+![Alternative code download](/blob/download_code.png)
+
+>Install Pillow, a necessary python package:
 
 `python3 -m pip install Pillow`
 
-Navigate into the directory:
+You are now ready to run From Elemental!
 
-`cd new_music_for_strings`
+### Running the Software
+
+Now that you installed all the necessary dependencies for From Elemental, you can run it like so:
+
+>Navigate into the directory:
+
+`cd /path/to/from_elemental-main`
+
+You can achieve this easily by typing in `cd` + dragging the file directory into terminal.
+
+![Changing Directory Without Knowing Path](blob/change_directory.gif)
 
 Run the program:
 
@@ -58,7 +77,7 @@ Run the program:
 
 There are several options to select from when the program runs.
 
-![Alt text](readme_images/instrument_network_settings.png)
+![Alt text](blob/instrument_network_settings.png)
 
 ###### SELECT YOUR INSTRUMENT OPTIONS
 
@@ -101,7 +120,7 @@ at the beginning of the piece, simply select Section 1.
 
 ### Set Scores Manually
 
-![Alt text](readme_images/manual_score_selection.png)
+![Alt text](blob/manual_score_selection.png)
 
 The electronics player uses the score primarily to track
 the section that all the players are in (think of it as a 
@@ -118,7 +137,7 @@ all the players have finished selecting cells.
 
 ### Set Scores Automatically
 
-![Alt text](readme_images/automatic_score_selection.png)
+![Alt text](blob/automatic_score_selection.png)
 
 One player selects server, the other selects client. When the server
 option is selected it will autofill the server's local IP address,
@@ -135,13 +154,13 @@ to connect.
 
 ###### First Section
 
-![Alt text](readme_images/main_score_gui.png)
+![Alt text](blob/main_score_gui.png)
 
 In the main score GUI, during the first section, players are tacet.
 The quit button will always close out the entire program. During the
 first section, the 'NEXT CELL' button is disabled. 
 
-![Alt text](readme_images/main_score_gui_2.png)
+![Alt text](blob/main_score_gui_2.png)
 
 Once the main score GUI progresses past the 3rd section, players
 can begin call for assigned cells based on the instructions provided
