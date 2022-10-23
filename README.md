@@ -47,7 +47,7 @@ CLI of your choice (e.g. terminal on mac):
 
 >If you do not want to install CLI tools, you can also download the codebase as a .zip file:
 
-![Alternative code download](/blob/download_code.png)
+![Alternative code download](blob/download_code.png)
 
 >Install Pillow, a necessary python package:
 
