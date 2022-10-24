@@ -1,22 +1,22 @@
 //// GUI CONSTRUCTOR
 (
-~build_window = {
+~build_window_nmfs = {
 	arg window_title, style, width, height;
 	Window(window_title, Rect(10, 10, width, height))
 	.background_(style.at("window_color"))
 	.front;
 };
 
-~build_top_level = {
+~build_top_level_nmfs = {
 	arg window, width, height, style;
 	var compView = CompositeView(window, Rect(10, 10, width, height))
 	.background_(style.at("top_level_frame_color"));
 	compView.addFlowLayout(10@10);
-	compView.decorator.gap_(10@10);
+	compView.decorator.gap_(0@10);
 	compView;
 };
 
-~build_header = {
+~build_header_nmfs = {
 	arg top, hwidth, hheight, style, string;
 	var compView, label, twidth;
 	twidth = hwidth-125;
@@ -30,7 +30,7 @@
 	compView;
 };
 
-~build_volume_slider = {
+~build_volume_slider_nmfs = {
 	arg top, style, frame_height;
 	var compView, label, slider, numberbox;
 	compView = CompositeView(top, Rect(0, 0, 70, frame_height))
@@ -52,7 +52,7 @@
 	compView;
 };
 
-~build_bend_slider = {
+~build_bend_slider_nmfs = {
 	arg top, style, frame_height;
 	var compView, label, slider, numberbox;
 	compView = CompositeView(top, Rect(0, 0, 70, frame_height))
@@ -74,7 +74,7 @@
 	compView;
 };
 
-~build_knobs = {
+~build_knobs_nmfs = {
 	arg top, style, bank_one_string, bank_two_string, frame_height, frame_width;
 	var compView, knobs_one_text, knobs_two_text, knobs_one, knobs_two;
 	// Build Composite View (Frame)
@@ -120,7 +120,7 @@
 };
 
 
-~build_buttons = {
+~build_buttons_nmfs = {
 	arg top, style, frame_width, frame_height, button_text;
 	var compView, buttons;
 	// Make Composite View
@@ -161,7 +161,7 @@
 	compView;
 };
 
-~build_sf_buttons = {
+~build_sf_buttons_nmfs = {
 	arg top, style, num_buttons, button_texts, frame_width, frame_height, base_sample_bufs, pb_buf_synths;
 	var compView, buttons, sliders;
 
@@ -219,7 +219,7 @@
 	compView;
 };
 
-~build_sf_header = {
+~build_sf_header_nmfs = {
 	arg top, hwidth, hheight, style, string;
 	var compView, label, twidth;
 	twidth = hwidth-125;
@@ -233,7 +233,7 @@
 	compView;
 };
 
-~build_sequencer_header = {
+~build_sequencer_header_nmfs = {
 	arg top, hwidth, hheight, style, string;
 	var guiTitle;
 	guiTitle = StaticText(top, Rect(10, 10, hwidth, hheight));
@@ -243,7 +243,87 @@
 	guiTitle.align = \center;
 };
 
-~build_sequencer_buttons = {
+~build_sequencer_tab_buttons_nmfs = {
+	arg top_level, stack, buttons;
+	buttons = buttons.collect({ arg item;
+		var button;
+		item.postln;
+		button = Button(top_level, 100@40)
+		.states_([[item, Color.black, Color.white], [item, Color.white, Color.black]]);
+		button.postln;
+		button.action_({
+			arg button;
+			buttons.do({
+				arg item, i;
+				if (button != item, {
+					if (item.value == 1,
+						{ item.value = 0 }
+					);
+				}, {
+					button.value = 1;
+				});
+			});
+		});
+		button;
+	});
+	top_level.decorator.nextLine;
+
+};
+
+/*~build_sequencer_stack_layout = {
+	arg top_level, width, height, style, tabs, columns, rows, buttonsize;
+	var compView, container, track, buttons, tabsAsViews, stack, tabButton;
+	compView = CompositeView(top_level, Rect(0, 0, width, height))
+	.background_(style.at("top_level_frame_color"));
+	compView.addFlowLayout(0@0);
+	compView.decorator.gap_(0@0);
+
+	tabsAsViews = tabs.do({arg item, i;
+		container = ~build_track_buttons_container.value(compView, buttonsize*columns+40, (buttonsize) + (buttonsize*rows+20), ~style_1);
+
+		track = ~build_sequencer_track.value(container, buttonsize*columns+20, buttonsize+20, ~style_1, columns, buttonsize);
+
+		buttons = ~build_sequencer_buttons.value(container, buttonsize*columns+20, buttonsize*rows+20, ~style_1, columns, rows, buttonsize);
+	});
+
+	tabButton = Button(compView, Rect(0, 0, 50, 20)).states_([tabs.collect({arg item; [item.asString]; item.postln;})])
+		.action_({arg button; stack.index = button.value});
+
+	compView.decorator.nextLine;
+
+	stack = StackLayout(
+			// stacked views here
+			tabsAsViews;
+		);
+};*/
+
+~build_track_buttons_container_nmfs = {
+	arg top_level, width, height, style;
+	var compView = CompositeView(top_level, Rect(0, 0, width, height))
+	.background_(style.at("top_level_frame_color"));
+	compView.addFlowLayout(0@0);
+	compView.decorator.gap_(0@0);
+	compView;
+};
+
+~build_sequencer_track_nmfs = {
+	arg top, hwidth, hheight, style, columns, buttonsize;
+	var trackCompView, array, sequencer_track_data;
+
+	// Track Composite View
+	trackCompView = CompositeView(top, Rect(0, 0, buttonsize*columns+20, hheight-20));
+	trackCompView.background = style.at("bank_frame_color");
+
+	// Sequencer Track
+	array = Array.fill(columns, { arg i;
+		StaticText(trackCompView, Rect(i * buttonsize + 10, 10, buttonsize, buttonsize-20))
+		.background_(Color.white)
+	});
+
+	sequencer_track_data = [trackCompView, array]
+};
+
+~build_sequencer_buttons_nmfs = {
 	arg top, hwidth, hheight, style, columns, rows, buttonsize;
 	var butCompView, array, sequencer_button_data;
 
@@ -271,7 +351,7 @@
 	sequencer_button_data = [butCompView, array];
 };
 
-~build_sequencer_control_panel_1 = {
+~build_sequencer_control_panel_1_nmfs = {
 	arg top, hwidth, hheight, style, instruments=[\default], butCompView, memory;
 	var compView, speedSliderLabel, volumeSliderLabel, speedSlider, volumeSlider, speedNumberBox, volumeNumberBox, scaleMenuLabel, scaleMenu, instrumentLabel, instrumentMenu, clearButton;
 	// Slider Composite View
@@ -388,9 +468,15 @@
 	compView;
 };
 
-~build_sequencer_control_panel_2 = {
+~build_sequencer_control_panel_2_nmfs = {
 	arg top, hwidth, hheight, style, buttonsize, memory, array, reverb;
-	var control2CompView, octaveLabel, minusOctBut, plusOctBut, quantLabel, quantSlider, quantNumberBox, mixKnob, roomKnob, dampKnob, reverbButton;
+	var control2CompView, octaveLabel, minusOctBut, plusOctBut, quantLabel, quantSlider, quantNumberBox, mixKnob, roomKnob, dampKnob, reverbButton, outDevices, inDevices, inDevicesSelector, outDevicesSelector, outDevice, inDevice, inDevicesSelectorText, outDevicesSelectorText;
+
+	outDevices = ["Default"] ++ ServerOptions.outDevices;
+	inDevices = ["Default"] ++ ServerOptions.inDevices;
+	outDevice = "Default";
+	inDevice = "Default";
+
 
 	// Control Comp View 2
 	control2CompView = CompositeView(top, Rect(0, 0, hwidth, hheight));
@@ -428,7 +514,9 @@
 				\degree, Pif(Pseq(array[r], inf).coin, currentOctaveDegree, \rest),
 				\dur, Pdefn(\p_dur, memory.at(\seq_mem).at(\dur)),
 				\amp, Pdefn(\p_amp, memory.at(\seq_mem).at(\amp)),
-				\out, Pdefn(\p_out, memory.at(\seq_mem).at(\pattern_out));
+				\out, Pdefn(\p_out, memory.at(\seq_mem).at(\pattern_out)),
+							\track_index, Pdefn(\p_track_index, Pseq((0..15), inf)),
+			\track_func, Pdefn(\p_track_func, Pfunc({|ev| ~update_track.value(ev.track_index)}));
 		)}), inf));
 	});
 
@@ -444,7 +532,9 @@
 				\degree, Pif(Pseq(array[r], inf).coin, currentOctaveDegree, \rest),
 				\dur, Pdefn(\p_dur, memory.at(\seq_mem).at(\dur)),
 				\amp, Pdefn(\p_amp, memory.at(\seq_mem).at(\amp)),
-				\out, Pdefn(\p_out, memory.at(\seq_mem).at(\pattern_out));
+				\out, Pdefn(\p_out, memory.at(\seq_mem).at(\pattern_out)),
+				\track_index, Pdefn(\p_track_index, Pseq((0..15), inf)),
+				\track_func, Pdefn(\p_track_func, Pfunc({|ev| ~update_track.value(ev.track_index)}));
 		)}), inf))
 	});
 
@@ -523,6 +613,33 @@
 	dampKnob.action_({
 		reverb.set(\damp, dampKnob.value);
 	});
+
+	// In and Out Selectors
+	inDevicesSelectorText = StaticText(control2CompView, 170/3@30)
+	.string_("In")
+	.stringColor_(Color.white)
+	.background_(style.at("window_color"))
+	.align_(\center);
+
+	inDevicesSelector = PopUpMenu(control2CompView, (170/3*2-10)@30)
+	.items_(inDevices)
+	.action_({arg deviceName;
+		deviceName.item.postln;
+		Server.default.options.inDevice = deviceName.item;
+	});
+
+	outDevicesSelectorText = StaticText(control2CompView, 170/3@30)
+	.string_("Out")
+	.stringColor_(Color.white)
+	.background_(style.at("window_color"))
+	.align_(\center);
+
+	outDevicesSelector = PopUpMenu(control2CompView, (170/3*2-10)@30)
+	.items_(outDevices)
+	.action_({arg deviceName;
+		deviceName.item.postln;
+		Server.default.options.outDevice = deviceName.item;
+	});
 };
 
 ~volume_midi_control = {
@@ -545,6 +662,17 @@
 	arg object, val;
 	object.children().at(1).value_(val/16383);
 	object.children().at(2).value_(val/16383);
+};
+
+~update_track = {
+	arg index, track;
+	if((index == 0), {
+		{ track[1][index].background_(Color.rand) }.defer;
+		{ track[1][track[1].size-1].background_(Color.white) }.defer;
+	}, {
+		{ track[1][index].background_(Color.rand) }.defer;
+		{ track[1][index-1].background_(Color.white) }.defer;
+	});
 };
 )
 

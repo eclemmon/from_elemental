@@ -4,15 +4,16 @@
 s = Server.default;
 s.waitForBoot(
 	{
-		var knob_note_numbers;
+		var knob_note_numbers, root;
 		// PRINT WHAT THIS BANK DOES
 		"8. PLAYBACK OF BASE SAMPLES ### MIDI_control_bank_2.scd ###".postln;
+		root = PathName(PathName(thisProcess.nowExecutingPath.asString.dirname).parentPath).parentPath;
 
 		// Load SynthDefs
-		thisProcess.interpreter.executeFile("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/program_files/synthdefs.scd");
+		thisProcess.interpreter.executeFile(root +/+ "program_files/synthdefs.scd");
 
 		// Boot GUI
-		thisProcess.interpreter.executeFile("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/program_files/GUI_files/MIDI_control_bank_2_GUI.scd");
+		thisProcess.interpreter.executeFile(root +/+ "program_files/GUI_files/MIDI_control_bank_1_GUI.scd");
 
 		// Constants for Arturia Midi Controller
 		knob_note_numbers = ~gm.at(\knob_note_numbers);
@@ -24,7 +25,7 @@ s.waitForBoot(
 			~gm.put(\bank_2_vals, current_vals);
 
 			// Load path to ether/cosmic sample
-			cosmic_sample = PathName.new("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/sample_files/long_elemental_samples/ether_ecl.wav");
+			cosmic_sample = PathName.new(root +/+ "sample_files/long_elemental_samples/ether_ecl.wav");
 
 			// Initialize cosmos buffer
 			~gm.at(\bank_2_vals).put(\cosmos_buffer, Buffer.read(s, cosmic_sample.fullPath));

@@ -4,11 +4,13 @@
 /*s = Server.default;*/
 ~server.waitForBoot(
 	{
+		var root;
 		// PRINT WHAT THIS BANK DOES
 		"7. RECORDED SOUNDS STRAIGHT PLAYBACK ### MIDI_control_bank_7.scd ###".postln;
+		root = PathName(PathName(thisProcess.nowExecutingPath.asString.dirname).parentPath).parentPath;
 
 		// Load SynthDefs
-		thisProcess.interpreter.executeFile("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/program_files/synthdefs.scd");
+		thisProcess.interpreter.executeFile(root +/+ "program_files/synthdefs.scd");
 
 		if (~buf_list == nil, {
 			~buf_list = List.fill(8, {arg i;
@@ -79,20 +81,5 @@ MIDIdef.cc(\control_play, {
 		~current_vals.put(note_number, val);
 		~playBuf_synths.do({arg item, i; item.set(\amp, ~current_vals.at(note_number))});
 	});
-
-/*	// SETS THE SPEED OF PLAYBACK (CAN PLAY IN REVERSE, -2x to 4x speed)
-	if (~top_row.includes(note_number), {
-		var idx = ~top_row.indexOf(note_number);
-		note_number.postln;
-		~current_vals.put(note_number, val);
-		~grain_buf_synths[idx].set(\rate, ~current_vals.at(note_number));
-	});
-
-	// SETS THE DURATION OF THE GRAINS (0.01—length of audio file)
-	if (~bottom_row.includes(note_number), {
-		var idx = ~bottom_row.indexOf(note_number);
-		~current_vals.put(note_number, val);
-		~grain_buf_synths[idx].set(\grainDur, ~current_vals.at(note_number));
-	});*/
 });
 )

@@ -8,33 +8,40 @@ MIDIFunc.trace(false);
 // Server.default.options.inDevice_("new_music_for_strings");
 /*Server.default.options.outDevice_("MacBook Pro Speakers");
 Server.default.options.inDevice_("MacBook Pro Microphone");*/
-Server.default.options.inDevice_("Scarlett 2i2 USB");
-Server.default.options.outDevice_("Scarlett 2i2 USB");
+// Server.default.options.inDevice_("Scarlett 2i2 USB");
+// Server.default.options.outDevice_("Scarlett 2i2 USB");
 // Server.default.options.outDevice_("SuperCollider Out");
+
+// Set hardware in device
+// Server.default.options.inDevice_("Scarlett 2i2 USB");
+// Server.default.options.inDevice_("Scarlett 18i8 USB");
+// Set hardware out device
+// Server.default.options.outDevice_("Scarlett 18i8 USB");
+
 ~server = Server.default;
-~server.options.numOutputBusChannels_(2);
-~server.options.numInputBusChannels_(4);
+~server.options.numOutputBusChannels_(8);
+~server.options.numInputBusChannels_(8);
 ~server.waitForBoot(
 	{
 		// Set Global Monitor and Input
 		~monitor = [0,1];
-		// ~input = [2,3];
-		~input = [0,1];
+		~input = [6,7];
+		// ~input = [0,1];
 
 		// LOAD PATHS TO MIDI BANKS
-		~midi_paths = PathName.new("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/program_files/MIDI_controls/");
+		~midi_paths = PathName.new(thisProcess.nowExecutingPath.dirname +/+ "MIDI_controls/");
 
 		// LOAD SYNTH DEFS
-		thisProcess.interpreter.executeFile("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/program_files/synthdefs.scd");
+		thisProcess.interpreter.executeFile(thisProcess.nowExecutingPath.dirname +/+ "synthdefs.scd");
 
 		// LOAD GUI STYLES
-		thisProcess.interpreter.executeFile("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/program_files/GUI_files/GUI_Styles.scd");
+		thisProcess.interpreter.executeFile(thisProcess.nowExecutingPath.dirname +/+ "GUI_files/GUI_Styles.scd");
 
 		// LOAD GUI CONSTRUCTOR
-		thisProcess.interpreter.executeFile("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/program_files/GUI_files/GUI_Constructor.scd");
+		thisProcess.interpreter.executeFile(thisProcess.nowExecutingPath.dirname +/+ "GUI_files/GUI_Constructor.scd");
 
 		// START SAMPLE TRIGGER GUI
-		thisProcess.interpreter.executeFile("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/program_files/GUI_files/sample_trigger_GUI.scd");
+		thisProcess.interpreter.executeFile(thisProcess.nowExecutingPath.dirname +/+ "GUI_files/sample_trigger_GUI.scd");
 		~server.sync;
 
 		// BOOT AND CONNECT MIDI CLIENT

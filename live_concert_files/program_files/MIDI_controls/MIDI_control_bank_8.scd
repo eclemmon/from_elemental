@@ -5,6 +5,7 @@ var boot;
 // s = Server.default;
 ~server.waitForBoot(
 	{
+		var root = PathName(PathName(thisProcess.nowExecutingPath.asString.dirname).parentPath).parentPath;
 		// PRINT WHAT THIS BANK DOES
 		"8. GRANULATION OF RECORDED SOUNDS ### MIDI_control_bank_8.scd ###".postln;
 
@@ -12,10 +13,10 @@ var boot;
 		~gm.atFail(\bank_8_vals, {~gm.put(\bank_8_vals, Dictionary.new)});
 
 		// Load SynthDefs
-		thisProcess.interpreter.executeFile("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/program_files/synthdefs.scd");
+		thisProcess.interpreter.executeFile(root +/+ "program_files/synthdefs.scd");
 
 		// Boot GUI
-		thisProcess.interpreter.executeFile("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/program_files/GUI_files/MIDI_control_bank_8_GUI.scd");
+		thisProcess.interpreter.executeFile(root +/+ "program_files/GUI_files/MIDI_control_bank_8_GUI.scd");
 
 		~buf_list = List.fill(8, {arg i;
 			var buffer;

@@ -3,18 +3,13 @@
 s = Server.default;
 s.waitForBoot(
 	{
+		var root = PathName(PathName(thisProcess.nowExecutingPath.asString.dirname).parentPath).parentPath;
+		root.postln;
 		// PRINT WHAT THIS BANK DOES
 		"1. SIMPLE WAVE OSCs ### MIDI_control_bank_1.scd ###".postln;
 
 		// Initialize midi control bank memory
 		~gm.atFail(\bank_1_vals, {~gm.put(\bank_1_vals, Dictionary.new)});
-
-/*		if ((~gm.at(\bank_1_vals) == nil), {
-			var current_vals;
-			// If no \bank_2_vals key, instantiate
-			current_vals = ~gm.atFail(\bank_1_vals, {Dictionary.new});
-			~gm.put(\bank_1_vals, current_vals);
-		});*/
 
 		// Initialize sustain to false
 		~gm.at(\bank_1_vals).atFail(\sustain, {~gm.at(\bank_1_vals).put(\sustain, false)});
@@ -24,10 +19,10 @@ s.waitForBoot(
 		~gm.at(\bank_1_vals).atFail(\notes, {~gm.at(\bank_1_vals).put(\notes, Array.fill(128, nil))});
 
 		// Load SynthDefs
-		thisProcess.interpreter.executeFile("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/program_files/synthdefs.scd");
+		thisProcess.interpreter.executeFile(root +/+ "program_files/synthdefs.scd");
 
 		// Boot GUI
-		thisProcess.interpreter.executeFile("/Users/ericlemmon/Desktop/NMFS_collab/sc_files/Live_Concert_Files/program_files/GUI_files/MIDI_control_bank_1_GUI.scd");
+		thisProcess.interpreter.executeFile(root +/+ "program_files/GUI_files/MIDI_control_bank_1_GUI.scd");
 
 		// MIDIdef to control synth sustain.
 		MIDIdef.sysex(\sustain_synths, {
